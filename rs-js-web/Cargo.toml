@@ -1,5 +1,5 @@
 [package]
-name = "rs-web"
+name = "rs-js-web"
 version = "0.1.0"
 edition = "2021"
 
