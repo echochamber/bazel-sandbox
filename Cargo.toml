@@ -1,8 +1,0 @@
-[workspace]
-
-members = [
-    "shared",
-    "web",
-    "grpc",
-    "composed",
-]

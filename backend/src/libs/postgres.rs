@@ -1,4 +1,3 @@
-use dotenv::dotenv;
 use std::env;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::PgPool;
@@ -28,16 +27,17 @@ impl From<env::VarError> for Error {
     }
 }
 
-fn db_url_from_envars() -> Result<String, Error> {
+pub fn db_url_from_envars() -> Result<String, Error> {
     Ok(format!(
         "postgres://{user}:{pw}@{host}/{db}",
-        user = env::var("PG_USER")?,
-        pw = env::var("PG_PW")?,
-        host = env::var("PG_HOST")?,
-        db = env::var("PG_DB")?))
+        user = env::var("POSTGRES_USER")?,
+        pw = env::var("POSTGRES_PASSWORD")?,
+        host = env::var("POSTGRES_HOST")?,
+        db = env::var("POSTGRES_DBNAME")?))
 }
 
 pub async fn init_pg_pool() -> Result<PgPool, Error> {
+    println!("Connecting to postgres at {:?}", db_url_from_envars());
     let pool = PgPoolOptions::new()
     .max_connections(5)
     .connect(&db_url_from_envars()?).await?;

@@ -1,0 +1,46 @@
+name: docker-rust
+services:
+  backend:
+    build:
+      context: backend
+      # target: development
+      target: final
+    environment:
+      - ADDRESS=0.0.0.0:8000
+      - RUST_LOG=debug
+      - POSTGRES_DBNAME=rustweb
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=rustweb
+      - POSTGRES_PASSWORD=rustweb
+    networks:
+      - client-side
+      - server-side
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend/src:/code/src
+      - backend-cache:/code/target
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=rustweb
+      - POSTGRES_PASSWORD=rustweb
+      - POSTGRES_DBNAME=rustweb
+    networks:
+      - server-side
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+networks:
+  client-side: {}
+  server-side: {}
+  http-grpc-bridge: {}
+
+
+volumes:
+  backend-cache: {}
+  db-data: {}
