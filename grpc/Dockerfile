@@ -1,7 +1,7 @@
 FROM rust:buster AS builder
 # 1. Create a new empty shell project
-RUN USER=root cargo new --bin rs-js-web
-WORKDIR /rs-js-web
+RUN USER=root cargo new --bin grpc
+WORKDIR /grpc
 # 2. Copy our manifests
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
@@ -12,14 +12,14 @@ RUN rm src/*.rs
 COPY ./src ./src
 
 # 5. Build for release.
-RUN rm ./target/release/deps/rs_js_web*
+RUN rm ./target/release/deps/rs_js_grpc*
 RUN cargo install --path .
 
 # our final base
 FROM debian:buster-slim as base
 
 # copy the build artifact from the build stage
-COPY --from=builder /rs-js-web/target/release/rs-js-web /usr/src/rs-js-web
+COPY --from=builder /grpc/target/release/grpc /usr/src/grpc
 
 # set the startup command to run your binary
-CMD ["/usr/src/rs-js-web"]
+CMD ["/usr/src/grpc"]

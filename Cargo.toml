@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "rs-js-shared",
-    "rs-js-web",
-    "rs-js-grpc",
-    "rs-js-composed",
+    "shared",
+    "web",
+    "grpc",
+    "composed",
 ]

@@ -1,4 +1,4 @@
-use rs_js_shared::postgres;
+use shared::postgres;
 use dotenv::dotenv;
 
 
