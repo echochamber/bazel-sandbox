@@ -402,6 +402,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "grpc"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "chrono",
+ "console",
+ "dotenv",
+ "mini-redis",
+ "postgres",
+ "prost",
+ "prost-derive",
+ "prost-types",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "tokio",
+ "tokio-postgres",
+ "tonic",
+ "tonic-build",
+ "tonic-reflection",
+ "uuid",
+]
+
+[[package]]
 name = "h2"
 version = "0.3.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1085,30 +1109,6 @@ name = "regex-syntax"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a5996294f19bd3aae0453a862ad728f60e6600695733dd5df01da90c54363a3c"
-
-[[package]]
-name = "rs-sandbox"
-version = "0.1.0"
-dependencies = [
- "bytes",
- "chrono",
- "console",
- "dotenv",
- "mini-redis",
- "postgres",
- "prost",
- "prost-derive",
- "prost-types",
- "serde",
- "serde_derive",
- "serde_json",
- "tokio",
- "tokio-postgres",
- "tonic",
- "tonic-build",
- "tonic-reflection",
- "uuid",
-]
 
 [[package]]
 name = "rustix"
