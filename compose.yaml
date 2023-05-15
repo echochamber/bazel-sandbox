@@ -1,5 +1,26 @@
 name: docker-rust
 services:
+  grpc:
+    build:
+      context: grpc
+      # target: development
+      target: final
+    environment:
+      - RUST_LOG=debug
+      - POSTGRES_DBNAME=rustweb
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=rustweb
+      - POSTGRES_PASSWORD=rustweb
+    networks:
+      - client-side
+      - server-side
+    ports:
+      - 50052:50052
+    volumes:
+      - ./backend/src:/code/src
+      - backend-cache:/code/target
+    depends_on:
+      - db
   backend:
     build:
       context: backend
