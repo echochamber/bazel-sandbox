@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../rust/rustdocker"
+		}
+	],
+	"settings": {
+		"rust-analyzer.linkedProjects": [
+			"grpc/Cargo.toml",
+			"backend/Cargo.toml"
+		],
+		"rust-analyzer.check.overrideCommand": null
+	}
+}
