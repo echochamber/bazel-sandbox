@@ -2,7 +2,9 @@
 
 git_root="$(git rev-parse --show-toplevel)"
 
-protoc -I "${git_root}/grpc/proto/" --grpc-gateway_out ./gen/go \
+mkdir -p "${git_root}/grpc-gateway/gen/go"
+
+protoc -I "${git_root}/protos/" --grpc-gateway_out "${git_root}/grpc-gateway/gen/go" \
     --grpc-gateway_opt logtostderr=true \
     --grpc-gateway_opt paths=source_relative \
-    "${git_root}/grpc/proto/helloworld.proto"
+    "${git_root}/protos/helloworld.proto"

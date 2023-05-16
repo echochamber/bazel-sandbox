@@ -6,6 +6,8 @@ Using cargo
 
 ## Calling GRPC Service
 
+The GRPC Service.
+
 ### Using Web GUI:
 
 Requires installing go. Follow go installation instructions [here](https://go.dev/doc/install) instead of using a package manager to install go.
