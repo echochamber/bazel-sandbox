@@ -1,15 +1,3 @@
-# Docker compose steps
-
-```bash
-docker compose build
-docker compose up -d
-curl http://localhost:8080/postgres
-
-
-# Later
-docker compose down
-```
-
 # TODO List
 
 # Main TODO
@@ -19,6 +7,8 @@ docker compose down
 3. [x] Grpc Server in Docker Container.
 4. [ ] Grpc Bridge
 5. [ ] Bazel for building.
+6. [ ] Look into build systems for providing protos to cargo, grpc builds, etc...
+7. [ ] Pull in external proto defs using a build system (google.api.http protos).
 
 Try this https://github.com/namely/docker-protoc
 

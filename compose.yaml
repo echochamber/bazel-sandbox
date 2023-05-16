@@ -3,65 +3,26 @@ services:
   grpc:
     build:
       context: grpc
-      # target: development
       target: final
     environment:
-      - RUST_LOG=debug
-      - POSTGRES_DBNAME=rustweb
-      - POSTGRES_HOST=db
-      - POSTGRES_USER=rustweb
-      - POSTGRES_PASSWORD=rustweb
+      - PORT=50052
     networks:
-      - client-side
-      - server-side
+      - http-grpc-bridge
     ports:
       - 50052:50052
-    volumes:
-      - ./backend/src:/code/src
-      - backend-cache:/code/target
-    depends_on:
-      - db
-  backend:
+  grpc-gateway:
     build:
-      context: backend
-      # target: development
+      context: grpc-gateway/docker-gen
       target: final
     environment:
-      - ADDRESS=0.0.0.0:8000
-      - RUST_LOG=debug
-      - POSTGRES_DBNAME=rustweb
-      - POSTGRES_HOST=db
-      - POSTGRES_USER=rustweb
-      - POSTGRES_PASSWORD=rustweb
+      - PORT=8081
     networks:
-      - client-side
-      - server-side
+      - http-grpc-bridge
     ports:
-      - 8080:8080
-    volumes:
-      - ./backend/src:/code/src
-      - backend-cache:/code/target
+      - 8081:8081
     depends_on:
-      - db
-  db:
-    image: postgres:12-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=rustweb
-      - POSTGRES_PASSWORD=rustweb
-      - POSTGRES_DBNAME=rustweb
-    networks:
-      - server-side
-    ports:
-      - 5432:5432
-    volumes:
-      - db-data:/var/lib/postgresql/data
+      - grpc
+    entrypoint: [/app/grpc_gateway, --backend=grpc:50052]
+
 networks:
-  client-side: {}
-  server-side: {}
   http-grpc-bridge: {}
-
-
-volumes:
-  backend-cache: {}
-  db-data: {}

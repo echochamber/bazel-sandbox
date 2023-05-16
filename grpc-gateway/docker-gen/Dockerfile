@@ -17,7 +17,7 @@ RUN go mod tidy -compat=$go_version
 # Build the gateway
 RUN go build -o /app/grpc_gateway cmd/gateway/main.go
 
-FROM alpine:$alpine_version
+FROM alpine:$alpine_version AS final
 WORKDIR /app
 COPY --from=build /app/grpc_gateway /app/
 COPY --from=build /app/config.yaml /app/

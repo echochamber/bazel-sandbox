@@ -21,7 +21,7 @@ COPY ./proto/ ./proto/
 COPY ./build.rs ./build.rs
 COPY ./src ./src
 COPY ./.env ./.env
-RUN rm ./target/release/deps/grpc*
+RUN rm ./target/release/deps/server*
 RUN cargo install --path .
 
 # our final base
@@ -29,8 +29,8 @@ FROM debian:buster-slim as final
 
 
 # copy the build artifact from the build stage
-COPY --from=builder /grpc/target/release/grpc /usr/src/grpc
+COPY --from=builder /grpc/target/release/server /usr/src/server
 COPY --from=builder /grpc/.env /.env
 
 # set the startup command to run your binary
-CMD ["/usr/src/grpc"]
+CMD ["/usr/src/server"]
