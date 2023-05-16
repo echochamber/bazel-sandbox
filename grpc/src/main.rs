@@ -1,10 +1,10 @@
-use tonic::{transport::Server, Request, Response, Status, Code};
+use tonic::{transport::Server, Request, Response, Status};
 
-use hello_world::greeter_server::{Greeter, GreeterServer};
-use hello_world::{HelloReply, HelloRequest};
+use echochamber_rdproto::echochamber::helloworld::v1::{Greeter, GreeterServer};
+use echochamber_rdproto::echochamber::helloworld::v1::{SayHelloResponse, SayHelloResponse};
 
 pub mod hello_world {
-    tonic::include_proto!("helloworld"); // The string specified here must match the proto package name
+    tonic::include_proto!("echochamber.helloworld.v1"); // The string specified here must match the proto package name
 }
 
 #[derive(Debug, Default)]

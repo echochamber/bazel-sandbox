@@ -5,10 +5,9 @@
 1. [x] Backend Rust Web Server running in docker.
 2. [x] Docker container for postgres, callable by rust.
 3. [x] Grpc Server in Docker Container.
-4. [ ] Grpc Bridge
-5. [ ] Bazel for building.
-6. [ ] Look into build systems for providing protos to cargo, grpc builds, etc...
-7. [ ] Pull in external proto defs using a build system (google.api.http protos).
+4. [x] Grpc Bridge
+5. [ ] Protocol buffer dependency management (with buf)
+6. [ ] Codegen for rust procol buffer clients.
 
 Try this https://github.com/namely/docker-protoc
 
@@ -17,6 +16,10 @@ Try this https://github.com/namely/docker-protoc
 1. Bind IP V6 address for grpc inside docker.
 2. Git submodules to import externally defined protos?
    * Or just a good way to import externally defined protos.
+3. Build System
+   * Bazel for building.
+   * Look into build systems for providing protos to cargo, grpc builds, etc...
+   * Pull in external proto defs using a build system (google.api.http protos).
 
 ## Libaries/Utils to look into
 

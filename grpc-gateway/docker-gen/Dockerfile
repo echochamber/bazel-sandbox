@@ -23,6 +23,6 @@ COPY --from=build /app/grpc_gateway /app/
 COPY --from=build /app/config.yaml /app/
 COPY --from=build /app/gen/helloworld.swagger.json /app/
 
-EXPOSE 8081
+EXPOSE 80
 ENTRYPOINT ["/app/grpc_gateway"]
 

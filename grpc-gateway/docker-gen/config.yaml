@@ -5,7 +5,7 @@ cors:
   allow-methods:
   allow-headers:
 proxy:
-  port: 8081
+  port: 80
   api-prefix: "/"
 grpc:
   max-call-recv-msg-size: 0
@@ -18,5 +18,3 @@ gateway:
 
 swagger:
   file: "helloworld.swagger.json"
-
-

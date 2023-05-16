@@ -1,6 +1,0 @@
-[submodule "protos"]
-	path = protos
-	url = git@github.com:echochamber/rdprotos.git
-[submodule "grpc/proto"]
-	path = grpc/proto
-	url = git@github.com:echochamber/rdprotos.git

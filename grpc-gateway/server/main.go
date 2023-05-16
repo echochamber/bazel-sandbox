@@ -11,14 +11,13 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	// gw "github.com/echochamber/rdprotos/gen/go/your/service/v1" // Update
 )
 
 var (
 	// command-line options:
 	// gRPC server endpoint
 	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50052", "gRPC server endpoint")
-	proxyPort          = flag.String("proxy-port", ":8081", "gRPC server endpoint")
+	proxyPort          = flag.String("proxy-port", "8081", "gRPC server endpoint")
 )
 
 func run() error {

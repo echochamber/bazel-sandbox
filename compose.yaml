@@ -4,22 +4,20 @@ services:
     build:
       context: grpc
       target: final
-    environment:
-      - PORT=50052
+    # environment:
     networks:
       - http-grpc-bridge
     ports:
-      - 50052:50052
+      - 50050:50052
   grpc-gateway:
     build:
       context: grpc-gateway/docker-gen
       target: final
-    environment:
-      - PORT=8081
+    # environment:
     networks:
       - http-grpc-bridge
     ports:
-      - 8081:8081
+      - 8081:80
     depends_on:
       - grpc
     entrypoint: [/app/grpc_gateway, --backend=grpc:50052]
