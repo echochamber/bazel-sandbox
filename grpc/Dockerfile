@@ -8,6 +8,16 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
     apt-get install --no-install-recommends --assume-yes \
       protobuf-compiler
+# Install buf https://buf.build/docs
+RUN BIN="/usr/local/bin" && \
+  VERSION="1.18.0" && \
+  curl -sSL \
+  "https://github.com/bufbuild/buf/releases/download/v${VERSION}/buf-$(uname -s)-$(uname -m)" \
+  -o "${BIN}/buf" && \
+  chmod +x "${BIN}/buf"
+# protoc plugins used by buf to generate rust bindings
+# See https://github.com/neoeinstein/protoc-gen-prost
+RUN cargo install protoc-gen-prost-crate protoc-gen-prost protoc-gen-tonic
 
 
 # 2. Copy our manifests
@@ -17,8 +27,6 @@ COPY ./Cargo.toml ./Cargo.toml
 RUN cargo build -p grpc --release
 RUN rm src/*.rs
 # 4. Now that the dependency is built, copy and build our code.
-COPY ./proto/ ./proto/
-COPY ./build.rs ./build.rs
 COPY ./src ./src
 COPY ./.env ./.env
 RUN rm ./target/release/deps/server*

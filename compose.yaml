@@ -8,7 +8,7 @@ services:
     networks:
       - http-grpc-bridge
     ports:
-      - 50050:50052
+      - 50051:50051
   grpc-gateway:
     build:
       context: grpc-gateway/docker-gen
@@ -20,7 +20,7 @@ services:
       - 8081:80
     depends_on:
       - grpc
-    entrypoint: [/app/grpc_gateway, --backend=grpc:50052]
+    entrypoint: [/app/grpc_gateway, --backend=grpc:50051]
 
 networks:
   http-grpc-bridge: {}
