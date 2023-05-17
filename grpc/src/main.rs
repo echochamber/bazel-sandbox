@@ -2,6 +2,10 @@ use tonic::{transport::Server, Request, Response, Status};
 
 use echochamber_rdproto::echochamber::helloworld::v1::greeter_service_server::{GreeterServiceServer, GreeterService};
 use echochamber_rdproto::echochamber::helloworld::v1::{SayHelloRequest, SayHelloResponse};
+// use protoc_wkt::google::protobuf::{FILE_DESCRIPTOR_SET as GOOGLE_PROTOBUF_FILE_DESCRIPTOR_SET};
+use echochamber_rdproto::WKT_FILE_DESCRIPTOR_SET;
+
+
 
 
 
@@ -34,6 +38,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let reflection = tonic_reflection::server::Builder::configure()
         .register_encoded_file_descriptor_set(echochamber_rdproto::echochamber::helloworld::v1::FILE_DESCRIPTOR_SET)
         .register_encoded_file_descriptor_set(echochamber_rdproto::google::api::FILE_DESCRIPTOR_SET)
+        .register_encoded_file_descriptor_set(WKT_FILE_DESCRIPTOR_SET)
         .build()
         .unwrap();
 
