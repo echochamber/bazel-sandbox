@@ -11,16 +11,16 @@ services:
       - 50051:50051
   grpc-gateway:
     build:
-      context: grpc-gateway/docker-gen
+      context: rdproto/grpc-gateway
       target: final
     # environment:
     networks:
       - http-grpc-bridge
     ports:
-      - 8081:80
+      - 8081:8081
     depends_on:
       - grpc
-    entrypoint: [/app/grpc_gateway, --backend=grpc:50051]
+    entrypoint: [/app/grpc_gateway, --grpc-server-endpoint=grpc:50051]
 
 networks:
   http-grpc-bridge: {}

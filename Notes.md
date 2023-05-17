@@ -6,8 +6,9 @@
 2. [x] Docker container for postgres, callable by rust.
 3. [x] Grpc Server in Docker Container.
 4. [x] Grpc Bridge
-5. [ ] Protocol buffer dependency management (with buf)
-6. [ ] Codegen for rust procol buffer clients.
+5. [x] Codegen for rust procol buffer clients.
+6. [ ] Protocol buffer dependency management (with buf)
+7. [ ] Swaggerui - https://petstore.swagger.io/
 
 Try this https://github.com/namely/docker-protoc
 
