@@ -10,6 +10,8 @@
 6. [x] Protocol buffer dependency management (with buf)
 7. [ ] Swaggerui - https://petstore.swagger.io/
 8. [ ] CI/Auomated Testing of Docker Containers
+9. [ ] Parameterize port values in dockerfiles.
+10. [ ] Add healthchecks to docker compose.
 
 
 Try this https://github.com/namely/docker-protoc

@@ -4,7 +4,7 @@ use echochamber_rdproto::echochamber::helloworld::v1::greeter_service_server::{G
 use echochamber_rdproto::echochamber::helloworld::v1::{SayHelloRequest, SayHelloResponse};
 use echochamber_rdproto::WKT_FILE_DESCRIPTOR_SET;
 use echochamber_rdproto::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
-use echochamber_rdproto::echochamber::helloworld::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS}
+use echochamber_rdproto::echochamber::helloworld::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
 
 #[derive(Debug, Default)]
 pub struct MyGreeter {}

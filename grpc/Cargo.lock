@@ -275,7 +275,7 @@ checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
 [[package]]
 name = "echochamber_rdproto"
 version = "0.1.0"
-source = "git+https://github.com/echochamber/rdprotos?branch=main#91d0aa7295de8180cca05cd41a980e585e11ae4e"
+source = "git+https://github.com/echochamber/rdprotos?branch=main#5da26e8655f3da54404623dd960c0df2a838ac5d"
 dependencies = [
  "pbjson",
  "pbjson-types",
