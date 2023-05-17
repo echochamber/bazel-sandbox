@@ -1,3 +1,3 @@
 [submodule "rdproto"]
 	path = rdproto
-	url = git@github.com:echochamber/rdprotos.git
+	url = github.com/echochamber/rdprotos.git
