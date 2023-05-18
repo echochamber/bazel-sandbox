@@ -1,0 +1,2 @@
+#!/bin/bash
+build --symlink_prefix=.bazel/
