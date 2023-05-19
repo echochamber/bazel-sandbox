@@ -1,4 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+# load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+
 
 # --Docker--
 http_archive(
@@ -16,11 +19,61 @@ load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
 
 container_deps()
 
-load(
-    "@io_bazel_rules_docker//container:container.bzl",
-    "container_pull",
-)
+# load(
+#     "@io_bazel_rules_docker//container:container.bzl",
+#     "container_pull",
+# )
 # --Docker--
+
+# --OCI Docker--
+
+http_archive(
+    name = "rules_oci",
+    sha256 = "7824dcb6c9f9f87786d65592da006d9f1e2bea826d7560d96745e54cdecb5d47",
+    strip_prefix = "rules_oci-1.0.0-rc1",
+    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.0.0-rc1/rules_oci-v1.0.0-rc1.tar.gz",
+)
+
+load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
+
+rules_oci_dependencies()
+
+load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "oci_register_toolchains")
+
+oci_register_toolchains(
+    name = "oci",
+    crane_version = LATEST_CRANE_VERSION,
+    # Uncommenting the zot toolchain will cause it to be used instead of crane for some tasks.
+    # Note that it does not support docker-format images.
+    # zot_version = LATEST_ZOT_VERSION,
+)
+
+# Pull the specific images we want to support
+load("@rules_oci//oci:pull.bzl", "oci_pull")
+
+oci_pull(
+    name = "debian_buster_slim",
+    digest = "sha256:fdb38c743a538d301ddcedd3047c43bf4fcc70211c8534c5b613916910fe1b9d",
+    image = "docker.io/library/debian",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ],
+)
+
+oci_pull(
+    name = "debian_buster",
+    digest = "sha256:b5efff3e971bdb0c5aff76d74167ada1841d34596af7378ca79006d51c8c8adb",
+    image = "docker.io/library/debian",
+)
+oci_pull(
+    name = "ubuntu",
+    digest = "sha256:ca5534a51dd04bbcebe9b23ba05f389466cf0c190f1f8f182d7eea92a9671d00",
+    image = "docker.io/library/ubuntu",
+)
+
+
+# --OCI Docker--
 
 ########################################
 
@@ -29,7 +82,6 @@ http_archive(
     name = "rules_rust",
     sha256 = "25209daff2ba21e818801c7b2dab0274c43808982d6aea9f796d899db6319146",
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.21.1/rules_rust-v0.21.1.tar.gz"],
-    # strip_prefix = "rules_rust-25209daff2ba21e818801c7b2dab0274c43808982d6aea9f796d899db6319146",
 )
 
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
@@ -41,7 +93,13 @@ rust_register_toolchains(
     versions = [
         "1.68.2",
     ],
-    extra_target_triples =[],
+    extra_target_triples =[
+        "wasm32-unknown-unknown",
+        # wasm32-wasi doesn't appear to be a platform on my bazel install.
+        # Run `bazel query @platforms//...` to see available platforms.
+        #
+        # "wasm32-wasi"
+    ],
 )
 
 ### Cargo raze deps
@@ -78,3 +136,14 @@ load(
 _rust_image_repos()
 
 # --Rust--
+
+
+# --CPP--
+
+# git_repository(
+#     name = "com_github_gflags_gflags",
+#     remote = "https://github.com/gflags/gflags.git",
+#     tag = "v2.2.2"
+# )
+
+# --CPP--

@@ -1,6 +1,8 @@
-load("@io_bazel_rules_docker//rust:image.bzl", "rust_image")
+# load("@io_bazel_rules_docker//rust:image.bzl", "rust_image")
+load("//bzl-sandbox/docker:defs.bzl", "docker_image")
 
 package(default_visibility = [":internal"])
+
 package_group(
     name = "internal",
     packages = [
@@ -8,7 +10,14 @@ package_group(
     ],
 )
 
-rust_image(
-    name = "server_image",
-    binary = "//bzl-sandbox/rust/summation/service:server",
+docker_image(
+    name = "server",
+    srcs = [
+        "//bzl-sandbox/rust/summation/service:server_bin",
+    ],
+    entrypoint = ["/server_bin"],
+    env = {
+        "PORT": "50055",
+    },
+    tag = "rd-server:latest",
 )

@@ -33,3 +33,15 @@ Try this https://github.com/namely/docker-protoc
 * [Envoy Proxy](https://www.envoyproxy.io/docs/envoy/latest/intro/what_is_envoy)
 * [GRPC Web](https://grpc.io/docs/platforms/web/quickstart/)
 * [cargo-chef](https://github.com/LukeMathWalker/cargo-chef)
+
+
+# Issues to eventually look into:
+
+* Docker/Image issues for rust binaries
+  * Bazel built images on docker_rules (distroless_cc image) run into `GLIBC_2.34 not found` (same for 2.33, 2.32... 2.29).
+    * My ubuntu version: `lsb_release -a`
+      * Ubuntu 22.04.2 LTS
+    * My GLIBC version: `ldd --version`
+      * Ubuntu GLIBC 2.35-0ubuntu3.1
+  * Images built with debian don't treat my binary as a binary (file not found).
+* Neither of the above issues occur for images built with a Dockerfile.
