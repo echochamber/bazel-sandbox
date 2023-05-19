@@ -1,14 +1,7 @@
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 load("//bzl-sandbox/docker:defs.bzl", "docker_image")
 
-package(default_visibility = [":internal"])
-
-package_group(
-    name = "internal",
-    packages = [
-        "//grpc/...",
-    ],
-)
+package(default_visibility = ["//rd:internal"])
 
 rust_binary(
     name = "server_bin",

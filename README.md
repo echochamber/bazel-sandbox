@@ -15,6 +15,8 @@ Rust + docker + bazel sandbox.
 9. [ ] Refactor grpc/ directory and rdproto/ directory to build with bazel.
 10. [ ] Make bzl-sandbox/docker/docker_run.sh better.
 11. [ ] Put together entire buildable app (frontend + backend + db) using oci images and docker compose.
+12. [ ] Migrate to bzmod (if rules_rust is stable enough).
+13. [ ] Build rule to deploy an image to gcp cloud run.
 
 Try this https://github.com/namely/docker-protoc
 
