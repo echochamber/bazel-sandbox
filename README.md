@@ -1,4 +1,6 @@
-# TODO List
+# Eh
+
+Rust + docker + bazel sandbox.
 
 # Main TODO
 
@@ -9,11 +11,10 @@
 5. [x] Codegen for rust procol buffer clients.
 6. [x] Protocol buffer dependency management (with buf)
 7. [x] Swaggerui - https://petstore.swagger.io/
-8. [ ] Bazel for builds.
-9. [ ] CI/Auomated Testing of Docker Containers
-10. [ ] Parameterize port values in dockerfiles.
-11. [ ] Add healthchecks to docker compose.
-12. [ ] Migrate to into depending on rdproto locally.
+8. [x] Bazel for builds.
+9. [ ] Refactor grpc/ directory and rdproto/ directory to build with bazel.
+10. [ ] Make bzl-sandbox/docker/docker_run.sh better.
+11. [ ] Put together entire buildable app (frontend + backend + db) using oci images and docker compose.
 
 Try this https://github.com/namely/docker-protoc
 

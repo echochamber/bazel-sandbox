@@ -1,7 +1,6 @@
 workspace(name = "rustdocker")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 ########################################
 
@@ -114,68 +113,6 @@ rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/t
 # --CPP--
 
 ########################################
-
-# --GO--
-
-# http_archive(
-#     name = "io_bazel_rules_go",
-#     sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
-#     urls = [
-#         "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
-#         "https://github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.0.zip",
-#     ],
-# )
-
-# git_repository(
-#     name = "bazel_gazelle",
-#     commit = "f377e6eff8e24508feb1a34b1e5e681982482a9f",
-#     remote = "https://github.com/bazelbuild/bazel-gazelle",
-#     shallow_since = "1648046534 -0400",
-# )
-
-# load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-
-# go_rules_dependencies()
-
-# go_register_toolchains(version = "1.19.4")
-
-# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-
-# # Use gazelle to declare Go dependencies in Bazel.
-
-# load("//:deps.bzl", "go_dependencies")
-
-# go_repository(
-#     name = "org_golang_x_xerrors",
-#     importpath = "golang.org/x/xerrors",
-#     sum = "h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=",
-#     version = "v0.0.0-20191204190536-9bdfabe68543",
-# )
-
-# # gazelle:repository_macro deps.bzl%go_dependencies
-# go_dependencies()
-
-# # gazelle:repository go_repository name=org_golang_x_xerrors importpath=golang.org/x/xerrors
-# # This must be invoked after our explicit dependencies
-# # See https://github.com/bazelbuild/bazel-gazelle/issues/1115.
-# gazelle_dependencies()
-
-# load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-
-# protobuf_deps()
-
-# http_archive(
-#     name = "com_github_bazelbuild_buildtools",
-#     sha256 = "977a0bd4593c8d4c8f45e056d181c35e48aa01ad4f8090bdb84f78dca42f47dc",
-#     strip_prefix = "buildtools-6.1.2",
-#     urls = ["https://github.com/bazelbuild/buildtools/archive/v6.1.2.tar.gz"],
-# )
-
-# load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_dependencies")
-
-# buildifier_dependencies()
-
-# --GO--
 
 ########################################
 

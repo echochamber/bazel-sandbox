@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-package simple2;
+package simple;
 
 message Simple {
   string name = 1;

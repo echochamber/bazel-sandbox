@@ -3,15 +3,12 @@ load("@rules_rust//proto:proto.bzl", "rust_proto_library")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 
-
-
-
 package(default_visibility = ["//visibility:public"])
 
 rust_proto_toolchain(
     name = "rust_prost_proto_impl",
     edition = "2021",
-    # TODO: haven't tested grpc_library yet, may need other deps
+    # TODO: haven't tested building a rust grpc library yet, may need other deps
     grpc_compile_deps = [
         "//third_party/rust:tonic",
     ],
