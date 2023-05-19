@@ -55,10 +55,3 @@ rust_library(
         "//third_party/rust:tonic",
     ],
 )
-
-go_proto_library(
-    name = "src_proto_summation_go_proto",
-    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
-    importpath = "github.com/echochamber/rustdockertools/bzl-sandbox/rust/summation/proto",
-    proto = ":proto",
-)

@@ -30,7 +30,7 @@ go install github.com/bazelbuild/buildtools/buildifier@latest
 
 1. Grpc stuff
    1. grpcui
-      1. `go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest`
+      1. `go install github.com/fullstorydev/grpcui/cmd/grpcui@latest`
    2. grpcurl
-      1. `go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest`
+      2. `go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest`
    3. grpc_cli

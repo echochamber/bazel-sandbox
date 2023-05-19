@@ -1,5 +1,3 @@
-# Empty build file so we can import docker rules in //WORKSPACE
-
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
 # gazelle:prefix github.com/echochamber/rustdockertools

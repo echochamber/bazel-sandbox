@@ -5,7 +5,54 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 ########################################
 
+
+# --Protobuf--
+
+# rules_cc defines rules for generating C++ code from Protocol Buffers.
+http_archive(
+    name = "rules_cc",
+    sha256 = "35f2fb4ea0b3e61ad64a369de284e4fbbdcdba71836a5555abb5e194cf119509",
+    strip_prefix = "rules_cc-624b5d59dfb45672d4239422fa1e3de1822ee110",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
+        "https://github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
+    ],
+)
+
+# rules_java defines rules for generating Java code from Protocol Buffers.
+http_archive(
+    name = "rules_java",
+    sha256 = "ccf00372878d141f7d5568cedc4c42ad4811ba367ea3e26bc7c43445bbc52895",
+    strip_prefix = "rules_java-d7bf804c8731edd232cb061cb2a9fe003a85d8ee",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_java/archive/d7bf804c8731edd232cb061cb2a9fe003a85d8ee.tar.gz",
+        "https://github.com/bazelbuild/rules_java/archive/d7bf804c8731edd232cb061cb2a9fe003a85d8ee.tar.gz",
+    ],
+)
+
+http_archive(
+    name = "rules_proto",
+    sha256 = "2490dca4f249b8a9a3ab07bd1ba6eca085aaf8e45a734af92aad0c42d9dc7aaf",
+    strip_prefix = "rules_proto-218ffa7dfa5408492dc86c01ee637614f8695c45",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/218ffa7dfa5408492dc86c01ee637614f8695c45.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/218ffa7dfa5408492dc86c01ee637614f8695c45.tar.gz",
+    ],
+)
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
+# End --Protobuf--
+
+########################################
+
 # --Rust--
+
+
+### Rust Toolchain
+###
 http_archive(
     name = "rules_rust",
     sha256 = "25209daff2ba21e818801c7b2dab0274c43808982d6aea9f796d899db6319146",
@@ -30,7 +77,7 @@ rust_register_toolchains(
     ],
 )
 
-### Cargo raze deps
+### Cargo raze - External Dep Management
 ###
 load("//third_party/rust:crates.bzl", "raze_fetch_remote_crates")
 
@@ -38,28 +85,21 @@ load("//third_party/rust:crates.bzl", "raze_fetch_remote_crates")
 # `raze` is the default prefix.
 raze_fetch_remote_crates()
 
-### rules_proto
-### Release info from https://github.com/bazelbuild/rules_proto/releases
-http_archive(
-    name = "rules_proto",
-    sha256 = "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd",
-    strip_prefix = "rules_proto-5.3.0-21.7",
-    urls = [
-        "https://github.com/bazelbuild/rules_proto/archive/refs/tags/5.3.0-21.7.tar.gz",
-    ],
-)
-
-load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
-
-rules_proto_dependencies()
-
-rules_proto_toolchains()
-
+### Rust Analyzer - For IDE Integrations
+###
 load("@rules_rust//tools/rust_analyzer:deps.bzl", "rust_analyzer_dependencies")
 
 rust_analyzer_dependencies()
 
-# --Rust--
+### Proto toolchain for rust
+###
+load('@rules_rust//proto:repositories.bzl', 'rust_proto_repositories')
+
+register_toolchains("//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
+
+rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
+
+# End --Rust--
 
 ########################################
 
@@ -77,95 +117,67 @@ rust_analyzer_dependencies()
 
 # --GO--
 
-http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.0.zip",
-    ],
-)
+# http_archive(
+#     name = "io_bazel_rules_go",
+#     sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
+#     urls = [
+#         "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
+#         "https://github.com/bazelbuild/rules_go/releases/download/v0.39.1/rules_go-v0.39.0.zip",
+#     ],
+# )
 
-git_repository(
-    name = "bazel_gazelle",
-    commit = "f377e6eff8e24508feb1a34b1e5e681982482a9f",
-    remote = "https://github.com/bazelbuild/bazel-gazelle",
-    shallow_since = "1648046534 -0400",
-)
+# git_repository(
+#     name = "bazel_gazelle",
+#     commit = "f377e6eff8e24508feb1a34b1e5e681982482a9f",
+#     remote = "https://github.com/bazelbuild/bazel-gazelle",
+#     shallow_since = "1648046534 -0400",
+# )
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+# load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
-go_rules_dependencies()
+# go_rules_dependencies()
 
-go_register_toolchains(version = "1.19.4")
+# go_register_toolchains(version = "1.19.4")
 
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
-# Use gazelle to declare Go dependencies in Bazel.
+# # Use gazelle to declare Go dependencies in Bazel.
 
-load("//:deps.bzl", "go_dependencies")
+# load("//:deps.bzl", "go_dependencies")
 
-go_repository(
-    name = "org_golang_x_xerrors",
-    importpath = "golang.org/x/xerrors",
-    sum = "h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=",
-    version = "v0.0.0-20191204190536-9bdfabe68543",
-)
+# go_repository(
+#     name = "org_golang_x_xerrors",
+#     importpath = "golang.org/x/xerrors",
+#     sum = "h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=",
+#     version = "v0.0.0-20191204190536-9bdfabe68543",
+# )
 
-# gazelle:repository_macro deps.bzl%go_dependencies
-go_dependencies()
+# # gazelle:repository_macro deps.bzl%go_dependencies
+# go_dependencies()
 
-# gazelle:repository go_repository name=org_golang_x_xerrors importpath=golang.org/x/xerrors
-# This must be invoked after our explicit dependencies
-# See https://github.com/bazelbuild/bazel-gazelle/issues/1115.
-gazelle_dependencies()
+# # gazelle:repository go_repository name=org_golang_x_xerrors importpath=golang.org/x/xerrors
+# # This must be invoked after our explicit dependencies
+# # See https://github.com/bazelbuild/bazel-gazelle/issues/1115.
+# gazelle_dependencies()
 
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+# load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
-protobuf_deps()
+# protobuf_deps()
 
-http_archive(
-    name = "com_github_bazelbuild_buildtools",
-    sha256 = "977a0bd4593c8d4c8f45e056d181c35e48aa01ad4f8090bdb84f78dca42f47dc",
-    strip_prefix = "buildtools-6.1.2",
-    urls = ["https://github.com/bazelbuild/buildtools/archive/v6.1.2.tar.gz"],
-)
+# http_archive(
+#     name = "com_github_bazelbuild_buildtools",
+#     sha256 = "977a0bd4593c8d4c8f45e056d181c35e48aa01ad4f8090bdb84f78dca42f47dc",
+#     strip_prefix = "buildtools-6.1.2",
+#     urls = ["https://github.com/bazelbuild/buildtools/archive/v6.1.2.tar.gz"],
+# )
 
-load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_dependencies")
+# load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_dependencies")
 
-buildifier_dependencies()
+# buildifier_dependencies()
 
 # --GO--
 
 ########################################
-
-# # --Docker--
-# http_archive(
-#     name = "io_bazel_rules_docker",
-#     sha256 = "b1e80761a8a8243d03ebca8845e9cc1ba6c82ce7c5179ce2b295cd36f7e394bf",
-#     urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.25.0/rules_docker-v0.25.0.tar.gz"],
-# )
-# load(
-#     "@io_bazel_rules_docker//repositories:repositories.bzl",
-#     container_repositories = "repositories",
-# )
-# container_repositories()
-
-# load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
-
-# container_deps()
-# load(
-#     "@io_bazel_rules_docker//rust:image.bzl",
-#     _rust_image_repos = "repositories",
-# )
-
-# _rust_image_repos()
-
-# # load(
-# #     "@io_bazel_rules_docker//container:container.bzl",
-# #     "container_pull",
-# # )
-# # --Docker--
 
 # --OCI Docker--
 

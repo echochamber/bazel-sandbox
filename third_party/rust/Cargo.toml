@@ -19,6 +19,12 @@ pbjson-types = "0.5.1"
 prost = { version ="0.11.9", features = ["prost-derive"] }
 prost-derive = "0.11.9"
 prost-types = "0.11.9"
+protobuf = "3.2.0"
+protoc-gen-prost = "0.2.2"
+protoc-gen-prost-crate = "0.3.0"
+protoc-gen-prost-serde = "0.2.3"
+protoc-gen-prost-validate = "0.0.1"
+protoc-gen-tonic = "0.2.2"
 protoc-wkt = "1.0.0"
 ring = "0.16.20"
 rustls-webpki = "0.100.1"
@@ -78,4 +84,16 @@ compile_data_attr = "glob([\"**/*.der\"])"
 compile_data_attr = "glob([\"**/*.der\"])"
 
 [package.metadata.raze.crates.axum.'*']
+compile_data_attr = "glob([\"**/*.md\"])"
+
+[package.metadata.raze.crates.protoc-gen-prost.'*']
+compile_data_attr = "glob([\"**/*.md\"])"
+
+[package.metadata.raze.crates.protoc-gen-prost-crate.'*']
+compile_data_attr = "glob([\"**/*.md\"])"
+
+[package.metadata.raze.crates.protoc-gen-prost-serde.'*']
+compile_data_attr = "glob([\"**/*.md\"])"
+
+[package.metadata.raze.crates.protoc-gen-tonic.'*']
 compile_data_attr = "glob([\"**/*.md\"])"

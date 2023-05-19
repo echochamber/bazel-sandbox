@@ -23,7 +23,7 @@ alias(
 
 alias(
     name = "clap",
-    actual = "@raze__clap__4_2_7//:clap",
+    actual = "@raze__clap__4_3_0//:clap",
     tags = [
         "cargo-raze",
         "manual",
@@ -32,7 +32,7 @@ alias(
 
 alias(
     name = "clap_derive",
-    actual = "@raze__clap_derive__4_2_0//:clap_derive",
+    actual = "@raze__clap_derive__4_3_0//:clap_derive",
     tags = [
         "cargo-raze",
         "manual",
@@ -105,6 +105,51 @@ alias(
 alias(
     name = "prost_types",
     actual = "@raze__prost_types__0_11_9//:prost_types",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "protobuf",
+    actual = "@raze__protobuf__3_2_0//:protobuf",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "protoc_gen_prost",
+    actual = "@raze__protoc_gen_prost__0_2_2//:protoc_gen_prost",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "protoc_gen_prost_crate",
+    actual = "@raze__protoc_gen_prost_crate__0_3_0//:protoc_gen_prost_crate",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "protoc_gen_prost_serde",
+    actual = "@raze__protoc_gen_prost_serde__0_2_3//:protoc_gen_prost_serde",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "protoc_gen_tonic",
+    actual = "@raze__protoc_gen_tonic__0_2_2//:protoc_gen_tonic",
     tags = [
         "cargo-raze",
         "manual",
