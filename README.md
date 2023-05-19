@@ -13,7 +13,7 @@
 9. [ ] CI/Auomated Testing of Docker Containers
 10. [ ] Parameterize port values in dockerfiles.
 11. [ ] Add healthchecks to docker compose.
-
+12. [ ] Migrate to into depending on rdproto locally.
 
 Try this https://github.com/namely/docker-protoc
 
