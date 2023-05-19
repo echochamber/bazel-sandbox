@@ -10,7 +10,6 @@ package_group(
     ],
 )
 
-
 rust_binary(
     name = "server_bin",
     srcs = [
@@ -19,11 +18,11 @@ rust_binary(
     deps = [
         "//third_party/rust:bytes",
         "//third_party/rust:dotenv",
+        "//third_party/rust:echochamber_rdproto",
         "//third_party/rust:prost",
         "//third_party/rust:tokio",
         "//third_party/rust:tonic",
         "//third_party/rust:uuid",
-        "//third_party/rust:echochamber_rdproto",
     ],
 )
 
