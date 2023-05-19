@@ -313,6 +313,16 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
+        name = "raze__futures__0_3_28",
+        url = "https://crates.io/api/v1/crates/futures/0.3.28/download",
+        type = "tar.gz",
+        sha256 = "23342abe12aba583913b2e62f22225ff9c950774065e4bfb61a19cd9770fec40",
+        strip_prefix = "futures-0.3.28",
+        build_file = Label("//third_party/rust/remote:BUILD.futures-0.3.28.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__futures_channel__0_3_28",
         url = "https://crates.io/api/v1/crates/futures-channel/0.3.28/download",
         type = "tar.gz",
@@ -329,6 +339,36 @@ def raze_fetch_remote_crates():
         sha256 = "4bca583b7e26f571124fe5b7561d49cb2868d79116cfa0eefce955557c6fee8c",
         strip_prefix = "futures-core-0.3.28",
         build_file = Label("//third_party/rust/remote:BUILD.futures-core-0.3.28.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__futures_executor__0_3_28",
+        url = "https://crates.io/api/v1/crates/futures-executor/0.3.28/download",
+        type = "tar.gz",
+        sha256 = "ccecee823288125bd88b4d7f565c9e58e41858e47ab72e8ea2d64e93624386e0",
+        strip_prefix = "futures-executor-0.3.28",
+        build_file = Label("//third_party/rust/remote:BUILD.futures-executor-0.3.28.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__futures_io__0_3_28",
+        url = "https://crates.io/api/v1/crates/futures-io/0.3.28/download",
+        type = "tar.gz",
+        sha256 = "4fff74096e71ed47f8e023204cfd0aa1289cd54ae5430a9523be060cdb849964",
+        strip_prefix = "futures-io-0.3.28",
+        build_file = Label("//third_party/rust/remote:BUILD.futures-io-0.3.28.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__futures_macro__0_3_28",
+        url = "https://crates.io/api/v1/crates/futures-macro/0.3.28/download",
+        type = "tar.gz",
+        sha256 = "89ca545a94061b6365f2c7355b4b32bd20df3ff95f02da9329b34ccc3bd6ee72",
+        strip_prefix = "futures-macro-0.3.28",
+        build_file = Label("//third_party/rust/remote:BUILD.futures-macro-0.3.28.bazel"),
     )
 
     maybe(
@@ -589,16 +629,6 @@ def raze_fetch_remote_crates():
         sha256 = "435011366fe56583b16cf956f9df0095b405b82d76425bc8981c0e22e60ec4df",
         strip_prefix = "lock_api-0.4.9",
         build_file = Label("//third_party/rust/remote:BUILD.lock_api-0.4.9.bazel"),
-    )
-
-    maybe(
-        http_archive,
-        name = "raze__log__0_3_6",
-        url = "https://crates.io/api/v1/crates/log/0.3.6/download",
-        type = "tar.gz",
-        sha256 = "ab83497bf8bf4ed2a74259c1c802351fcd67a65baa86394b6ba73c36f4838054",
-        strip_prefix = "log-0.3.6",
-        build_file = Label("//third_party/rust/remote:BUILD.log-0.3.6.bazel"),
     )
 
     maybe(
@@ -1143,6 +1173,16 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
+        name = "raze__to_unit__1_0_2",
+        url = "https://crates.io/api/v1/crates/to_unit/1.0.2/download",
+        type = "tar.gz",
+        sha256 = "b5379f6ae86388c2615ae0b9e11c517398069a51367db60ff668c266e3d334ef",
+        strip_prefix = "to_unit-1.0.2",
+        build_file = Label("//third_party/rust/remote:BUILD.to_unit-1.0.2.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__tokio__1_28_1",
         url = "https://crates.io/api/v1/crates/tokio/1.28.1/download",
         type = "tar.gz",
@@ -1199,6 +1239,16 @@ def raze_fetch_remote_crates():
         sha256 = "3082666a3a6433f7f511c7192923fa1fe07c69332d3c6a2e6bb040b569199d5a",
         strip_prefix = "tonic-0.9.2",
         build_file = Label("//third_party/rust/remote:BUILD.tonic-0.9.2.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__tonic_build__0_9_2",
+        url = "https://crates.io/api/v1/crates/tonic-build/0.9.2/download",
+        type = "tar.gz",
+        sha256 = "a6fdaae4c2c638bb70fe42803a26fbd6fc6ac8c72f5c59f67ecc2a2dcabf4b07",
+        strip_prefix = "tonic-build-0.9.2",
+        build_file = Label("//third_party/rust/remote:BUILD.tonic-build-0.9.2.bazel"),
     )
 
     maybe(

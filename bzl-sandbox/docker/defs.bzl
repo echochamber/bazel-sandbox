@@ -9,6 +9,7 @@ def docker_image(
   entrypoint,
   cmd = None,
   env = None,
+  port_map = "",
   tag = "default"):
   """Runs an image using docker."""
 
@@ -47,7 +48,8 @@ def docker_image(
       ],
       args = [
         ("$(location :" + tarball_name + ")"),
-        tag
+        tag,
+        port_map
       ],
       data = [
         ":" + tarball_name

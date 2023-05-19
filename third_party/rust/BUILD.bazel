@@ -49,8 +49,17 @@ alias(
 )
 
 alias(
+    name = "futures",
+    actual = "@raze__futures__0_3_28//:futures",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
     name = "log",
-    actual = "@raze__log__0_3_6//:log",
+    actual = "@raze__log__0_4_17//:log",
     tags = [
         "cargo-raze",
         "manual",
@@ -139,6 +148,15 @@ alias(
 )
 
 alias(
+    name = "to_unit",
+    actual = "@raze__to_unit__1_0_2//:to_unit",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
     name = "tokio",
     actual = "@raze__tokio__1_28_1//:tokio",
     tags = [
@@ -150,6 +168,15 @@ alias(
 alias(
     name = "tonic",
     actual = "@raze__tonic__0_9_2//:tonic",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "tonic_build",
+    actual = "@raze__tonic_build__0_9_2//:tonic_build",
     tags = [
         "cargo-raze",
         "manual",

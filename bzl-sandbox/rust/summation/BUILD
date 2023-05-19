@@ -17,7 +17,8 @@ docker_image(
     ],
     entrypoint = ["/server_bin"],
     env = {
-        "PORT": "50055",
+        "PORT": "50051",
     },
     tag = "rd-server:latest",
+    port_map = "50051:50051"
 )
