@@ -5,6 +5,22 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 ########################################
 
 
+# Bazel Skylib
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "b8a1527901774180afc798aeb28c4634bdccf19c4d98e7bdd1ce79d1fe9aaad7",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.4.1/bazel-skylib-1.4.1.tar.gz",
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.4.1/bazel-skylib-1.4.1.tar.gz",
+    ],
+)
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
+
+########################################
+
 # --Protobuf--
 
 # rules_cc defines rules for generating C++ code from Protocol Buffers.
@@ -102,17 +118,18 @@ rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/t
 
 ########################################
 
-# --CPP--
+# --External Proto Dep Management--
 
-# git_repository(
-#     name = "com_github_gflags_gflags",
-#     remote = "https://github.com/gflags/gflags.git",
-#     tag = "v2.2.2"
-# )
+http_archive(
+    name = "com_google_googleapis",
+    sha256 = "5bb6b0253ccf64b53d6c7249625a7e3f6c3bc6402abd52d3778bfa48258703a0",
+    strip_prefix = "googleapis-2f9af297c84c55c8b871ba4495e01ade42476c92",
+    urls = [
+        "https://storage.googleapis.com/grpc-bazel-mirror/github.com/googleapis/googleapis/archive/2f9af297c84c55c8b871ba4495e01ade42476c92.tar.gz",
+        "https://github.com/googleapis/googleapis/archive/2f9af297c84c55c8b871ba4495e01ade42476c92.tar.gz",
+    ],
+)
 
-# --CPP--
-
-########################################
 
 ########################################
 
@@ -165,3 +182,18 @@ oci_pull(
 )
 
 # --OCI Docker--
+
+
+# Rules for building package s (tar/zip/deb/rpm)
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
+    ],
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
+)
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+rules_pkg_dependencies()
+# Rules for building package s (tar/zip/deb/rpm)

@@ -1,3 +1,6 @@
 [submodule "rdproto"]
 	path = rd/proto
 	url = github.com/echochamber/rdprotos.git
+[submodule "third_party/google/googleapis"]
+	path = third_party/google/googleapis
+	url = https://github.com/googleapis/googleapis
