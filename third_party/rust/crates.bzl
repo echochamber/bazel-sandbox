@@ -613,12 +613,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__linux_raw_sys__0_3_7",
-        url = "https://crates.io/api/v1/crates/linux-raw-sys/0.3.7/download",
+        name = "raze__linux_raw_sys__0_3_8",
+        url = "https://crates.io/api/v1/crates/linux-raw-sys/0.3.8/download",
         type = "tar.gz",
-        sha256 = "ece97ea872ece730aed82664c424eb4c8291e1ff2480247ccf7409044bc6479f",
-        strip_prefix = "linux-raw-sys-0.3.7",
-        build_file = Label("//third_party/rust/remote:BUILD.linux-raw-sys-0.3.7.bazel"),
+        sha256 = "ef53942eb7bf7ff43a617b3e2c1c4a5ecf5944a7c1bc12d7ee39bbb15e5c1519",
+        strip_prefix = "linux-raw-sys-0.3.8",
+        build_file = Label("//third_party/rust/remote:BUILD.linux-raw-sys-0.3.8.bazel"),
     )
 
     maybe(
