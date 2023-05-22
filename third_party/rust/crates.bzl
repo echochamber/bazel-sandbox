@@ -123,12 +123,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__base64__0_21_0",
-        url = "https://crates.io/api/v1/crates/base64/0.21.0/download",
+        name = "raze__base64__0_21_1",
+        url = "https://crates.io/api/v1/crates/base64/0.21.1/download",
         type = "tar.gz",
-        sha256 = "a4a4ddaa51a5bc52a6948f74c06d20aaaddb71924eab79b8c97a8c556e942d6a",
-        strip_prefix = "base64-0.21.0",
-        build_file = Label("//third_party/rust/remote:BUILD.base64-0.21.0.bazel"),
+        sha256 = "3f1e31e207a6b8fb791a38ea3105e6cb541f55e4d029902d3039a4ad07cc4105",
+        strip_prefix = "base64-0.21.1",
+        build_file = Label("//third_party/rust/remote:BUILD.base64-0.21.1.bazel"),
     )
 
     maybe(
@@ -1103,6 +1103,16 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
+        name = "raze__ryu__1_0_13",
+        url = "https://crates.io/api/v1/crates/ryu/1.0.13/download",
+        type = "tar.gz",
+        sha256 = "f91339c0467de62360649f8d3e185ca8de4224ff281f66000de5eb2a77a79041",
+        strip_prefix = "ryu-1.0.13",
+        build_file = Label("//third_party/rust/remote:BUILD.ryu-1.0.13.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__scopeguard__1_1_0",
         url = "https://crates.io/api/v1/crates/scopeguard/1.1.0/download",
         type = "tar.gz",
@@ -1129,6 +1139,16 @@ def raze_fetch_remote_crates():
         sha256 = "8c805777e3930c8883389c602315a24224bcc738b63905ef87cd1420353ea93e",
         strip_prefix = "serde_derive-1.0.163",
         build_file = Label("//third_party/rust/remote:BUILD.serde_derive-1.0.163.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__serde_yaml__0_9_21",
+        url = "https://crates.io/api/v1/crates/serde_yaml/0.9.21/download",
+        type = "tar.gz",
+        sha256 = "d9d684e3ec7de3bf5466b32bd75303ac16f0736426e5a4e0d6e489559ce1249c",
+        strip_prefix = "serde_yaml-0.9.21",
+        build_file = Label("//third_party/rust/remote:BUILD.serde_yaml-0.9.21.bazel"),
     )
 
     maybe(
@@ -1429,6 +1449,16 @@ def raze_fetch_remote_crates():
         sha256 = "e5464a87b239f13a63a501f2701565754bae92d243d4bb7eb12f6d57d2269bf4",
         strip_prefix = "unicode-ident-1.0.8",
         build_file = Label("//third_party/rust/remote:BUILD.unicode-ident-1.0.8.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__unsafe_libyaml__0_2_8",
+        url = "https://crates.io/api/v1/crates/unsafe-libyaml/0.2.8/download",
+        type = "tar.gz",
+        sha256 = "1865806a559042e51ab5414598446a5871b561d21b6764f2eabb0dd481d880a6",
+        strip_prefix = "unsafe-libyaml-0.2.8",
+        build_file = Label("//third_party/rust/remote:BUILD.unsafe-libyaml-0.2.8.bazel"),
     )
 
     maybe(

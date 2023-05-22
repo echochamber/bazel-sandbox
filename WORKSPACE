@@ -4,7 +4,6 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 ########################################
 
-
 # Bazel Skylib
 http_archive(
     name = "bazel_skylib",
@@ -56,7 +55,9 @@ http_archive(
 )
 
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
 rules_proto_dependencies()
+
 rules_proto_toolchains()
 
 # End --Protobuf--
@@ -64,7 +65,6 @@ rules_proto_toolchains()
 ########################################
 
 # --Rust--
-
 
 ### Rust Toolchain
 ###
@@ -112,28 +112,16 @@ rust_analyzer_dependencies()
 
 ### Proto toolchain for rust
 ###
-load('@rules_rust//proto:repositories.bzl', 'rust_proto_repositories')
+load("@rules_rust//proto:repositories.bzl", "rust_proto_repositories")
 
-register_toolchains("//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
-
-rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
+rust_proto_repositories()
+# Temporarily disabling custom prost toolchain
+# register_toolchains("//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
+# rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
 
 # End --Rust--
 
 ########################################
-
-# --External Proto Dep Management--
-
-http_archive(
-    name = "com_google_googleapis",
-    sha256 = "5bb6b0253ccf64b53d6c7249625a7e3f6c3bc6402abd52d3778bfa48258703a0",
-    strip_prefix = "googleapis-2f9af297c84c55c8b871ba4495e01ade42476c92",
-    urls = [
-        "https://storage.googleapis.com/grpc-bazel-mirror/github.com/googleapis/googleapis/archive/2f9af297c84c55c8b871ba4495e01ade42476c92.tar.gz",
-        "https://github.com/googleapis/googleapis/archive/2f9af297c84c55c8b871ba4495e01ade42476c92.tar.gz",
-    ],
-)
-
 
 ########################################
 
@@ -187,16 +175,101 @@ oci_pull(
 
 # --OCI Docker--
 
-
+########################################
+# --Pkg--
 # Rules for building packages (tar/zip/deb/rpm)
 http_archive(
     name = "rules_pkg",
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
     urls = [
         "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
         "https://github.com/bazelbuild/rules_pkg/releases/download/0.9.1/rules_pkg-0.9.1.tar.gz",
     ],
-    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
 )
+
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+
 rules_pkg_dependencies()
 # Rules for building package s (tar/zip/deb/rpm)
+# --Pkg--
+
+########################################
+
+# --Go/Gazelle/buf tool--
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
+    ],
+)
+
+http_archive(
+    name = "bazel_gazelle",
+    sha256 = "ecba0f04f96b4960a5b250c8e8eeec42281035970aa8852dda73098274d14a1d",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//:deps.bzl", "go_dependencies")
+
+# gazelle:repository_macro deps.bzl%go_dependencies
+go_dependencies()
+
+go_rules_dependencies()
+
+go_register_toolchains(version = "1.19.5")
+
+gazelle_dependencies()
+
+# Seems buf needs this
+http_archive(
+    name = "io_bazel_stardoc",
+    sha256 = "ec57139e466faae563f2fc39609da4948a479bb51b6d67aedd7d9b1b8059c433",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/stardoc/releases/download/0.5.4/stardoc-0.5.4.tar.gz",
+        "https://github.com/bazelbuild/stardoc/releases/download/0.5.4/stardoc-0.5.4.tar.gz",
+    ],
+)
+
+load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
+
+stardoc_repositories()
+
+http_archive(
+    name = "rules_buf",
+    sha256 = "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
+    strip_prefix = "rules_buf-0.1.1",
+    urls = [
+        "https://github.com/bufbuild/rules_buf/archive/refs/tags/v0.1.1.zip",
+    ],
+)
+
+load("@rules_buf//buf:repositories.bzl", "rules_buf_toolchains")
+
+# rules_buf fetches the sha based on the version number, the version is enough for hermetic builds.
+rules_buf_toolchains()
+
+load("//:buf_deps.bzl", "buf_deps")
+
+# gazelle:repository_macro buf_deps.bzl%buf_deps
+buf_deps()
+
+# load("@rules_buf//buf:defs.bzl", "buf_dependencies")
+# buf_dependencies(
+#     name = "buf_deps",
+#     modules = [
+#         "buf.build/googleapis/googleapis:cc916c31859748a68fd229a3c8d7a2e8",
+#         "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e",
+#     ],
+# )
+
+# --Go/Gazelle/buf tool--
+
+########################################

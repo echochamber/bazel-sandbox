@@ -19,6 +19,6 @@ docker_image(
     env = {
         "PORT": "50051",
     },
+    port_map = "50051:50051",
     tag = "rd-server:latest",
-    port_map = "50051:50051"
 )

@@ -17,6 +17,7 @@ log = "0.4.11"
 pbjson = "0.5.1"
 pbjson-types = "0.5.1"
 prost = { version ="0.11.9", features = ["prost-derive"] }
+prost-build = "0.11.9"
 prost-derive = "0.11.9"
 prost-types = "0.11.9"
 protobuf = "3.2.0"
@@ -30,6 +31,8 @@ ring = "0.16.20"
 rustls-webpki = "0.100.1"
 # Only necessary if using Protobuf well-known types:
 serde = "1.0.160"
+serde_derive = "1.0.163"
+serde_yaml = "0.9.21"
 to_unit = "1.0.2"
 tokio = { version = "1.28.1", features = ["full"] }
 tonic = "0.9.2"
