@@ -1,3 +1,4 @@
+load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 load("@rules_rust//rust:defs.bzl", "rust_library")
@@ -53,4 +54,9 @@ rust_library(
         "//third_party/rust:prost",
         "//third_party/rust:tonic",
     ],
+)
+
+buf_lint_test(
+    name = "src_proto_summation_proto_lint",
+    targets = [":src_proto_summation_proto"],
 )

@@ -1,3 +1,4 @@
+load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_rust//proto:toolchain.bzl", "rust_proto_toolchain")
 load("@rules_rust//proto:proto.bzl", "rust_proto_library")
@@ -38,9 +39,6 @@ proto_library(
 
 rust_proto_library(
     name = "simple_proto_rust",
-    expected_outs = [
-        "simple",
-    ],
     deps = [":simple_proto"],
 )
 
@@ -48,4 +46,9 @@ rust_binary(
     name = "simple_proto_rust_binary",
     srcs = ["simple_proto_binary.rs"],
     deps = [":simple_proto_rust"],
+)
+
+buf_lint_test(
+    name = "simple_proto_lint",
+    targets = [":simple_proto"],
 )

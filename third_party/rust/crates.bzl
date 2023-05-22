@@ -13,6 +13,16 @@ def raze_fetch_remote_crates():
     """This function defines a collection of repos and should be called in a WORKSPACE file"""
     maybe(
         http_archive,
+        name = "raze__aho_corasick__1_0_1",
+        url = "https://crates.io/api/v1/crates/aho-corasick/1.0.1/download",
+        type = "tar.gz",
+        sha256 = "67fc08ce920c31afb70f013dcce1bfc3a3195de6a228474e45e1f145b36f8d04",
+        strip_prefix = "aho-corasick-1.0.1",
+        build_file = Label("//third_party/rust/remote:BUILD.aho-corasick-1.0.1.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__anstream__0_3_2",
         url = "https://crates.io/api/v1/crates/anstream/0.3.2/download",
         type = "tar.gz",
@@ -263,6 +273,16 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
+        name = "raze__env_logger__0_10_0",
+        url = "https://crates.io/api/v1/crates/env_logger/0.10.0/download",
+        type = "tar.gz",
+        sha256 = "85cdab6a89accf66733ad5a1693a4dcced6aeff64602b634530dd73c1f3ee9f0",
+        strip_prefix = "env_logger-0.10.0",
+        build_file = Label("//third_party/rust/remote:BUILD.env_logger-0.10.0.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__errno__0_3_1",
         url = "https://crates.io/api/v1/crates/errno/0.3.1/download",
         type = "tar.gz",
@@ -499,6 +519,16 @@ def raze_fetch_remote_crates():
         sha256 = "c4a1e36c821dbe04574f602848a19f742f4fb3c98d40449f11bcad18d6b17421",
         strip_prefix = "httpdate-1.0.2",
         build_file = Label("//third_party/rust/remote:BUILD.httpdate-1.0.2.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__humantime__2_1_0",
+        url = "https://crates.io/api/v1/crates/humantime/2.1.0/download",
+        type = "tar.gz",
+        sha256 = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4",
+        strip_prefix = "humantime-2.1.0",
+        build_file = Label("//third_party/rust/remote:BUILD.humantime-2.1.0.bazel"),
     )
 
     maybe(
@@ -1253,6 +1283,16 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
+        name = "raze__termcolor__1_2_0",
+        url = "https://crates.io/api/v1/crates/termcolor/1.2.0/download",
+        type = "tar.gz",
+        sha256 = "be55cf8942feac5c765c2c993422806843c9a9a45d4d5c407ad6dd2ea95eb9b6",
+        strip_prefix = "termcolor-1.2.0",
+        build_file = Label("//third_party/rust/remote:BUILD.termcolor-1.2.0.bazel"),
+    )
+
+    maybe(
+        http_archive,
         name = "raze__thiserror__1_0_40",
         url = "https://crates.io/api/v1/crates/thiserror/1.0.40/download",
         type = "tar.gz",
@@ -1599,6 +1639,16 @@ def raze_fetch_remote_crates():
         sha256 = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6",
         strip_prefix = "winapi-i686-pc-windows-gnu-0.4.0",
         build_file = Label("//third_party/rust/remote:BUILD.winapi-i686-pc-windows-gnu-0.4.0.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__winapi_util__0_1_5",
+        url = "https://crates.io/api/v1/crates/winapi-util/0.1.5/download",
+        type = "tar.gz",
+        sha256 = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178",
+        strip_prefix = "winapi-util-0.1.5",
+        build_file = Label("//third_party/rust/remote:BUILD.winapi-util-0.1.5.bazel"),
     )
 
     maybe(

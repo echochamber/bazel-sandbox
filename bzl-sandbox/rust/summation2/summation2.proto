@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package src.proto.sum3;
+package src.proto.sum2;
 
 service Summation3 {
   rpc ComputeSumF64(ComputeSumF64Request) returns (ComputeSumF64Response);

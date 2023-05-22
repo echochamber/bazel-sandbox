@@ -61,24 +61,20 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
             if plugin.eq("prost-crate") {
                 e.path = Some(std::env::var("PROST_CRATE_PLUGIN_BIN").unwrap());
-                e.path = Some(std::env::var("PROST_CRATE_PLUGIN_BIN").unwrap());
                 e.opt.retain(|i| i.find("gen_crate").is_none());
-                println!("{}", std::env::var("CARGO_TOML_FILE").unwrap());
                 e.opt.push(format!("gen_crate={}", std::env::var("CARGO_TOML_FILE").unwrap()));
             }
         }
     });
-    let serialized: String = serde_yaml::to_string(&conf)?;
-    println!("Serialized {}", serialized);
     let out_dir = std::env::var("OUT_DIR").unwrap();
     
     let _status = Command::new(std::env::var("BUF_BIN_PATH").unwrap())
+        .current_dir(std::env::var("CARGO_MANIFEST_DIR").unwrap())
         .arg("generate")
         .arg("--template")
         .arg(serde_yaml::to_string(&conf)?)
         .arg("--include-imports")
         .arg("-o").arg(&out_dir)
-        .current_dir(std::env::var("CARGO_MANIFEST_DIR").unwrap())
         .status()
         .unwrap();
     

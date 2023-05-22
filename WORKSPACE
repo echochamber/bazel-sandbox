@@ -196,6 +196,22 @@ rules_pkg_dependencies()
 ########################################
 
 # --Go/Gazelle/buf tool--
+http_archive(
+    name = "rules_buf",
+    sha256 = "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
+    strip_prefix = "rules_buf-0.1.1",
+    urls = [
+        "https://github.com/bufbuild/rules_buf/archive/refs/tags/v0.1.1.zip",
+    ],
+)
+
+load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
+
+rules_buf_dependencies()
+
+rules_buf_toolchains(version = "v1.5.0")
+
+# Gazelle Setup
 
 http_archive(
     name = "io_bazel_rules_go",
@@ -219,10 +235,10 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_depe
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("//:deps.bzl", "go_dependencies")
 
+go_rules_dependencies()
+
 # gazelle:repository_macro deps.bzl%go_dependencies
 go_dependencies()
-
-go_rules_dependencies()
 
 go_register_toolchains(version = "1.19.5")
 
@@ -239,37 +255,30 @@ http_archive(
 )
 
 load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
-
 stardoc_repositories()
 
-http_archive(
-    name = "rules_buf",
-    sha256 = "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
-    strip_prefix = "rules_buf-0.1.1",
-    urls = [
-        "https://github.com/bufbuild/rules_buf/archive/refs/tags/v0.1.1.zip",
+load("@rules_buf//gazelle/buf:repositories.bzl", "gazelle_buf_dependencies")
+
+gazelle_buf_dependencies()
+
+load("@rules_buf//buf:defs.bzl", "buf_dependencies")
+
+buf_dependencies(
+    name = "buf_deps",
+    modules = [
+        "buf.build/googleapis/googleapis:cc916c31859748a68fd229a3c8d7a2e8",
+        "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e",
+        "buf.build/acme/petapis:84a33a06f0954823a6f2a089fb1bb82e",
     ],
 )
-
-load("@rules_buf//buf:repositories.bzl", "rules_buf_toolchains")
-
-# rules_buf fetches the sha based on the version number, the version is enough for hermetic builds.
-rules_buf_toolchains()
 
 load("//:buf_deps.bzl", "buf_deps")
 
 # gazelle:repository_macro buf_deps.bzl%buf_deps
 buf_deps()
 
-# load("@rules_buf//buf:defs.bzl", "buf_dependencies")
-# buf_dependencies(
-#     name = "buf_deps",
-#     modules = [
-#         "buf.build/googleapis/googleapis:cc916c31859748a68fd229a3c8d7a2e8",
-#         "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e",
-#     ],
-# )
+# --Go/Gazelle/Buf tool--
 
-# --Go/Gazelle/buf tool--
+########################################
 
 ########################################

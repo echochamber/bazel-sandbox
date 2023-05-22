@@ -1,6 +1,6 @@
 # TODO: Allow detach?
 # TODO: More robust flags/args/options parsing.
-
+# TODO: Env variable passing
 set -x
 
 

@@ -1,10 +1,12 @@
 load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 load("@rules_rust//rust:defs.bzl", "rust_library")
+load("@rules_rust//proto:proto.bzl", "rust_proto_library")
 
-TONIC_PLUGIN_TARGET = "@raze__protoc_gen_tonic__0_2_2//:cargo_bin_protoc_gen_tonic"
-PROST_PLUGIN_TARGET = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost"
-PROST_CRATE_PLUGIN_TARGET = "@raze__protoc_gen_prost_crate__0_3_0//:cargo_bin_protoc_gen_prost_crate"
-PROTOC_TARGET = "@com_google_protobuf//:protoc"
+TONIC_PLUGIN = "@raze__protoc_gen_tonic__0_2_2//:cargo_bin_protoc_gen_tonic"
+PROST_PLUGIN = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost"
+PROST_CRATE_PLUGIN = "@raze__protoc_gen_prost_crate__0_3_0//:cargo_bin_protoc_gen_prost_crate"
+PROTOC = "@com_google_protobuf//:protoc"
+RUST_FMT = "@rules_rust//:rustfmt"
 CARGO_TOML_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:Cargo.toml.template"
 MOD_RS_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:mod.rs.template"
 LIB_RS = "//bzl-sandbox/rust/proto/toolchains/custom:lib.rs"
@@ -12,47 +14,56 @@ LIB_RS = "//bzl-sandbox/rust/proto/toolchains/custom:lib.rs"
 # BUF_TARGET = "@rules_buf_toolchains//:buf_toolchain_impl"
 
 
-def prost_tonic_rust_lib(name, srcs, gen_yaml):
+def prost_tonic_rust_lib(name, srcs, gen_yaml, proto_root_dir="."):
     """Generates a tonic client and prost sources for input protos.
 
     Example Usage.
 
+    load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "prost_tonic_rust_lib")
     prost_tonic_rust_lib(
         name = "my_proto",
-        srcs = ["path/to/my.proto],
-        gen_yaml = "//path/to/my/buf.gen.yaml"
+        srcs = ["path/to/my.proto"],
+        gen_yaml = "//path/to/my:buf.gen.yaml",
+        proto_root_dir = "path/to/proto/dir",
+
     )
     """
-    # Runs a cargo build script
+
+    rust_proto_library(
+        name = "deps",
+        deps = [
+            "@buf_deps_bzl-sandbox_rust_summation2//google/api:visibility_proto"
+        ]
+    )
+
     cargo_build_script(
         name = "generate_" + name,
         srcs = [
             "//bzl-sandbox/rust/proto/toolchains/custom:build.rs",
         ],
         build_script_env = {
-            "RUSTFMT": "$(execpath @rules_rust//:rustfmt)",
-            "PROTOC": "$(execpath " + PROTOC_TARGET + ")",
-            "CARGO": "/home/jason/.cargo/bin/cargo",
+            "RUSTFMT": "$(execpath " + RUST_FMT + ")",
+            "PROTOC": "$(execpath " + PROTOC + ")",
             "BUF_BIN_PATH": "/usr/local/bin/buf",
-            "PROST_PLUGIN_BIN": "$(execpath " + PROST_PLUGIN_TARGET + ")",
-            "TONIC_PLUGIN_BIN": "$(execpath " + TONIC_PLUGIN_TARGET + ")",
-            "PROST_CRATE_PLUGIN_BIN": "$(execpath " + PROST_CRATE_PLUGIN_TARGET + ")",
+            "PROST_PLUGIN_BIN": "$(execpath " + PROST_PLUGIN + ")",
+            "TONIC_PLUGIN_BIN": "$(execpath " + TONIC_PLUGIN + ")",
+            "PROST_CRATE_PLUGIN_BIN": "$(execpath " + PROST_CRATE_PLUGIN + ")",
             "GEN_YAML_FILE": "$(location " + gen_yaml + ")",
             "CARGO_TOML_FILE": "$(location " + CARGO_TOML_TEMPLATE_PATH + ")",
             "MOD_RS_TEMPLATE": "$(location " + MOD_RS_TEMPLATE_PATH + ")",
-
+            "PROTO_ROOT_DIR": proto_root_dir,
         },
         data = [
-            MOD_RS_TEMPLATE_PATH,
-            CARGO_TOML_TEMPLATE_PATH,
-            TONIC_PLUGIN_TARGET,
-            PROST_PLUGIN_TARGET,
-            PROST_CRATE_PLUGIN_TARGET,
-            PROTOC_TARGET,
-            "@rules_rust//:rustfmt",
+            gen_yaml,
             # buf lock intentionally ommited because it causes name colissions for imported proto types (not sure why).
             # "buf.lock",
-            gen_yaml
+            MOD_RS_TEMPLATE_PATH,
+            CARGO_TOML_TEMPLATE_PATH,
+            TONIC_PLUGIN,
+            PROST_PLUGIN,
+            PROST_CRATE_PLUGIN,
+            PROTOC,
+            RUST_FMT,
         ] + srcs,
         proc_macro_deps = [
             "//third_party/rust:serde_derive",
@@ -67,7 +78,7 @@ def prost_tonic_rust_lib(name, srcs, gen_yaml):
 
     # Defines a rust library using the outputs from build.rs
     rust_library(
-        name = name + "_rust",
+        name = name,
         srcs = [
             LIB_RS
         ],
@@ -76,5 +87,6 @@ def prost_tonic_rust_lib(name, srcs, gen_yaml):
             ":generate_" + name,
             "//third_party/rust:prost",
             "//third_party/rust:tonic",
+            "//third_party/rust:protoc_wkt"
         ],
     )

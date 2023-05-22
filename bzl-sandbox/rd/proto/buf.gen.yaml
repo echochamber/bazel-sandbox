@@ -1,21 +1,24 @@
 version: v1
-# managed:
-#   enabled: true
+managed:
+  enabled: true
 plugins:
   - plugin: prost
     out: src/gen
     opt:
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
+      - extern_path=.google.api=::google::api
       - file_descriptor_set
   - plugin: tonic
     out: src/gen
     opt:
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
+      - extern_path=.google.api=::google::api
   - plugin: prost-crate
     out: src/gen
     strategy: all
     opt:
       - include_file=mod.rs
-      - gen_crate=
+      - gen_crate
+      - no_features

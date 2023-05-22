@@ -12,6 +12,7 @@ bytes = "1.4.0"
 clap = "4.2.7"
 clap_derive = "4.2.0"
 dotenv = "0.15.0"
+env_logger = "0.10.0"
 futures = "0.3.28"
 log = "0.4.11"
 pbjson = "0.5.1"
@@ -100,3 +101,5 @@ compile_data_attr = "glob([\"**/*.md\"])"
 
 [package.metadata.raze.crates.protoc-gen-tonic.'*']
 compile_data_attr = "glob([\"**/*.md\"])"
+[package.metadata.raze.crates.tonic-reflection.'*']
+compile_data_attr = "glob([\"**/generated/reflection_v1alpha1.bin\"])"

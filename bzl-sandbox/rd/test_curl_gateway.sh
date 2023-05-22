@@ -1,0 +1,1 @@
+grpcurl  -plaintext -d '{"name": "some name"}' localhost:50051 echochamber.helloworld.v1.GreeterService/SayHello
