@@ -12,22 +12,25 @@ MOD_RS_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:mod.rs.templa
 LIB_RS = "//bzl-sandbox/rust/proto/toolchains/custom:lib.rs"
 # TODO: Find a way to expose the buf binary as a build target instead of using the local machines installation
 # BUF_TARGET = "@rules_buf_toolchains//:buf_toolchain_impl"
+DEFAULT_BUF_BIN = "/usr/local/bin/buf"
 
 
-def prost_tonic_rust_lib(name, srcs, gen_yaml, proto_root_dir="."):
+# buildifier: disable=function-docstring-args
+def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path=DEFAULT_BUF_BIN):
     """Generates a tonic client and prost sources for input protos.
 
     Example Usage.
 
-    load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "prost_tonic_rust_lib")
-    prost_tonic_rust_lib(
+    load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "buf_gen_rust_proto")
+    buf_gen_rust_proto(
         name = "my_proto",
         srcs = ["path/to/my.proto"],
         gen_yaml = "//path/to/my:buf.gen.yaml",
-        proto_root_dir = "path/to/proto/dir",
-
+        buf_bin_path = "/usr/local/bin/buf"
     )
     """
+    if not buf_bin_path:
+        buf_bin_path = DEFAULT_BUF_BIN
 
     rust_proto_library(
         name = "deps",
@@ -44,17 +47,18 @@ def prost_tonic_rust_lib(name, srcs, gen_yaml, proto_root_dir="."):
         build_script_env = {
             "RUSTFMT": "$(execpath " + RUST_FMT + ")",
             "PROTOC": "$(execpath " + PROTOC + ")",
-            "BUF_BIN_PATH": "/usr/local/bin/buf",
+            "BUF_BIN_PATH": buf_bin_path,
             "PROST_PLUGIN_BIN": "$(execpath " + PROST_PLUGIN + ")",
             "TONIC_PLUGIN_BIN": "$(execpath " + TONIC_PLUGIN + ")",
             "PROST_CRATE_PLUGIN_BIN": "$(execpath " + PROST_CRATE_PLUGIN + ")",
             "GEN_YAML_FILE": "$(location " + gen_yaml + ")",
+            "BUF_LOCK_FILE": "$(location " + buf_lock + ")",
             "CARGO_TOML_FILE": "$(location " + CARGO_TOML_TEMPLATE_PATH + ")",
             "MOD_RS_TEMPLATE": "$(location " + MOD_RS_TEMPLATE_PATH + ")",
-            "PROTO_ROOT_DIR": proto_root_dir,
         },
         data = [
             gen_yaml,
+            buf_lock,
             # buf lock intentionally ommited because it causes name colissions for imported proto types (not sure why).
             # "buf.lock",
             MOD_RS_TEMPLATE_PATH,
@@ -73,6 +77,7 @@ def prost_tonic_rust_lib(name, srcs, gen_yaml, proto_root_dir="."):
             "//third_party/rust:serde",
             "//third_party/rust:serde_yaml",
             "//third_party/rust:tonic_build",
+            
         ],
     )
 

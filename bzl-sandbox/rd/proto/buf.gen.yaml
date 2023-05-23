@@ -7,14 +7,14 @@ plugins:
     opt:
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
-      - extern_path=.google.api=::google::api
+      # - extern_path=.google.api=::google::api
       - file_descriptor_set
   - plugin: tonic
     out: src/gen
     opt:
       - compile_well_known_types
       - extern_path=.google.protobuf=::pbjson_types
-      - extern_path=.google.api=::google::api
+      # - extern_path=.google.api=::google::api
   - plugin: prost-crate
     out: src/gen
     strategy: all

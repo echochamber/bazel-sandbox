@@ -1,10 +1,10 @@
 load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "prost_tonic_rust_lib")
+load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "buf_gen_rust_proto")
 
 package(default_visibility = ["//visibility:public"])
 
-prost_tonic_rust_lib(
+buf_gen_rust_proto(
     name = "summation2",
     srcs = ["summation2.proto"],
     gen_yaml = "//bzl-sandbox/rust/summation2:buf.gen.yaml",

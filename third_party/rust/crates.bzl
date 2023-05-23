@@ -153,12 +153,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__bumpalo__3_12_2",
-        url = "https://crates.io/api/v1/crates/bumpalo/3.12.2/download",
+        name = "raze__bumpalo__3_13_0",
+        url = "https://crates.io/api/v1/crates/bumpalo/3.13.0/download",
         type = "tar.gz",
-        sha256 = "3c6ed94e98ecff0c12dd1b04c15ec0d7d9458ca8fe806cea6f12954efe74c63b",
-        strip_prefix = "bumpalo-3.12.2",
-        build_file = Label("//third_party/rust/remote:BUILD.bumpalo-3.12.2.bazel"),
+        sha256 = "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1",
+        strip_prefix = "bumpalo-3.13.0",
+        build_file = Label("//third_party/rust/remote:BUILD.bumpalo-3.13.0.bazel"),
     )
 
     maybe(
@@ -1073,22 +1073,22 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__regex__1_8_1",
-        url = "https://crates.io/api/v1/crates/regex/1.8.1/download",
+        name = "raze__regex__1_8_2",
+        url = "https://crates.io/api/v1/crates/regex/1.8.2/download",
         type = "tar.gz",
-        sha256 = "af83e617f331cc6ae2da5443c602dfa5af81e517212d9d611a5b3ba1777b5370",
-        strip_prefix = "regex-1.8.1",
-        build_file = Label("//third_party/rust/remote:BUILD.regex-1.8.1.bazel"),
+        sha256 = "d1a59b5d8e97dee33696bf13c5ba8ab85341c002922fba050069326b9c498974",
+        strip_prefix = "regex-1.8.2",
+        build_file = Label("//third_party/rust/remote:BUILD.regex-1.8.2.bazel"),
     )
 
     maybe(
         http_archive,
-        name = "raze__regex_syntax__0_7_1",
-        url = "https://crates.io/api/v1/crates/regex-syntax/0.7.1/download",
+        name = "raze__regex_syntax__0_7_2",
+        url = "https://crates.io/api/v1/crates/regex-syntax/0.7.2/download",
         type = "tar.gz",
-        sha256 = "a5996294f19bd3aae0453a862ad728f60e6600695733dd5df01da90c54363a3c",
-        strip_prefix = "regex-syntax-0.7.1",
-        build_file = Label("//third_party/rust/remote:BUILD.regex-syntax-0.7.1.bazel"),
+        sha256 = "436b050e76ed2903236f032a59761c1eb99e1b0aead2c257922771dab1fc8c78",
+        strip_prefix = "regex-syntax-0.7.2",
+        build_file = Label("//third_party/rust/remote:BUILD.regex-syntax-0.7.2.bazel"),
     )
 
     maybe(
@@ -1139,6 +1139,16 @@ def raze_fetch_remote_crates():
         sha256 = "f91339c0467de62360649f8d3e185ca8de4224ff281f66000de5eb2a77a79041",
         strip_prefix = "ryu-1.0.13",
         build_file = Label("//third_party/rust/remote:BUILD.ryu-1.0.13.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__same_file__1_0_6",
+        url = "https://crates.io/api/v1/crates/same-file/1.0.6/download",
+        type = "tar.gz",
+        sha256 = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502",
+        strip_prefix = "same-file-1.0.6",
+        build_file = Label("//third_party/rust/remote:BUILD.same-file-1.0.6.bazel"),
     )
 
     maybe(
@@ -1529,6 +1539,16 @@ def raze_fetch_remote_crates():
         sha256 = "345444e32442451b267fc254ae85a209c64be56d2890e601a0c37ff0c3c5ecd2",
         strip_prefix = "uuid-1.3.3",
         build_file = Label("//third_party/rust/remote:BUILD.uuid-1.3.3.bazel"),
+    )
+
+    maybe(
+        http_archive,
+        name = "raze__walkdir__2_3_3",
+        url = "https://crates.io/api/v1/crates/walkdir/2.3.3/download",
+        type = "tar.gz",
+        sha256 = "36df944cda56c7d8d8b7496af378e6b16de9284591917d307c9b4d313c44e698",
+        strip_prefix = "walkdir-2.3.3",
+        build_file = Label("//third_party/rust/remote:BUILD.walkdir-2.3.3.bazel"),
     )
 
     maybe(
