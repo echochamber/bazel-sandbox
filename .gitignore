@@ -39,3 +39,5 @@ target/
 # User-specific .bazelrc
 user.bazelrc
 /third_party/rust/remote
+# Python
+/.venv

@@ -20,6 +20,21 @@ bazel_skylib_workspace()
 
 ########################################
 
+# --Gazelle--
+
+http_archive(
+    name = "bazel_gazelle",
+    sha256 = "ecba0f04f96b4960a5b250c8e8eeec42281035970aa8852dda73098274d14a1d",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
+    ],
+)
+
+# --Gazelle--
+
+########################################
+
 # --Protobuf--
 
 # rules_cc defines rules for generating C++ code from Protocol Buffers.
@@ -61,6 +76,60 @@ rules_proto_dependencies()
 rules_proto_toolchains()
 
 # End --Protobuf--
+
+########################################
+
+########################################
+
+# --Python--
+
+http_archive(
+    name = "rules_python",
+    sha256 = "94750828b18044533e98a129003b6a68001204038dc4749f40b195b24c38f49f",
+    strip_prefix = "rules_python-0.21.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.21.0/rules_python-0.21.0.tar.gz",
+)
+
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
+
+py_repositories()
+
+python_register_toolchains(
+    name = "python3_9",
+    python_version = "3.9",
+)
+
+load("@python3_9//:defs.bzl", "interpreter")
+
+load("@rules_python//python:pip.bzl", "pip_parse")
+
+# Create a central repo that knows about the dependencies needed from
+# requirements_lock.txt.
+pip_parse(
+   name = "my_deps",
+#    requirements = "//third_party:requirements.txt",
+   requirements_lock = "//third_party:requirements_lock.txt",
+   python_interpreter_target = interpreter,
+)
+# Load the starlark macro which will define your dependencies.
+load("@my_deps//:requirements.bzl", "install_deps")
+# Call it to define repos for your requirements.
+install_deps()
+
+# Python gazelle plugin
+http_archive(
+    name = "rules_python_gazelle_plugin",
+    sha256 = "94750828b18044533e98a129003b6a68001204038dc4749f40b195b24c38f49f",
+    strip_prefix = "rules_python-0.21.0/gazelle",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.21.0/rules_python-0.21.0.tar.gz",
+)
+
+
+load("@rules_python_gazelle_plugin//:deps.bzl", _py_gazelle_deps = "gazelle_deps")
+
+_py_gazelle_deps()
+
+# --Python--
 
 ########################################
 
@@ -222,15 +291,6 @@ http_archive(
     ],
 )
 
-http_archive(
-    name = "bazel_gazelle",
-    sha256 = "ecba0f04f96b4960a5b250c8e8eeec42281035970aa8852dda73098274d14a1d",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
-    ],
-)
-
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("//:deps.bzl", "go_dependencies")
@@ -278,7 +338,3 @@ load("//:buf_deps.bzl", "buf_deps")
 buf_deps()
 
 # --Go/Gazelle/Buf tool--
-
-########################################
-
-########################################

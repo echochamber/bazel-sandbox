@@ -59,3 +59,4 @@ So my second approach is this. It works like so:
     bazel using https://github.com/bufbuild/rules_buf.
     - Cargo build.rs script (this file) to integrate calling buf for rust with
     prost/tonic into bazel.
+    
