@@ -1,3 +1,5 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_rust//proto:toolchain.bzl", "rust_proto_toolchain")
@@ -51,4 +53,16 @@ rust_binary(
 buf_lint_test(
     name = "simple_proto_lint",
     targets = [":simple_proto"],
+)
+
+go_proto_library(
+    name = "simple_go_proto",
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains",
+    proto = ":simple_proto",
+)
+
+go_library(
+    name = "toolchains",
+    embed = [":simple_go_proto"],
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains",
 )

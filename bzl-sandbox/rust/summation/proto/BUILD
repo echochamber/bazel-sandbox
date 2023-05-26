@@ -1,3 +1,4 @@
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
@@ -59,4 +60,11 @@ rust_library(
 buf_lint_test(
     name = "src_proto_summation_proto_lint",
     targets = [":src_proto_summation_proto"],
+)
+
+go_proto_library(
+    name = "src_proto_summation_go_proto",
+    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/summation/proto",
+    proto = ":proto",
 )

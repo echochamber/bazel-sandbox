@@ -1,11 +1,14 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
-load("@io_bazel_rules_go//proto:compiler.bzl", "go_proto_compiler")
 
-
-# gaazelle:prefix github.com/echochamber/rustdocker
+# gazelle:prefix github.com/echochamber/rustdocker
+# gazelle:exclude rd/*
 gazelle(
     name = "gazelle",
+)
+
+gazelle(
+    name = "gazelle-repos",
     args = [
         "-from_file=go.mod",
         "-to_macro=deps.bzl%go_dependencies",
@@ -37,7 +40,8 @@ gazelle(
 gazelle_binary(
     name = "gazelle-buf-base",
     languages = [
-        "@bazel_gazelle//language/proto",  # Built-in rule from gazelle for Protos.
+        "@bazel_gazelle//language/go",
+        "@bazel_gazelle//language/proto",
         # Any languages that depend on Gazelle's proto plugin must come after it.
         "@rules_buf//gazelle/buf:buf",  # Loads the Buf extension
     ],

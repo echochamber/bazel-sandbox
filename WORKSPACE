@@ -20,7 +20,16 @@ bazel_skylib_workspace()
 
 ########################################
 
-# --Gazelle--
+# --Go/Gazelle--
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
+    ],
+)
 
 http_archive(
     name = "bazel_gazelle",
@@ -31,48 +40,37 @@ http_archive(
     ],
 )
 
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//:deps.bzl", "go_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains(version = "1.20.2")
+
+# My external go deps.
+# gazelle:repository_macro deps.bzl%go_dependencies
+go_dependencies()
+
+gazelle_dependencies()
+
 # --Gazelle--
 
 ########################################
 
 # --Protobuf--
 
-# rules_cc defines rules for generating C++ code from Protocol Buffers.
-http_archive(
-    name = "rules_cc",
-    sha256 = "35f2fb4ea0b3e61ad64a369de284e4fbbdcdba71836a5555abb5e194cf119509",
-    strip_prefix = "rules_cc-624b5d59dfb45672d4239422fa1e3de1822ee110",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
-        "https://github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
-    ],
-)
-
-# rules_java defines rules for generating Java code from Protocol Buffers.
-http_archive(
-    name = "rules_java",
-    sha256 = "ccf00372878d141f7d5568cedc4c42ad4811ba367ea3e26bc7c43445bbc52895",
-    strip_prefix = "rules_java-d7bf804c8731edd232cb061cb2a9fe003a85d8ee",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_java/archive/d7bf804c8731edd232cb061cb2a9fe003a85d8ee.tar.gz",
-        "https://github.com/bazelbuild/rules_java/archive/d7bf804c8731edd232cb061cb2a9fe003a85d8ee.tar.gz",
-    ],
-)
 
 http_archive(
     name = "rules_proto",
-    sha256 = "2490dca4f249b8a9a3ab07bd1ba6eca085aaf8e45a734af92aad0c42d9dc7aaf",
-    strip_prefix = "rules_proto-218ffa7dfa5408492dc86c01ee637614f8695c45",
+    sha256 = "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd",
+    strip_prefix = "rules_proto-5.3.0-21.7",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/218ffa7dfa5408492dc86c01ee637614f8695c45.tar.gz",
-        "https://github.com/bazelbuild/rules_proto/archive/218ffa7dfa5408492dc86c01ee637614f8695c45.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/refs/tags/5.3.0-21.7.tar.gz",
     ],
 )
-
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
-
 rules_proto_dependencies()
-
 rules_proto_toolchains()
 
 # End --Protobuf--
@@ -103,14 +101,14 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 # Create a central repo that knows about the dependencies needed from
 # requirements_lock.txt.
 pip_parse(
-    name = "my_deps",
+    name = "pip_deps",
     python_interpreter_target = interpreter,
     #    requirements = "//third_party:requirements.txt",
     requirements_lock = "//third_party/pip_deps:requirements_lock.txt",
 )
 
 # Load the starlark macro which will define your dependencies.
-load("@my_deps//:requirements.bzl", "install_deps")
+load("@pip_deps//:requirements.bzl", "install_deps")
 
 # Call it to define repos for your requirements.
 install_deps()
@@ -263,44 +261,6 @@ rules_pkg_dependencies()
 ########################################
 
 # --Go/Gazelle/buf tool--
-http_archive(
-    name = "rules_buf",
-    sha256 = "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
-    strip_prefix = "rules_buf-0.1.1",
-    urls = [
-        "https://github.com/bufbuild/rules_buf/archive/refs/tags/v0.1.1.zip",
-    ],
-)
-
-load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
-
-rules_buf_dependencies()
-
-rules_buf_toolchains(version = "v1.5.0")
-
-# Gazelle Setup
-
-http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = "6b65cb7917b4d1709f9410ffe00ecf3e160edf674b78c54a894471320862184f",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.39.0/rules_go-v0.39.0.zip",
-    ],
-)
-
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
-load("//:deps.bzl", "go_dependencies")
-
-go_rules_dependencies()
-
-# gazelle:repository_macro deps.bzl%go_dependencies
-go_dependencies()
-
-go_register_toolchains(version = "1.19.5")
-
-gazelle_dependencies()
 
 # Seems buf needs this
 http_archive(
@@ -315,6 +275,23 @@ http_archive(
 load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
 
 stardoc_repositories()
+
+# GO
+
+http_archive(
+    name = "rules_buf",
+    sha256 = "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
+    strip_prefix = "rules_buf-0.1.1",
+    urls = [
+        "https://github.com/bufbuild/rules_buf/archive/refs/tags/v0.1.1.zip",
+    ],
+)
+
+load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
+
+rules_buf_dependencies()
+
+rules_buf_toolchains(version = "v1.5.0")
 
 load("@rules_buf//gazelle/buf:repositories.bzl", "gazelle_buf_dependencies")
 
@@ -336,8 +313,6 @@ load("//:buf_deps.bzl", "buf_deps")
 # gazelle:repository_macro buf_deps.bzl%buf_deps
 buf_deps()
 
-# --Go/Gazelle/Buf tool--
-
 # --GRPC--
 
 http_archive(
@@ -347,14 +322,18 @@ http_archive(
     urls = ["https://github.com/rules-proto-grpc/rules_proto_grpc/releases/download/4.4.0/rules_proto_grpc-4.4.0.tar.gz"],
 )
 
-load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_toolchains", "rules_proto_grpc_repos")
-rules_proto_grpc_toolchains()
-rules_proto_grpc_repos()
-load("@rules_proto_grpc//grpc-gateway:repositories.bzl", rules_proto_grpc_gateway_repos = "gateway_repos")
-rules_proto_grpc_gateway_repos()
-load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", "go_repositories")
-go_repositories()
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_repos", "rules_proto_grpc_toolchains")
 
-# --GRPC--
+rules_proto_grpc_toolchains()
+
+rules_proto_grpc_repos()
+
+load("@rules_proto_grpc//grpc-gateway:repositories.bzl", rules_proto_grpc_gateway_repos = "gateway_repos")
+
+rules_proto_grpc_gateway_repos()
+
+load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", "go_repositories")
+
+go_repositories()
 
 ########################################

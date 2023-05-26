@@ -5,20 +5,24 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	gw "gateway/gen/go/proto/echochamber/helloworld/v1" // Update
+	gw "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/proto/echochamber/helloworld/v1/gateway" // Update
 )
 
+// More intricate example here:
+// https://github.com/rules-proto-grpc/rules_proto_grpc/blob/master/grpc-gateway/example/gateway/main.go
 var (
 	// command-line options:
 	// gRPC server endpoint
 	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50051", "gRPC server endpoint")
 	proxyPort          = flag.String("proxy-port", "8081", "gRPC server endpoint")
+	openAPIDir         = flag.String("openapi_dir", "", "path to the directory which contains OpenAPI definitions")
 )
 
 func run() error {
@@ -35,6 +39,7 @@ func run() error {
 		return err
 	}
 	log.Println("Hello world!")
+	log.Println(os.Getenv("OPENAPI_JSON_PATH"))
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(":"+*proxyPort, mux)

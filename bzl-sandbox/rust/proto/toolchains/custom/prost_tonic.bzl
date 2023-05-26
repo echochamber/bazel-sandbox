@@ -32,13 +32,6 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
     if not buf_bin_path:
         buf_bin_path = DEFAULT_BUF_BIN
 
-    rust_proto_library(
-        name = "deps",
-        deps = [
-            "@buf_deps_bzl-sandbox_rust_summation2//google/api:visibility_proto",
-        ],
-    )
-
     cargo_build_script(
         name = "generate_" + name,
         srcs = [
