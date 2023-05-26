@@ -1,5 +1,6 @@
 version: v1
-name: buf.build/jschein/rdproto
+name: buf.build/jschein/grpc-gateway
+
 breaking:
   use:
     - FILE
@@ -7,7 +8,7 @@ lint:
   use:
     - DEFAULT
 deps:
-  - buf.build/googleapis/googleapis
+  - buf.build/jschein/rdproto
   - buf.build/grpc-ecosystem/grpc-gateway
   # So that export includes WKTs that are imported by other protos.
   # - buf.build/protocolbuffers/wellknowntypes

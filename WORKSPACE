@@ -79,8 +79,6 @@ rules_proto_toolchains()
 
 ########################################
 
-########################################
-
 # --Python--
 
 http_archive(
@@ -338,3 +336,24 @@ load("//:buf_deps.bzl", "buf_deps")
 buf_deps()
 
 # --Go/Gazelle/Buf tool--
+
+# --GRPC--
+
+http_archive(
+    name = "rules_proto_grpc",
+    sha256 = "928e4205f701b7798ce32f3d2171c1918b363e9a600390a25c876f075f1efc0a",
+    strip_prefix = "rules_proto_grpc-4.4.0",
+    urls = ["https://github.com/rules-proto-grpc/rules_proto_grpc/releases/download/4.4.0/rules_proto_grpc-4.4.0.tar.gz"],
+)
+
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_toolchains", "rules_proto_grpc_repos")
+rules_proto_grpc_toolchains()
+rules_proto_grpc_repos()
+load("@rules_proto_grpc//grpc-gateway:repositories.bzl", rules_proto_grpc_gateway_repos = "gateway_repos")
+rules_proto_grpc_gateway_repos()
+load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", "go_repositories")
+go_repositories()
+
+# --GRPC--
+
+########################################

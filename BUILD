@@ -1,4 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@io_bazel_rules_go//proto:compiler.bzl", "go_proto_compiler")
+
 
 # gaazelle:prefix github.com/echochamber/rustdocker
 gazelle(
