@@ -98,19 +98,20 @@ python_register_toolchains(
 )
 
 load("@python3_9//:defs.bzl", "interpreter")
-
 load("@rules_python//python:pip.bzl", "pip_parse")
 
 # Create a central repo that knows about the dependencies needed from
 # requirements_lock.txt.
 pip_parse(
-   name = "my_deps",
-#    requirements = "//third_party:requirements.txt",
-   requirements_lock = "//third_party:requirements_lock.txt",
-   python_interpreter_target = interpreter,
+    name = "my_deps",
+    python_interpreter_target = interpreter,
+    #    requirements = "//third_party:requirements.txt",
+    requirements_lock = "//third_party/pip_deps:requirements_lock.txt",
 )
+
 # Load the starlark macro which will define your dependencies.
 load("@my_deps//:requirements.bzl", "install_deps")
+
 # Call it to define repos for your requirements.
 install_deps()
 
@@ -121,7 +122,6 @@ http_archive(
     strip_prefix = "rules_python-0.21.0/gazelle",
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.21.0/rules_python-0.21.0.tar.gz",
 )
-
 
 load("@rules_python_gazelle_plugin//:deps.bzl", _py_gazelle_deps = "gazelle_deps")
 
@@ -313,6 +313,7 @@ http_archive(
 )
 
 load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
+
 stardoc_repositories()
 
 load("@rules_buf//gazelle/buf:repositories.bzl", "gazelle_buf_dependencies")

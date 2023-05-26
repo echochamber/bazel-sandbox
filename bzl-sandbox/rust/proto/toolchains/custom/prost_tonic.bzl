@@ -10,13 +10,13 @@ RUST_FMT = "@rules_rust//:rustfmt"
 CARGO_TOML_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:Cargo.toml.template"
 MOD_RS_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:mod.rs.template"
 LIB_RS = "//bzl-sandbox/rust/proto/toolchains/custom:lib.rs"
+
 # TODO: Find a way to expose the buf binary as a build target instead of using the local machines installation
 # BUF_TARGET = "@rules_buf_toolchains//:buf_toolchain_impl"
 DEFAULT_BUF_BIN = "/usr/local/bin/buf"
 
-
 # buildifier: disable=function-docstring-args
-def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path=DEFAULT_BUF_BIN):
+def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BUF_BIN):
     """Generates a tonic client and prost sources for input protos.
 
     Example Usage.
@@ -35,8 +35,8 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path=DEFAULT_BUF_
     rust_proto_library(
         name = "deps",
         deps = [
-            "@buf_deps_bzl-sandbox_rust_summation2//google/api:visibility_proto"
-        ]
+            "@buf_deps_bzl-sandbox_rust_summation2//google/api:visibility_proto",
+        ],
     )
 
     cargo_build_script(
@@ -77,7 +77,6 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path=DEFAULT_BUF_
             "//third_party/rust:serde",
             "//third_party/rust:serde_yaml",
             "//third_party/rust:tonic_build",
-            
         ],
     )
 
@@ -85,13 +84,13 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path=DEFAULT_BUF_
     rust_library(
         name = name,
         srcs = [
-            LIB_RS
+            LIB_RS,
         ],
         visibility = ["//visibility:public"],
         deps = [
             ":generate_" + name,
             "//third_party/rust:prost",
             "//third_party/rust:tonic",
-            "//third_party/rust:protoc_wkt"
+            "//third_party/rust:protoc_wkt",
         ],
     )

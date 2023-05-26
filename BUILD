@@ -1,4 +1,5 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("@io_bazel_rules_go//proto:compiler.bzl", "go_proto_compiler")
 
 
@@ -41,4 +42,8 @@ gazelle_binary(
         "@rules_buf//gazelle/buf:buf",  # Loads the Buf extension
     ],
     visibility = ["//visibility:public"],
+)
+
+buildifier(
+    name = "buildifier",
 )

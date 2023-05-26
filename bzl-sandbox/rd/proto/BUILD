@@ -5,6 +5,7 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 
 package(default_visibility = ["//bzl-sandbox/rd:internal"])
 
+
 buf_gen_rust_proto(
     name = "helloworld_rust_proto",
     srcs = ["//bzl-sandbox/rd/proto/proto/echochamber/helloworld/v1:greeter.proto"],

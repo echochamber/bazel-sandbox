@@ -30,6 +30,9 @@ target/
 /.project
 /.settings
 /.vscode/
+!/.vscode/tasks.json
+!/.vscode/workspace-template.json
+!/.vscode/launch.json
 /bazel.iml
 # Ignore outputs generated during Bazel bootstrapping.
 /output/

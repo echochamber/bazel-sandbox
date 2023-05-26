@@ -1,2 +1,4 @@
 #!/bin/bash
 build --symlink_prefix=.bazel/
+test --test_output=errors
+
