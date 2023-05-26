@@ -1,7 +1,5 @@
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "buf_gen_rust_proto")
-load("@rules_proto_grpc//grpc-gateway:defs.bzl", "gateway_grpc_compile", "gateway_grpc_library")
-load("@rules_proto//proto:defs.bzl", "proto_library")
 
 package(default_visibility = ["//bzl-sandbox/rd:internal"])
 
