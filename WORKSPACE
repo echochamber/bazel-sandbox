@@ -60,7 +60,6 @@ gazelle_dependencies()
 
 # --Protobuf--
 
-
 http_archive(
     name = "rules_proto",
     sha256 = "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd",
@@ -69,8 +68,11 @@ http_archive(
         "https://github.com/bazelbuild/rules_proto/archive/refs/tags/5.3.0-21.7.tar.gz",
     ],
 )
+
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
 rules_proto_dependencies()
+
 rules_proto_toolchains()
 
 # End --Protobuf--
@@ -276,7 +278,7 @@ load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
 
 stardoc_repositories()
 
-# GO
+# Buf
 
 http_archive(
     name = "rules_buf",
@@ -288,17 +290,13 @@ http_archive(
 )
 
 load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
-
 rules_buf_dependencies()
-
 rules_buf_toolchains(version = "v1.5.0")
 
 load("@rules_buf//gazelle/buf:repositories.bzl", "gazelle_buf_dependencies")
-
 gazelle_buf_dependencies()
 
 load("@rules_buf//buf:defs.bzl", "buf_dependencies")
-
 buf_dependencies(
     name = "buf_deps",
     modules = [
@@ -309,9 +307,10 @@ buf_dependencies(
 )
 
 load("//:buf_deps.bzl", "buf_deps")
-
 # gazelle:repository_macro buf_deps.bzl%buf_deps
 buf_deps()
+
+########################################
 
 # --GRPC--
 
@@ -337,3 +336,22 @@ load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", "go_reposi
 go_repositories()
 
 ########################################
+
+# --Aspect - General Bazel Utils (jq/yq) --
+
+http_archive(
+    name = "aspect_bazel_lib",
+    sha256 = "e3151d87910f69cf1fc88755392d7c878034a69d6499b287bcfc00b1cf9bb415",
+    strip_prefix = "bazel-lib-1.32.1",
+    url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.32.1/bazel-lib-v1.32.1.tar.gz",
+)
+
+load(
+    "@aspect_bazel_lib//lib:repositories.bzl",
+    "aspect_bazel_lib_dependencies",
+    "register_jq_toolchains",
+    "register_yq_toolchains")
+
+aspect_bazel_lib_dependencies()
+register_jq_toolchains()
+register_yq_toolchains()

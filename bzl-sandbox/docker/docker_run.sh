@@ -75,6 +75,13 @@ get_tag_from_tar() {
   printf "$(tar -xOf $1 | jq -r '.[] | .RepoTags | add' 2> /dev/null)"
 }
 
+if ! command -v jq &> /dev/null
+then
+    echo "This script requires jq be installed on your machine."
+    echo "https://github.com/stedolan/jq"
+    exit
+fi
+
 
 verb=""
 if [ "$load_only" ] ; then
@@ -94,3 +101,5 @@ docker load --input "$tarball_file"
 if [ "$load_only" ] ; then
   docker run --rm ${args[*]-} "$tag" 
 fi
+
+
