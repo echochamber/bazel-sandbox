@@ -70,6 +70,7 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
             "//third_party/rust:serde",
             "//third_party/rust:serde_yaml",
             "//third_party/rust:tonic_build",
+            # "//third_party/rust:pbjson_types",
         ],
     )
 
@@ -83,7 +84,9 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
         deps = [
             ":generate_" + name,
             "//third_party/rust:prost",
+            "//third_party/rust:prost_types",
             "//third_party/rust:tonic",
             "//third_party/rust:protoc_wkt",
+            # "//third_party/rust:pbjson_types",
         ],
     )

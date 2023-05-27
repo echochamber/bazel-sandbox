@@ -5,14 +5,13 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	gw "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/proto/echochamber/helloworld/v1/gateway" // Update
+	gw "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/gateway" // Update
 )
 
 // More intricate example here:
@@ -39,7 +38,11 @@ func run() error {
 		return err
 	}
 	log.Println("Hello world!")
-	log.Println(os.Getenv("OPENAPI_JSON_PATH"))
+	// log.Println(*proxyPort)
+	// log.Println(*grpcServerEndpoint)
+	// This only works during bazel run.
+	// TODO: figure out how to find a generated file at runtime.
+	// log.Println(os.Getenv("OPENAPI_JSON_PATH"))
 
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(":"+*proxyPort, mux)

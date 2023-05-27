@@ -3,11 +3,30 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.helloworld";
 option java_outer_classname = "HelloWorldProto";
-option go_package = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/proto/echochamber/helloworld/v1";
+option go_package = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1";
 
 import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
 
 package echochamber.helloworld.v1;
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Greeter Service";
+    version: "1.0";
+    description: "A greeter service";
+    contact: {
+      name: "Example grpc gateway + grpc service";
+      url: "https://example.com";
+      email: "none@example.com";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+};
+
 
 // The greeting service definition.
 service GreeterService {

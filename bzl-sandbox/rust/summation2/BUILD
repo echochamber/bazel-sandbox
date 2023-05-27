@@ -19,7 +19,6 @@ proto_library(
 
 buf_lint_test(
     name = "src_proto_sum2_proto_lint",
-    config = "//bzl-sandbox/rust/summation2:buf.yaml",
     targets = [":src_proto_sum2_proto"],
 )
 
@@ -39,4 +38,10 @@ go_library(
     name = "sum2",
     embed = [":sum2_go_proto"],
     importpath = "github.com/echochamber/rdprotos/echochamber/src/proto/sum2",
+)
+
+buf_lint_test(
+    name = "sum2_proto_lint",
+    config = "//bzl-sandbox/rust/summation2:buf.yaml",
+    targets = [":sum2_proto"],
 )

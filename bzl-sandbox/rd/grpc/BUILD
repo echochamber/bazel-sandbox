@@ -1,5 +1,6 @@
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 load("//bzl-sandbox/docker:defs.bzl", "docker_image")
+load("//bzl-sandbox/rd:defs.bzl", "REMOTE_ARTIFACT_REPO")
 
 package(default_visibility = ["//bzl-sandbox/rd:internal"])
 
@@ -35,6 +36,8 @@ docker_image(
         "PORT": "50051",
         "RUST_LOG": "info",
     },
+    image_name = "example-grpc",
     port_map = "50051:50051",
-    tag = "rd-server:latest",
+    remote_repository = REMOTE_ARTIFACT_REPO,
+    tag = "latest",
 )

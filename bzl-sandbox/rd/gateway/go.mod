@@ -1,8 +1,9 @@
-module grpc-gateway
+module github.com/echochamber/rustdocker/bzl-sandbox/rd/gateway
 
 go 1.20
 
 require (
+	github.com/bazelbuild/rules_go v0.39.1
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
 	google.golang.org/grpc v1.53.0

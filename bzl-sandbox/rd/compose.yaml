@@ -1,25 +1,29 @@
 name: docker-rust
 services:
   grpc:
-    image: rd-server:latest
+    image: example-grpc:latest
     # environment:
     networks:
       - http-grpc-bridge
       - grpc
     ports:
       - 50051:50051
+    environment:
+      - PORT=50051
+      - RUST_LOG=info
   grpc-gateway:
-    build:
-      context: proto/grpc-gateway
-      target: final
+    image: example-grpc-gateway:latest
     # environment:
     networks:
       - http-grpc-bridge
+      - grpc
     ports:
       - 8081:8081
     depends_on:
       - grpc
-    entrypoint: [/app/grpc_gateway, --grpc-server-endpoint=grpc:50051]
+    command:
+      - --grpc-server-endpoint=grpc:50051
+      - --proxy-port=8081
   grpcui:
     image: fullstorydev/grpcui
     restart: always
@@ -42,6 +46,17 @@ services:
       - -debug-client
       - -open-browser=false
       - grpc:50051
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8083:8080
+    environment:
+      - SWAGGER_JSON=/foo/greeter.swagger.json
+    volumes:
+      - ../../.bazel/bin/bzl-sandbox/rd/proto/echochamber/helloworld/v1/greeter_openapiv2/bzl-sandbox/rd/proto/echochamber/helloworld/v1:/foo
+
+volumes:
+  swagger:
 networks:
   http-grpc-bridge: {}
   grpc: {}

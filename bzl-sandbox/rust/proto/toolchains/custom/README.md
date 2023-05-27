@@ -14,7 +14,7 @@ load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "buf_gen_rust
   
 buf_gen_rust_proto(
     name = "helloworld_rust_proto",
-    srcs = ["//bzl-sandbox/rd/proto/proto/echochamber/helloworld/v1:greeter.proto"],
+    srcs = ["//bzl-sandbox/rd/proto/echochamber/helloworld/v1:greeter.proto"],
     gen_yaml = "//bzl-sandbox/rd/proto:buf.gen.yaml",
     buf_lock = "//bzl-sandbox/rd/proto:buf.lock",
 )

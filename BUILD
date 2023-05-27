@@ -23,7 +23,7 @@ gazelle(
 )
 
 gazelle(
-    name = "gazelle-update-repos",
+    name = "gazelle-buf-repos",
     args = [
         # This can also be `buf.yaml` and `buf.lock`
         "--from_file=buf.work.yaml",

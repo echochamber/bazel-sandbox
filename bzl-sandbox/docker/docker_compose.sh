@@ -1,6 +1,13 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+trap cleanup SIGINT SIGTERM ERR EXIT
+
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+
 usage() {
   cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") 
+Usage: $(basename "${BASH_SOURCE[0]}") -f composer.yaml -d project-directory
 
 Script description here.
 
@@ -8,9 +15,8 @@ Available options:
 
 -h, --help      Print this help and exit
 -v, --verbose   Print script debug info
--f, --file      The path to the tarball file to load an image from.
--c, --container Name of the container
--l, --load-only If true, only load the docker's local rep. Don't run it.
+-f, --yaml_file The composer.yaml file to use      
+-d, --directory The working directory to run docker-composer in.
 EOF
   exit
 }
@@ -39,19 +45,19 @@ die() {
   exit "$code"
 }
 
-
 parse_params() {
   # default values of variables set from params
-  tarball_file=""
-  load_only=0
+  directory=''
+  yaml_file=''
 
   while :; do
     case "${1-}" in
     -h | --help) usage ;;
+    -v | --verbose) set -x ;;
     --no-color) NO_COLOR=1 ;;
-    -l | --load-only) load_only=1 ;; 
-    -f | --file) tarball_file="${2-}" ; shift ;;
-    # -?*) die "Unknown option: $1" ;;
+    -d | --directory) directory="${2-}" ; shift ;; 
+    -f | --yaml_file) yaml_file="${2-}" ; shift ;;
+    -?*) die "Unknown option: $1" ;;
     *) break ;;
     esac
     shift
@@ -60,7 +66,8 @@ parse_params() {
   args=("$@")
 
   # check required params and arguments
-  [[ -z "${tarball_file-}" ]] && die "Missing required parameter: file"
+  [[ -z "${directory-}" ]] && die "Missing required parameter: directory"
+  [[ -z "${yaml_file-}" ]] && die "Missing required parameter: yaml_file"
   [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
 
   return 0
@@ -71,26 +78,7 @@ setup_colors
 
 # script logic here
 
-get_tag_from_tar() {
-  printf "$(tar -xOf $1 | jq -r '.[] | .RepoTags | add' 2> /dev/null)"
-}
-
-
-verb=""
-if [ "$load_only" ] ; then
-  verb="Loading"
-else
-  verb="Running"
-fi
-tag="$(get_tag_from_tar "$tarball_file")"
-msg "${RED}$verb docker with the following:${NOFORMAT}"
-msg "- ${GREEN}tarball_file${NOFORMAT}: ${tarball_file}"
-msg "- ${GREEN}tag${NOFORMAT}: ${tag}"
-msg "- ${GREEN}load_only${NOFORMAT}: ${load_only}"
-msg "- ${GREEN}docker args${NOFORMAT}: ${args[*]-}"
-
-set -x
-docker load --input "$tarball_file"
-if [ "$load_only" ] ; then
-  docker run --rm ${args[*]-} "$tag" 
-fi
+msg "${RED}Read parameters:${NOFORMAT}"
+msg "- directory: ${directory}"
+msg "- file: ${yaml_file}"
+msg "- arguments: ${args[*]-}"

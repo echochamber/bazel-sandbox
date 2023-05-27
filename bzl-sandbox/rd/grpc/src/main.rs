@@ -8,6 +8,7 @@ use helloworld_rust_proto::echochamber::helloworld::v1::{SayHelloRequest, SayHel
 use helloworld_rust_proto::WKT_FILE_DESCRIPTOR_SET;
 // Temporarily removing imported types till I figure that out.
 use helloworld_rust_proto::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
+use helloworld_rust_proto::grpc::gateway::protoc_gen_openapiv2::options::{FILE_DESCRIPTOR_SET as OPEN_API_DESCRIPTORS};
 use helloworld_rust_proto::echochamber::helloworld::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
 
 #[derive(Debug, Default)]
@@ -51,6 +52,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // Temporarily removing imported types till I figure that out.
         .register_encoded_file_descriptor_set(GOOGLE_API_DECRIPTORS)
         .register_encoded_file_descriptor_set(WKT_FILE_DESCRIPTOR_SET)
+        .register_encoded_file_descriptor_set(OPEN_API_DESCRIPTORS)
         .build()
         .unwrap();
     Server::builder()
