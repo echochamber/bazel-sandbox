@@ -20,3 +20,9 @@ rust_binary(
         ":helloworld_rust_proto",
     ],
 )
+
+exports_files([
+    "buf.gen.yaml",
+    "buf.lock",
+    "buf.yaml"
+])

@@ -59,7 +59,7 @@ rust_library(
 
 buf_lint_test(
     name = "src_proto_summation_proto_lint",
-    targets = [":src_proto_summation_proto"],
+    targets = [":proto"],
 )
 
 go_proto_library(

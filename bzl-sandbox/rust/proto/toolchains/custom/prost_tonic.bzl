@@ -1,6 +1,6 @@
+"""Generates a rust library from .proto files using prost and tonic."""
 load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 load("@rules_rust//rust:defs.bzl", "rust_library")
-load("@rules_rust//proto:proto.bzl", "rust_proto_library")
 
 TONIC_PLUGIN = "@raze__protoc_gen_tonic__0_2_2//:cargo_bin_protoc_gen_tonic"
 PROST_PLUGIN = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost"

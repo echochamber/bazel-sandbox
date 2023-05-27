@@ -10,6 +10,7 @@ buf_gen_rust_proto(
     name = "summation2",
     srcs = ["summation2.proto"],
     gen_yaml = "//bzl-sandbox/rust/summation2:buf.gen.yaml",
+    buf_lock = "//bzl-sandbox/rust/summation2:buf.lock",
 )
 
 proto_library(
@@ -43,5 +44,5 @@ go_library(
 buf_lint_test(
     name = "sum2_proto_lint",
     config = "//bzl-sandbox/rust/summation2:buf.yaml",
-    targets = [":sum2_proto"],
+    targets = [":src_proto_sum2_proto"],
 )

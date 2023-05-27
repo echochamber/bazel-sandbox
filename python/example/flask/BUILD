@@ -1,4 +1,4 @@
-load("@my_deps//:requirements.bzl", "requirement")
+load("@pip_deps//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary")
 
 package(default_visibility = ["//python/example:internal"])

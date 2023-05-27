@@ -41,9 +41,9 @@ exports_files(glob([
 ]))
 
 buf_lint_test(
-    name = "v1_proto_lint",
+    name = "greeter_proto_lint",
     config = "//bzl-sandbox/rd/proto:buf.yaml",
-    targets = [":v1_proto"],
+    targets = [":greeter_proto"],
 )
 
 go_proto_library(
@@ -52,7 +52,7 @@ go_proto_library(
     importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1",
     proto = ":greeter_proto",
     deps = [
-        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto",
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_go_proto",
         "@go_googleapis//google/api:annotations_go_proto",
     ],
 )
