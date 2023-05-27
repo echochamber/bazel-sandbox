@@ -90,7 +90,8 @@ def docker_image(
         ],
         args = [
             "-f $(location :" + tarball_name + ")",
-            "-p " + port_map,
+            " -- ",
+            "--publish {}".format(port_map),
         ],
         data = [
             ":" + tarball_name,
