@@ -17,6 +17,7 @@ futures = "0.3.28"
 log = "0.4.11"
 pbjson = "0.5.1"
 pbjson-types = "0.5.1"
+prettyprint = "0.8.1"
 prost = { version ="0.11.9", features = ["prost-derive"] }
 prost-build = "0.11.9"
 prost-derive = "0.11.9"

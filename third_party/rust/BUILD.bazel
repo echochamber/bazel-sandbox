@@ -94,6 +94,15 @@ alias(
 )
 
 alias(
+    name = "prettyprint",
+    actual = "@raze__prettyprint__0_8_1//:prettyprint",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
     name = "prost",
     actual = "@raze__prost__0_11_9//:prost",
     tags = [
@@ -239,7 +248,7 @@ alias(
 
 alias(
     name = "tokio",
-    actual = "@raze__tokio__1_28_1//:tokio",
+    actual = "@raze__tokio__1_28_2//:tokio",
     tags = [
         "cargo-raze",
         "manual",

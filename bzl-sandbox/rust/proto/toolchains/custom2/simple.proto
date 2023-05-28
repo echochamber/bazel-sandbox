@@ -1,0 +1,15 @@
+// Simple proto file
+
+syntax = "proto3";
+
+package simple.dimple;
+
+message Simple {
+  string name = 1;
+  uint64 age = 2;
+}
+
+message Other {
+  string place = 1;
+  string time = 2;
+}
