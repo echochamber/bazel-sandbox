@@ -26,7 +26,8 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
         name = "my_proto",
         srcs = ["path/to/my.proto"],
         gen_yaml = "//path/to/my:buf.gen.yaml",
-        buf_bin_path = "/usr/local/bin/buf"
+        buf_lock = "//path/to/my:buf.lock",
+        buf_bin_path = "/usr/local/bin/buf",
     )
     """
     if not buf_bin_path:
@@ -52,8 +53,6 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
         data = [
             gen_yaml,
             buf_lock,
-            # buf lock intentionally ommited because it causes name colissions for imported proto types (not sure why).
-            # "buf.lock",
             MOD_RS_TEMPLATE_PATH,
             CARGO_TOML_TEMPLATE_PATH,
             TONIC_PLUGIN,
@@ -70,7 +69,6 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
             "//third_party/rust:serde",
             "//third_party/rust:serde_yaml",
             "//third_party/rust:tonic_build",
-            # "//third_party/rust:pbjson_types",
         ],
     )
 
@@ -87,6 +85,5 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
             "//third_party/rust:prost_types",
             "//third_party/rust:tonic",
             "//third_party/rust:protoc_wkt",
-            # "//third_party/rust:pbjson_types",
         ],
     )
