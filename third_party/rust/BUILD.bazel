@@ -68,7 +68,7 @@ alias(
 
 alias(
     name = "log",
-    actual = "@raze__log__0_4_17//:log",
+    actual = "@raze__log__0_4_18//:log",
     tags = [
         "cargo-raze",
         "manual",

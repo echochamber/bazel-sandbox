@@ -1023,12 +1023,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__log__0_4_17",
-        url = "https://crates.io/api/v1/crates/log/0.4.17/download",
+        name = "raze__log__0_4_18",
+        url = "https://crates.io/api/v1/crates/log/0.4.18/download",
         type = "tar.gz",
-        sha256 = "abb12e687cfb44aa40f41fc3978ef76448f9b6038cad6aef4259d3c095a2382e",
-        strip_prefix = "log-0.4.17",
-        build_file = Label("//third_party/rust/remote:BUILD.log-0.4.17.bazel"),
+        sha256 = "518ef76f2f87365916b142844c16d8fefd85039bc5699050210a7778ee1cd1de",
+        strip_prefix = "log-0.4.18",
+        build_file = Label("//third_party/rust/remote:BUILD.log-0.4.18.bazel"),
     )
 
     maybe(
