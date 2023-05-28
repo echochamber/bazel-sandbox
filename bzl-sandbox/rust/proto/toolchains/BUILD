@@ -1,68 +1,39 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
-load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
-load("@rules_buf//buf:defs.bzl", "buf_lint_test")
-load("@rules_proto//proto:defs.bzl", "proto_library")
-load("@rules_rust//proto:toolchain.bzl", "rust_proto_toolchain")
-load("@rules_rust//proto:proto.bzl", "rust_proto_library")
-load("@rules_rust//rust:defs.bzl", "rust_binary")
+load("@rules_proto_grpc//:defs.bzl", "proto_plugin")
 
 package(default_visibility = ["//visibility:public"])
 
-# rust_proto_toolchain(
-#     name = "rust_prost_proto_impl",
-#     edition = "2021",
-#     # TODO: haven't tested building a rust grpc library yet, may need other deps
-#     grpc_compile_deps = [
-#         "//third_party/rust:tonic",
-#     ],
-#     # Protobuf compiler plugin to generate rust gRPC stubs.
-#     grpc_plugin = "@raze__protoc_gen_tonic__0_2_2//:cargo_bin_protoc_gen_tonic",
-#     proto_compile_deps = [
-#         "//third_party/rust:prost",
-#         "//third_party/rust:prost_types",
-#         "//third_party/rust:protobuf",
-#     ],
-#     # Protobuf compiler plugin to generate rust protobuf stubs.
-#     proto_plugin = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost",
-#     # Path to the protobuf compiler.
-#     protoc = "@com_google_protobuf//:protoc",
-# )
 
-# toolchain(
-#     name = "rust_prost_proto",
-#     toolchain = ":rust_prost_proto_impl",
-#     toolchain_type = "@rules_rust//proto:toolchain_type",
-# )
-
-proto_library(
-    name = "simple_proto",
-    srcs = ["simple.proto"],
+proto_plugin(
+    name = "prost_proto_plugin",
+    options = [
+        # "compile_well_known_types",
+    ],
+    output_directory = True,
+    separate_options_flag = True,
+    tool = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost",
 )
 
-rust_proto_library(
-    name = "simple_proto_rust",
-    deps = [":simple_proto"],
+proto_plugin(
+    name = "prost_tonic_plugin",
+    options = [
+        # The approach described by rules_proto_grpc doesn't allow multiple plugins to be run in the same protoc invocation,
+        # SO we need to set no_include:
+        # https://rules-proto-grpc.com/en/latest/custom_plugins.html
+        # https://github.com/neoeinstein/protoc-gen-prost/tree/main/protoc-gen-tonic#usage-with-protoc-and-protoc-gen-prost
+        "no_include",
+    ],
+    output_directory = True,
+    separate_options_flag = True,
+    tool = "@raze__protoc_gen_tonic__0_2_2//:cargo_bin_protoc_gen_tonic",
 )
 
-rust_binary(
-    name = "simple_proto_rust_binary",
-    srcs = ["simple_proto_binary.rs"],
-    deps = [":simple_proto_rust"],
-)
-
-buf_lint_test(
-    name = "simple_proto_lint",
-    targets = [":simple_proto"],
-)
-
-go_proto_library(
-    name = "simple_go_proto",
-    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains",
-    proto = ":simple_proto",
-)
-
-go_library(
-    name = "toolchains",
-    embed = [":simple_go_proto"],
-    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains",
+proto_plugin(
+    name = "prost_crate_plugin",
+    out = "mod.rs",
+    options = [
+        "no_features",
+    ],
+    quirks = ["QUIRK_OUT_PASS_ROOT"],
+    separate_options_flag = True,
+    tool = "@raze__protoc_gen_prost_crate__0_3_0//:cargo_bin_protoc_gen_prost_crate",
 )

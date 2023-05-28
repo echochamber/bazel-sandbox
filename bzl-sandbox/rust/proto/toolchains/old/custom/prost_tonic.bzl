@@ -7,9 +7,9 @@ PROST_PLUGIN = "@raze__protoc_gen_prost__0_2_2//:cargo_bin_protoc_gen_prost"
 PROST_CRATE_PLUGIN = "@raze__protoc_gen_prost_crate__0_3_0//:cargo_bin_protoc_gen_prost_crate"
 PROTOC = "@com_google_protobuf//:protoc"
 RUST_FMT = "@rules_rust//:rustfmt"
-CARGO_TOML_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:Cargo.toml.template"
-MOD_RS_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/custom:mod.rs.template"
-LIB_RS = "//bzl-sandbox/rust/proto/toolchains/custom:lib.rs"
+CARGO_TOML_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/old/custom:Cargo.toml.template"
+MOD_RS_TEMPLATE_PATH = "//bzl-sandbox/rust/proto/toolchains/old/custom:mod.rs.template"
+LIB_RS = "//bzl-sandbox/rust/proto/toolchains/old/custom:lib.rs"
 
 # TODO: Find a way to expose the buf binary as a build target instead of using the local machines installation
 # BUF_TARGET = "@rules_buf_toolchains//:buf_toolchain_impl"
@@ -21,7 +21,7 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
 
     Example Usage.
 
-    load("//bzl-sandbox/rust/proto/toolchains/custom:prost_tonic.bzl", "buf_gen_rust_proto")
+    load("//bzl-sandbox/rust/proto/toolchains/old/custom:prost_tonic.bzl", "buf_gen_rust_proto")
     buf_gen_rust_proto(
         name = "my_proto",
         srcs = ["path/to/my.proto"],
@@ -36,7 +36,7 @@ def buf_gen_rust_proto(name, srcs, gen_yaml, buf_lock, buf_bin_path = DEFAULT_BU
     cargo_build_script(
         name = "generate_" + name,
         srcs = [
-            "//bzl-sandbox/rust/proto/toolchains/custom:build.rs",
+            "//bzl-sandbox/rust/proto/toolchains/old/custom:build.rs",
         ],
         build_script_env = {
             "RUSTFMT": "$(execpath " + RUST_FMT + ")",

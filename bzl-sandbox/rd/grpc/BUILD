@@ -11,18 +11,15 @@ rust_binary(
         "//third_party/rust:prost_derive",
     ],
     deps = [
-        "//bzl-sandbox/rd/proto:helloworld_rust_proto",
-        "//third_party/rust:bytes",
-        "//third_party/rust:dotenv",
+        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_tonic_rs",
+        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_proto_rs",
+        "//bzl-sandbox/rust/proto/common:googleapi_rs",
         "//third_party/rust:env_logger",
-        "//third_party/rust:futures",
         "//third_party/rust:log",
-        "//third_party/rust:prost",
-        "//third_party/rust:prost_types",
+        "//third_party/rust:protoc_wkt",
         "//third_party/rust:tokio",
         "//third_party/rust:tonic",
         "//third_party/rust:tonic_reflection",
-        "//third_party/rust:uuid",
     ],
 )
 

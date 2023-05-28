@@ -1,5 +1,5 @@
-Approaches to trying to get rust protos working with prost + bazel.
+Macros for generating prost/tonic bindings from proto_libraries.
 
-- custom/ - Approach uses [buf](https://buf.build/) to vendor deps and provide transitive deps.
-- custom2/ - requires all transitive deps be manually specified in the deps, only depends upon prost
-and related prost crates.
+Uses the custom plugin approach following the docs from
+[here](https://rules-proto-grpc.com/en/latest/custom_plugins.html). See example directory for how to
+use it.

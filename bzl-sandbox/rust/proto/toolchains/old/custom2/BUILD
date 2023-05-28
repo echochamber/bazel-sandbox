@@ -1,15 +1,13 @@
-load("@rules_rust//cargo:cargo_build_script.bzl", "cargo_build_script")
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
-load("//bzl-sandbox/rust/proto/toolchains/custom2:defs.bzl", "buf_gen_rust_proto")
+load("//bzl-sandbox/rust/proto/toolchains/old/custom2:defs.bzl", "buf_gen_rust_proto")
 
 
-package(default_visibility = ["//bzl-sandbox/rust/proto/toolchains/custom2"])
+package(default_visibility = ["//bzl-sandbox/rust/proto/toolchains/old/custom2"])
 
 package_group(
     name = "custom2",
     packages = [
-        "//bzl-sandbox/rust/proto/toolchains/custom2/...",
+        "//bzl-sandbox/rust/proto/toolchains/old/custom2/...",
     ],
 )
 

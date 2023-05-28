@@ -1,12 +1,14 @@
-use tonic::{transport::Server, Request, Response, Status};
 use log::info;
-use tokio::sync::oneshot;
 use tokio::signal;
-use annotated_rs::greeter_service_server::{GreeterServiceServer, GreeterService};
-use annotated_rs::path::to::my::proto::v1::{SayHelloRequest, SayHelloResponse};
+use tokio::sync::oneshot;
+use tonic::{transport::Server, Request, Response, Status};
+
+use googleapi_rs::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
 use protoc_wkt::google::protobuf::FILE_DESCRIPTOR_SET as WKT_FILE_DESCRIPTOR_SET;
-use annotated_rs::GOOGLE_API_DECRIPTORS;
+
 use annotated_rs::path::to::my::proto::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
+use annotated_rs::path::to::my::proto::v1::{SayHelloRequest, SayHelloResponse};
+use annotated_tonic_rs::greeter_service_server::{GreeterServiceServer, GreeterService};
 
 #[derive(Debug, Default)]
 pub struct MyGreeter {}

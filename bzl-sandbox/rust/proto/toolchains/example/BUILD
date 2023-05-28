@@ -1,5 +1,5 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//bzl-sandbox/rust/proto/toolchains/custom3:plugin.bzl", "tonic_rust_library")
+load("//bzl-sandbox/rust/proto/toolchains:plugin.bzl", "tonic_library", "prost_library")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 proto_library(
@@ -12,20 +12,39 @@ proto_library(
     ],
 )
 
-tonic_rust_library(
-    name = "annotated_rs",
-    grpc_service_packages = ["path.to.my.proto.v1"],
-    protos = [
-        ":annotated_proto",
-    ],
-    google_apis_annotations_proto = "@go_googleapis//google/api:annotations_proto"
+
+prost_library(
+  name = "annotated_rs",
+  protos = [
+    ":annotated_proto",
+  ],
+  externs = {
+    ".google.api": "::googleapi_rs::google::api",
+  },
+  deps = [
+    "//bzl-sandbox/rust/proto/common:googleapi_rs"
+  ]
+)
+
+tonic_library(
+    name = "annotated_tonic_rs",
+    service_package = "path.to.my.proto.v1",
+    service_proto = ":annotated_proto",
+    externs = {
+      ".": "::annotated_rs"
+    },
+    deps = [
+      ":annotated_rs",
+    ]
 )
 
 rust_binary(
     name = "main",
     srcs = ["src/main.rs"],
     deps = [
+        ":annotated_tonic_rs",
         ":annotated_rs",
+        "//bzl-sandbox/rust/proto/common:googleapi_rs",
         "//third_party/rust:env_logger",
         "//third_party/rust:log",
         "//third_party/rust:protoc_wkt",

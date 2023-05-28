@@ -1,15 +1,14 @@
+use log::info;
+use tokio::signal;
+use tokio::sync::oneshot;
 use tonic::{transport::Server, Request, Response, Status};
 
-use log::info;
-use tokio::sync::oneshot;
-use tokio::signal;
-use helloworld_rust_proto::echochamber::helloworld::v1::greeter_service_server::{GreeterServiceServer, GreeterService};
-use helloworld_rust_proto::echochamber::helloworld::v1::{SayHelloRequest, SayHelloResponse};
-use helloworld_rust_proto::WKT_FILE_DESCRIPTOR_SET;
-// Temporarily removing imported types till I figure that out.
-use helloworld_rust_proto::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
-use helloworld_rust_proto::grpc::gateway::protoc_gen_openapiv2::options::{FILE_DESCRIPTOR_SET as OPEN_API_DESCRIPTORS};
-use helloworld_rust_proto::echochamber::helloworld::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
+use googleapi_rs::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
+use protoc_wkt::google::protobuf::FILE_DESCRIPTOR_SET as WKT_FILE_DESCRIPTOR_SET;
+
+use v1_proto_rs::echochamber::helloworld::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
+use v1_proto_rs::echochamber::helloworld::v1::{SayHelloRequest, SayHelloResponse};
+use v1_tonic_rs::greeter_service_server::{GreeterServiceServer, GreeterService};
 
 #[derive(Debug, Default)]
 pub struct MyGreeter {}
@@ -37,6 +36,7 @@ pub async fn wait_for_signal(tx: oneshot::Sender<()>) {
 }
 
 
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
@@ -46,13 +46,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let addr = "0.0.0.0:50051".parse()?;
     let greeter = MyGreeter::default();
+    info!("Iniating server.");
 
     let reflection = tonic_reflection::server::Builder::configure()
         .register_encoded_file_descriptor_set(GREETERSERVICE_DESCRIPTORS)
         // Temporarily removing imported types till I figure that out.
         .register_encoded_file_descriptor_set(GOOGLE_API_DECRIPTORS)
         .register_encoded_file_descriptor_set(WKT_FILE_DESCRIPTOR_SET)
-        .register_encoded_file_descriptor_set(OPEN_API_DESCRIPTORS)
         .build()
         .unwrap();
     Server::builder()
