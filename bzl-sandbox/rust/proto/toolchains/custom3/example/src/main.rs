@@ -1,14 +1,12 @@
 use tonic::{transport::Server, Request, Response, Status};
-
 use log::info;
 use tokio::sync::oneshot;
 use tokio::signal;
-use lib_rs::greeter_service_server::{GreeterServiceServer, GreeterService};
-use lib_rs::annotated::dimple::{SayHelloRequest, SayHelloResponse};
+use annotated_rs::greeter_service_server::{GreeterServiceServer, GreeterService};
+use annotated_rs::path::to::my::proto::v1::{SayHelloRequest, SayHelloResponse};
 use protoc_wkt::google::protobuf::FILE_DESCRIPTOR_SET as WKT_FILE_DESCRIPTOR_SET;
-// Temporarily removing imported types till I figure that out.
-use lib_rs::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};
-use lib_rs::annotated::dimple::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
+use annotated_rs::GOOGLE_API_DECRIPTORS;
+use annotated_rs::path::to::my::proto::v1::{FILE_DESCRIPTOR_SET as GREETERSERVICE_DESCRIPTORS};
 
 #[derive(Debug, Default)]
 pub struct MyGreeter {}
@@ -34,6 +32,7 @@ pub async fn wait_for_signal(tx: oneshot::Sender<()>) {
     info!("SIGINT received: shutting down");
     let _ = tx.send(());
 }
+
 
 
 #[tokio::main]

@@ -1,0 +1,4 @@
+{tonic_includes}
+
+pub use {mod_name}::*;
+pub use {mod_name}::google::api::{FILE_DESCRIPTOR_SET as GOOGLE_API_DECRIPTORS};

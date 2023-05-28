@@ -9,7 +9,7 @@ import "google/api/annotations.proto";
 import "google/api/http.proto";
 
 
-package annotated.dimple;
+package path.to.my.proto.v1;
 
 // The greeting service definition.
 service GreeterService {

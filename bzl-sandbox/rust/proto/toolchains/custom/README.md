@@ -1,5 +1,9 @@
 # Generate Rust Proto Library With Prost/Tonic
 
+## Note
+
+custom3/ is my preferred approach. See  `//bzl-sandbox/rust/proto/toolchains/custom3/example`
+
 ## Usage
 
 1. Install buf build (only dep that isn't managed by bazel).
