@@ -14,7 +14,6 @@ package(default_visibility = ["//bzl-sandbox/rd:internal"])
 proto_library(
     name = "v1_proto",
     srcs = ["greeter.proto"],
-    strip_import_prefix = "/bzl-sandbox/rd/proto",
     deps = [
         "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto",
         "@go_googleapis//google/api:annotations_proto",
@@ -52,7 +51,7 @@ go_proto_library(
     importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1",
     proto = ":v1_proto",
     deps = [
-        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_go_proto",
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto",
         "@go_googleapis//google/api:annotations_go_proto",
     ],
 )
@@ -63,7 +62,6 @@ go_library(
     importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1",
 )
 
-
 gateway_openapiv2_compile(
     name = "v1_openapiv2",
     protos = [":v1_proto"],
@@ -71,7 +69,7 @@ gateway_openapiv2_compile(
 
 gateway_grpc_library(
     name = "v1_gateway",
-    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/gateway",
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/v1_gateway",
     options = {
         "@rules_proto_grpc//grpc-gateway:grpc_gateway_plugin": [
             "paths=source_relative",
@@ -80,8 +78,8 @@ gateway_grpc_library(
     },
     protos = [":v1_proto"],
     deps = [
-        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_go_proto"
-    ]
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_go_proto",
+    ],
 )
 
 buf_lint_test(

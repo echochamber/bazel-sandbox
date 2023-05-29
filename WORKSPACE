@@ -305,7 +305,7 @@ buf_dependencies(
     name = "buf_deps",
     modules = [
         "buf.build/googleapis/googleapis:cc916c31859748a68fd229a3c8d7a2e8",
-        "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e"
+        "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e",
     ],
 )
 

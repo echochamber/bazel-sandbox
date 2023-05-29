@@ -16,7 +16,7 @@ go_binary(
 )
 
 # TODO: Figure out why gazelle doesn't know the origin of the gateway dep and keeps removing it from here.
-# gazelle:resolve go github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/gateway //bzl-sandbox/rd/proto/echochamber/helloworld/v1:gateway
+# gazelle:resolve go github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/v1_gateway //bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_gateway
 go_library(
     name = "main_lib",
     srcs = ["main.go"],

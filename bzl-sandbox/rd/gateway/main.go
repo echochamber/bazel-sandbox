@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	gw "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/gateway" // Update
+	gw "github.com/echochamber/rustdocker/bzl-sandbox/rd/proto/echochamber/helloworld/v1/v1_gateway" // Update
 )
 
 // More intricate example here:

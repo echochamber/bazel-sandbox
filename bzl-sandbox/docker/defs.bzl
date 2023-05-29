@@ -1,14 +1,14 @@
 """Defs for common docker build rules."""
 
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball", "oci_push")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 
 def docker_image(
         name,
         srcs,
         entrypoint,
         tag,
-        remote_repository="",
+        remote_repository = "",
         cmd = None,
         env = None,
         port_map = "",
@@ -98,10 +98,9 @@ def docker_image(
         ],
     )
     if remote_repository:
-
         oci_push(
             name = name + "_push",
             image = ":" + oci_image_name,
             repository = "{}/{}".format(remote_repository, image_name),
-            remote_tags = [tag]
+            remote_tags = [tag],
         )

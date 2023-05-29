@@ -1,3 +1,5 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("//bzl-sandbox/rust/proto/toolchains:plugin.bzl", "prost_library", "tonic_library")
@@ -54,4 +56,20 @@ rust_binary(
 buf_lint_test(
     name = "custom2_proto_lint",
     targets = [":custom2_proto"],
+)
+
+go_proto_library(
+    name = "custom2_go_proto",
+    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains/custom2",
+    proto = ":annotated_proto",
+    visibility = ["//visibility:public"],
+    deps = ["@go_googleapis//google/api:annotations_go_proto"],
+)
+
+go_library(
+    name = "custom2",
+    embed = [":custom2_go_proto"],
+    importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rust/proto/toolchains/custom2",
+    visibility = ["//visibility:public"],
 )

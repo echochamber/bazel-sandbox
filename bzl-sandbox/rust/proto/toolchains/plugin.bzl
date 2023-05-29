@@ -9,7 +9,6 @@ load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@bazel_skylib//rules:select_file.bzl", "select_file")
 
-
 prost_proto = rule(
     implementation = proto_compile_impl,
     attrs = dict(
@@ -56,12 +55,11 @@ prost_crate = rule(
 )
 
 def prost_library(
-    name,
-    protos,
-    externs=None,
-    deps=None,
-    file_descriptor_set=True
-):
+        name,
+        protos,
+        externs = None,
+        deps = None,
+        file_descriptor_set = True):
     """Wraps generating a rust_library using https://github.com/neoeinstein/protoc-gen-prost.
 
     For more info on how some of these fields are used:
@@ -82,6 +80,7 @@ def prost_library(
     externs = ["extern_path={}={}".format(e, externs[e]) for e in externs]
     if not deps:
         deps = []
+
     # These will always be needed in the final rust_library.
     # Protect against duplicates if user provided one of these.
     deps_all = [
@@ -113,8 +112,9 @@ def prost_library(
     prost_crate(
         name = crate_name,
         options = {},
-        protos = protos
+        protos = protos,
     )
+
     # Hacky way to allow bazel to use $(location) to provide the path of the generated files to mod.rs.
     select_file(
         name = base_mod_rs_name,
@@ -128,12 +128,12 @@ def prost_library(
             "include!(\"": "include!(concat!(env!(\"PROTO_IMPORT_PATH\"), \"/",
             "\");": "\"));",
         },
-        template = ":" + base_mod_rs_name
+        template = ":" + base_mod_rs_name,
     )
     rust_library(
         name = name,
         srcs = [
-            ":" + final_mod_rs_name
+            ":" + final_mod_rs_name,
         ],
         crate_root = final_mod_rs_file,
         compile_data = [
@@ -142,17 +142,15 @@ def prost_library(
         rustc_env = {
             "PROTO_IMPORT_PATH": "$(location :" + prost_name + ")",
         },
-        deps = deps_all
+        deps = deps_all,
     )
 
-
 def tonic_library(
-    name,
-    service_package,
-    service_proto,
-    externs=None,
-    deps=None
-):
+        name,
+        service_package,
+        service_proto,
+        externs = None,
+        deps = None):
     """Wraps generating a rust_library using https://github.com/neoeinstein/protoc-gen-prost tonic plugin.
 
     For more info on how some of these fields are used:
@@ -169,7 +167,7 @@ def tonic_library(
           in externs.
     """
     if not externs:
-        externs={}
+        externs = {}
     externs = ["extern_path={}={}".format(e, externs[e]) for e in externs]
     if not deps:
         deps = []
@@ -195,7 +193,7 @@ def tonic_library(
     write_file(
         name = tonic_lib_rs,
         out = tonic_lib_rs_file,
-        content = [tonic_includes]
+        content = [tonic_includes],
     )
     rust_library(
         name = name,
@@ -208,5 +206,5 @@ def tonic_library(
         rustc_env = {
             "TONIC_PATH": "$(location :" + tonic_name + ")",
         },
-        deps = deps_all
+        deps = deps_all,
     )
