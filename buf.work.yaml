@@ -1,4 +1,3 @@
 version: v1
 directories:
-  - bzl-sandbox/rust/summation2
   - bzl-sandbox/rd/proto

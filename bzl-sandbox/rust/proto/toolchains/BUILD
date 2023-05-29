@@ -2,7 +2,6 @@ load("@rules_proto_grpc//:defs.bzl", "proto_plugin")
 
 package(default_visibility = ["//visibility:public"])
 
-
 proto_plugin(
     name = "prost_proto_plugin",
     options = [

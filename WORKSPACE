@@ -290,23 +290,27 @@ http_archive(
 )
 
 load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
+
 rules_buf_dependencies()
+
 rules_buf_toolchains(version = "v1.5.0")
 
 load("@rules_buf//gazelle/buf:repositories.bzl", "gazelle_buf_dependencies")
+
 gazelle_buf_dependencies()
 
 load("@rules_buf//buf:defs.bzl", "buf_dependencies")
+
 buf_dependencies(
     name = "buf_deps",
     modules = [
         "buf.build/googleapis/googleapis:cc916c31859748a68fd229a3c8d7a2e8",
-        "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e",
-        "buf.build/acme/petapis:84a33a06f0954823a6f2a089fb1bb82e",
+        "buf.build/envoyproxy/protoc-gen-validate:dc09a417d27241f7b069feae2cd74a0e"
     ],
 )
 
 load("//:buf_deps.bzl", "buf_deps")
+
 # gazelle:repository_macro buf_deps.bzl%buf_deps
 buf_deps()
 
@@ -350,8 +354,11 @@ load(
     "@aspect_bazel_lib//lib:repositories.bzl",
     "aspect_bazel_lib_dependencies",
     "register_jq_toolchains",
-    "register_yq_toolchains")
+    "register_yq_toolchains",
+)
 
 aspect_bazel_lib_dependencies()
+
 register_jq_toolchains()
+
 register_yq_toolchains()

@@ -7,11 +7,11 @@ package(default_visibility = ["//bzl-sandbox/rd:internal"])
 go_binary(
     name = "main",
     data = [
-        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:greeter_openapiv2",
+        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_openapiv2",
     ],
     embed = [":main_lib"],
     env = {
-        "OPENAPI_JSON_PATH": "$(location //bzl-sandbox/rd/proto/echochamber/helloworld/v1:greeter_openapiv2)",
+        "OPENAPI_JSON_PATH": "$(location //bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_openapiv2)",
     },
 )
 
@@ -22,7 +22,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/echochamber/rustdocker/bzl-sandbox/rd/gateway",
     deps = [
-        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:gateway",
+        "//bzl-sandbox/rd/proto/echochamber/helloworld/v1:v1_gateway",
         "@com_github_golang_glog//:glog",
         "@com_github_grpc_ecosystem_grpc_gateway_v2//runtime",
         "@org_golang_google_grpc//:go_default_library",
