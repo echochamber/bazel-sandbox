@@ -11,12 +11,6 @@
    - `bazel run @rules_rust//tools/rust_analyzer:gen_rust_project`
 5. Install protoc plugins for rust (prost for protos, tonic for grpc):
    - Either cd into this directory and run go install or
-```sh
-	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
-	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-```
 6. Install bazelisk, which installs bazel.
 7. Install bazel buildtools
 ```sh

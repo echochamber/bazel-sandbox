@@ -122,12 +122,83 @@ http_archive(
     strip_prefix = "rules_python-0.21.0/gazelle",
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.21.0/rules_python-0.21.0.tar.gz",
 )
-
 load("@rules_python_gazelle_plugin//:deps.bzl", _py_gazelle_deps = "gazelle_deps")
-
 _py_gazelle_deps()
 
 # --Python--
+
+########################################
+
+# --JS/Node/Typescript --
+
+# Javascript
+
+http_archive(
+    name = "aspect_rules_js",
+    sha256 = "d8827db3c34fe47607a0668e86524fd85d5bd74f2bfca93046d07f890b5ad4df",
+    strip_prefix = "rules_js-1.27.0",
+    url = "https://github.com/aspect-build/rules_js/releases/download/v1.27.0/rules_js-v1.27.0.tar.gz",
+)
+
+load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
+
+rules_js_dependencies()
+
+load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
+
+nodejs_register_toolchains(
+    name = "nodejs",
+    node_version = DEFAULT_NODE_VERSION,
+)
+
+load("@aspect_rules_js//npm:repositories.bzl", "npm_translate_lock")
+
+npm_translate_lock(
+    name = "npm",
+    pnpm_lock = "//third_party/npm_deps:pnpm-lock.yaml",
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+
+load("@npm//:repositories.bzl", "npm_repositories")
+
+npm_repositories()
+
+# Typescript
+
+http_archive(
+    name = "aspect_rules_ts",
+    sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
+    strip_prefix = "rules_ts-1.4.0",
+    url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
+)
+
+##################
+# rules_ts setup #
+##################
+# Fetches the rules_ts dependencies.
+# If you want to have a different version of some dependency,
+# you should fetch it *before* calling this.
+# Alternatively, you can skip calling this function, so long as you've
+# already fetched all the dependencies.
+load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
+
+rules_ts_dependencies(
+    # This keeps the TypeScript version in-sync with the editor, which is typically best.
+    ts_version_from = "//:package.json",
+
+    # Alternatively, you could pick a specific version, or use
+    # load("@aspect_rules_ts//ts:repositories.bzl", "LATEST_TYPESCRIPT_VERSION")
+    # ts_version = LATEST_TYPESCRIPT_VERSION
+)
+
+# Register aspect_bazel_lib toolchains;
+# If you use npm_translate_lock or npm_import from aspect_rules_js you can omit this block.
+load("@aspect_bazel_lib//lib:repositories.bzl", "register_copy_directory_toolchains", "register_copy_to_directory_toolchains")
+
+register_copy_directory_toolchains()
+
+register_copy_to_directory_toolchains()
+# --Node/Typescript --
 
 ########################################
 
@@ -140,11 +211,6 @@ http_archive(
     sha256 = "25209daff2ba21e818801c7b2dab0274c43808982d6aea9f796d899db6319146",
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.21.1/rules_rust-v0.21.1.tar.gz"],
 )
-# local_repository(
-#     name = "rules_rust",
-#     path = "/home/jason/Code/external/rules_rust",
-# )
-
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
 
 rules_rust_dependencies()
@@ -164,23 +230,12 @@ rust_register_toolchains(
 )
 
 ### Cargo raze - External Dep Management
-###
 load("//third_party/rust:crates.bzl", "raze_fetch_remote_crates")
-
-# Note that this method's name depends on your gen_workspace_prefix setting.
-# `raze` is the default prefix.
 raze_fetch_remote_crates()
-
-### Rust Analyzer - For IDE Integrations
-###
+### Rules_Rust
 load("@rules_rust//tools/rust_analyzer:deps.bzl", "rust_analyzer_dependencies")
-
 rust_analyzer_dependencies()
-
-### Proto toolchain for rust
-###
 load("@rules_rust//proto:repositories.bzl", "rust_proto_repositories")
-
 rust_proto_repositories()
 
 # End --Rust--
