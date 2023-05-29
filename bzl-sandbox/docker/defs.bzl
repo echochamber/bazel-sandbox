@@ -97,6 +97,19 @@ def docker_image(
             ":" + tarball_name,
         ],
     )
+    native.sh_binary(
+        name = name + "_load",
+        srcs = [
+            "//bzl-sandbox/docker:docker_run.sh",
+        ],
+        args = [
+            "-l",
+            "-f $(location :" + tarball_name + ")",
+        ],
+        data = [
+            ":" + tarball_name,
+        ],
+    )
     if remote_repository:
         oci_push(
             name = name + "_push",

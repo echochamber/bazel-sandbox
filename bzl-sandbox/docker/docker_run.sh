@@ -87,7 +87,7 @@ fi
 
 
 verb=""
-if [ "$load_only" ] ; then
+if [ "$load_only" = "0" ] ; then
   verb="Loading"
 else
   verb="Running"
@@ -101,7 +101,7 @@ msg "- ${GREEN}docker args${NOFORMAT}: ${args[*]}"
 
 set -x
 docker load --input "$tarball_file"
-if [ "$load_only" ] ; then
+if [ "$load_only" = "0" ]; then
   docker run --rm ${args[*]} $tag
 fi
 

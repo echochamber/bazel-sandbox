@@ -51,9 +51,9 @@ services:
     ports:
       - 8083:8080
     environment:
-      - SWAGGER_JSON=/foo/greeter.swagger.json
+      - SWAGGER_JSON=/tmp/swagger/greeter.swagger.json
     volumes:
-      - ../../.bazel/bin/bzl-sandbox/rd/proto/echochamber/helloworld/v1/greeter_openapiv2/bzl-sandbox/rd/proto/echochamber/helloworld/v1:/foo
+      - ../../.bazel/bin/bzl-sandbox/rd/proto/echochamber/helloworld/v1/v1_openapiv2/bzl-sandbox/rd/proto/echochamber/helloworld/v1:/tmp/swagger/
 
 volumes:
   swagger:
