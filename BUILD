@@ -1,8 +1,8 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 
-# gazelle:prefix github.com/echochamber/rustdocker
-# gazelle:exclude rd/*
+# gazelle:prefix github.com/echochamber/bazel-sandbox
+# gazelle:exclude rust/proto/
 gazelle(
     name = "gazelle",
 )

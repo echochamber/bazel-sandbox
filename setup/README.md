@@ -24,6 +24,10 @@ go install github.com/bazelbuild/buildtools/buildozer@latest
 go install github.com/bazelbuild/buildtools/unused_deps@latest
 go install github.com/bazelbuild/buildtools/buildifier@latest
 ```
+8. Misc stuff some of our stuff depends on
+   1. [jq](https://jqlang.github.io/jq/download/) and [yq](https://github.com/mikefarah/yq) - For
+      processing yaml/json via bash pipes.
+   2. 
 
 
 ## Nice to haves

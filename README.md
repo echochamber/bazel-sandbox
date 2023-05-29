@@ -27,7 +27,7 @@ them working nicely with rust and protocol buffers.
     1.  [ ] Generate gatway's server.go file from .proto files inputs (I think buf can do this?) 
     2.  [x] Rule to build .image for go server for binary generated above.
 12. [x] Start generating swagger file with buf via bazel (gateway.gen.yaml).
-13. [x] Improve bzl-sandbox/docker/docker_run.sh so it uses args/flags/options etc...
+13. [x] Improve docker/docker_run.sh so it uses args/flags/options etc...
 14. [ ] Get docker compose runable from bazel
     1. [x] Generate image file.
     2. [x] Build rule to load images into docker

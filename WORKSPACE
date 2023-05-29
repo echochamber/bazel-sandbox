@@ -182,9 +182,6 @@ rust_analyzer_dependencies()
 load("@rules_rust//proto:repositories.bzl", "rust_proto_repositories")
 
 rust_proto_repositories()
-# Temporarily disabling custom prost toolchain
-# register_toolchains("//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
-# rust_proto_repositories(register_default_toolchain = "//bzl-sandbox/rust/proto/toolchains:rust_prost_proto")
 
 # End --Rust--
 

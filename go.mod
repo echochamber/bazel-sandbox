@@ -1,4 +1,4 @@
-module github.com/echochamber/rustdocker
+module github.com/echochamber/bazel-sandbox
 
 go 1.19
 
