@@ -1,5 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+load("@npm//:defs.bzl", "npm_link_all_packages")
 
 # gazelle:prefix github.com/echochamber/bazel-sandbox
 # gazelle:exclude rust/proto/
@@ -51,3 +52,5 @@ gazelle_binary(
 buildifier(
     name = "buildifier",
 )
+
+npm_link_all_packages()

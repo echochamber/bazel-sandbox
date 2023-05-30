@@ -20,6 +20,34 @@ bazel_skylib_workspace()
 
 ########################################
 
+# --Aspect - General Bazel Utils (jq/yq) --
+
+http_archive(
+    name = "aspect_bazel_lib",
+    sha256 = "e3151d87910f69cf1fc88755392d7c878034a69d6499b287bcfc00b1cf9bb415",
+    strip_prefix = "bazel-lib-1.32.1",
+    url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.32.1/bazel-lib-v1.32.1.tar.gz",
+)
+
+load(
+    "@aspect_bazel_lib//lib:repositories.bzl",
+    "aspect_bazel_lib_dependencies",
+    "register_copy_directory_toolchains",
+    "register_copy_to_directory_toolchains",
+    "register_jq_toolchains",
+    "register_yq_toolchains",
+)
+aspect_bazel_lib_dependencies()
+register_jq_toolchains()
+register_yq_toolchains()
+# Can probably remove 2 lines below later.
+register_copy_directory_toolchains()
+register_copy_to_directory_toolchains()
+
+# --Aspect - General Bazel Utils (jq/yq) --
+
+########################################
+
 # --Go/Gazelle--
 
 http_archive(
@@ -105,7 +133,6 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 pip_parse(
     name = "pip_deps",
     python_interpreter_target = interpreter,
-    #    requirements = "//third_party:requirements.txt",
     requirements_lock = "//third_party/pip_deps:requirements_lock.txt",
 )
 
@@ -122,7 +149,9 @@ http_archive(
     strip_prefix = "rules_python-0.21.0/gazelle",
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.21.0/rules_python-0.21.0.tar.gz",
 )
+
 load("@rules_python_gazelle_plugin//:deps.bzl", _py_gazelle_deps = "gazelle_deps")
+
 _py_gazelle_deps()
 
 # --Python--
@@ -144,6 +173,17 @@ load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 
 rules_js_dependencies()
 
+http_archive(
+    name = "aspect_rules_esbuild",
+    sha256 = "2ea31bd97181a315e048be693ddc2815fddda0f3a12ca7b7cc6e91e80f31bac7",
+    strip_prefix = "rules_esbuild-0.14.4",
+    url = "https://github.com/aspect-build/rules_esbuild/releases/download/v0.14.4/rules_esbuild-v0.14.4.tar.gz",
+)
+
+load("@aspect_rules_esbuild//esbuild:dependencies.bzl", "rules_esbuild_dependencies")
+
+rules_esbuild_dependencies()
+
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 
 nodejs_register_toolchains(
@@ -155,13 +195,17 @@ load("@aspect_rules_js//npm:repositories.bzl", "npm_translate_lock")
 
 npm_translate_lock(
     name = "npm",
-    pnpm_lock = "//third_party/npm_deps:pnpm-lock.yaml",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    npmrc = "//:.npmrc",
     verify_node_modules_ignored = "//:.bazelignore",
 )
 
-load("@npm//:repositories.bzl", "npm_repositories")
+load("@aspect_rules_esbuild//esbuild:repositories.bzl", "esbuild_register_toolchains", LATEST_ESBUILD_VERSION = "LATEST_VERSION")
 
-npm_repositories()
+esbuild_register_toolchains(
+    name = "esbuild",
+    esbuild_version = LATEST_ESBUILD_VERSION,
+)
 
 # Typescript
 
@@ -172,32 +216,14 @@ http_archive(
     url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
 )
 
-##################
-# rules_ts setup #
-##################
-# Fetches the rules_ts dependencies.
-# If you want to have a different version of some dependency,
-# you should fetch it *before* calling this.
-# Alternatively, you can skip calling this function, so long as you've
-# already fetched all the dependencies.
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
-rules_ts_dependencies(
-    # This keeps the TypeScript version in-sync with the editor, which is typically best.
-    ts_version_from = "//:package.json",
+rules_ts_dependencies(ts_version_from = "//:package.json")
 
-    # Alternatively, you could pick a specific version, or use
-    # load("@aspect_rules_ts//ts:repositories.bzl", "LATEST_TYPESCRIPT_VERSION")
-    # ts_version = LATEST_TYPESCRIPT_VERSION
-)
+load("@npm//:repositories.bzl", "npm_repositories")
 
-# Register aspect_bazel_lib toolchains;
-# If you use npm_translate_lock or npm_import from aspect_rules_js you can omit this block.
-load("@aspect_bazel_lib//lib:repositories.bzl", "register_copy_directory_toolchains", "register_copy_to_directory_toolchains")
+npm_repositories()
 
-register_copy_directory_toolchains()
-
-register_copy_to_directory_toolchains()
 # --Node/Typescript --
 
 ########################################
@@ -211,6 +237,7 @@ http_archive(
     sha256 = "25209daff2ba21e818801c7b2dab0274c43808982d6aea9f796d899db6319146",
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.21.1/rules_rust-v0.21.1.tar.gz"],
 )
+
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
 
 rules_rust_dependencies()
@@ -231,11 +258,16 @@ rust_register_toolchains(
 
 ### Cargo raze - External Dep Management
 load("//third_party/rust:crates.bzl", "raze_fetch_remote_crates")
+
 raze_fetch_remote_crates()
+
 ### Rules_Rust
 load("@rules_rust//tools/rust_analyzer:deps.bzl", "rust_analyzer_dependencies")
+
 rust_analyzer_dependencies()
+
 load("@rules_rust//proto:repositories.bzl", "rust_proto_repositories")
+
 rust_proto_repositories()
 
 # End --Rust--
@@ -392,25 +424,3 @@ load("@com_github_grpc_ecosystem_grpc_gateway_v2//:repositories.bzl", "go_reposi
 go_repositories()
 
 ########################################
-
-# --Aspect - General Bazel Utils (jq/yq) --
-
-http_archive(
-    name = "aspect_bazel_lib",
-    sha256 = "e3151d87910f69cf1fc88755392d7c878034a69d6499b287bcfc00b1cf9bb415",
-    strip_prefix = "bazel-lib-1.32.1",
-    url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.32.1/bazel-lib-v1.32.1.tar.gz",
-)
-
-load(
-    "@aspect_bazel_lib//lib:repositories.bzl",
-    "aspect_bazel_lib_dependencies",
-    "register_jq_toolchains",
-    "register_yq_toolchains",
-)
-
-aspect_bazel_lib_dependencies()
-
-register_jq_toolchains()
-
-register_yq_toolchains()
