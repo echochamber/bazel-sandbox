@@ -1,5 +1,4 @@
 packages:
-    - ts/examples/linked
-    - ts/examples/linked_consumer
-    - ts/examples/linked_tsconfig
-    - ts/examples/linked_tsconfig_consumer
+    - rd/**/ts
+    - ts/examples/**
+    - outside/**

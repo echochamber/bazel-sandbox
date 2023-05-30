@@ -1,11 +1,7 @@
 .bazel/
 node_modules
-applications/demo/node_modules
-packages/common/node_modules
-packages/lib-a/node_modules
+outside/atslib/ts/node_modules
 ts/examples/linked/node_modules
 ts/examples/linked_consumer/node_modules
-ts/examples/linked_tsconfig/node_modules
-ts/examples/linked_tsconfig_consumer/node_modules
 ts/examples/linked_tsconfig/node_modules
 ts/examples/linked_tsconfig_consumer/node_modules

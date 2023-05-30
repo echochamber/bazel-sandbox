@@ -13,12 +13,12 @@ ts_project(
     data = [
         # Also propagate the date-fns npm package downstream so it is an runtime dependency
         # of any linked npm_package that this target is used by.
-        "//examples:node_modules/date-fns",
+        "//:node_modules/date-fns",
     ],
     declaration = True,
     deps = [
-        "//examples:node_modules/date-fns",
-        "//examples/deps_lib/b",
+        "//:node_modules/date-fns",
+        "//ts/examples/deps_lib/b",
     ],
 )
 
@@ -28,7 +28,7 @@ npm_package(
         ":deps_ts",
     ],
     package = "@myorg/deps_lib",
-    visibility = ["//examples:__subpackages__"],
+    visibility = ["//ts/examples:__subpackages__"],
 )
 
 ts_project(
@@ -45,6 +45,6 @@ ts_project(
     srcs = ["importer_linked.ts"],
     declaration = True,
     deps = [
-        "//examples:node_modules/@myorg/deps_lib",
+        "//ts/examples:node_modules/@myorg/deps_lib",
     ],
 )

@@ -37,11 +37,16 @@ load(
     "register_jq_toolchains",
     "register_yq_toolchains",
 )
+
 aspect_bazel_lib_dependencies()
+
 register_jq_toolchains()
+
 register_yq_toolchains()
+
 # Can probably remove 2 lines below later.
 register_copy_directory_toolchains()
+
 register_copy_to_directory_toolchains()
 
 # --Aspect - General Bazel Utils (jq/yq) --
@@ -191,12 +196,15 @@ nodejs_register_toolchains(
     node_version = DEFAULT_NODE_VERSION,
 )
 
-load("@aspect_rules_js//npm:repositories.bzl", "npm_translate_lock")
+load("@aspect_rules_js//npm:repositories.bzl", "npm_import", "npm_translate_lock")
 
 npm_translate_lock(
     name = "npm",
-    pnpm_lock = "//:pnpm-lock.yaml",
+    data = [
+        "//:pnpm-workspace.yaml",
+    ],
     npmrc = "//:.npmrc",
+    pnpm_lock = "//:pnpm-lock.yaml",
     verify_node_modules_ignored = "//:.bazelignore",
 )
 
@@ -223,6 +231,18 @@ rules_ts_dependencies(ts_version_from = "//:package.json")
 load("@npm//:repositories.bzl", "npm_repositories")
 
 npm_repositories()
+
+# As an example, manually import a package using explicit coordinates.
+# Just a demonstration of the syntax de-sugaring.
+npm_import(
+    name = "acorn__8.4.0",
+    bins = {"acorn": "./bin/acorn"},
+    integrity = "sha512-ULr0LDaEqQrMFGyQ3bhJkLsbtrQ8QibAseGZeaSUiT/6zb9IvIkomWHJIvgvwad+hinRAgsI51JcWk2yvwyL+w==",
+    package = "acorn",
+    # Root package where to link the virtual store
+    root_package = "",
+    version = "8.4.0",
+)
 
 # --Node/Typescript --
 

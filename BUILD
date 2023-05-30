@@ -1,5 +1,7 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+load("@pnpm__links//:defs.bzl", npm_link_pnpm = "npm_link_imported_package")
+load("@acorn__8.4.0__links//:defs.bzl", npm_link_acorn = "npm_link_imported_package")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 
 # gazelle:prefix github.com/echochamber/bazel-sandbox
@@ -53,4 +55,18 @@ buildifier(
     name = "buildifier",
 )
 
-npm_link_all_packages()
+# Link all packages from the /WORKSPACE npm_translate_lock(name = "npm") and also packages from
+# manual /WORKSPACE npm_import rules to bazel-bin/node_modules as well as the virtual store
+# bazel-bin/node_modules/.aspect_rules_js since /pnpm-lock.yaml is the root of the pnpm workspace
+npm_link_all_packages(
+    name = "node_modules",
+    imported_links = [
+        npm_link_acorn,
+        npm_link_pnpm,
+    ],
+)
+
+# buildifier: disable=load-on-top
+load("//:npm_links.bzl", "npm_links")
+npm_links()
+# buildifier: enable=load-on-top
