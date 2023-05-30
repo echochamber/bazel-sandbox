@@ -1,3 +1,4 @@
+"""Macros wrap prost/tonic rules for generating rust_library targets from proto_library targets for prost/tonic."""
 load(
     "@rules_proto_grpc//:defs.bzl",
     "ProtoPluginInfo",
@@ -59,7 +60,9 @@ def prost_library(
         protos,
         externs = None,
         deps = None,
-        file_descriptor_set = True):
+        file_descriptor_set = True,
+        prost = "//third_party/rust:prost",
+        prost_types = "//third_party/rust:prost_types"):
     """Wraps generating a rust_library using https://github.com/neoeinstein/protoc-gen-prost.
 
     For more info on how some of these fields are used:
@@ -74,18 +77,20 @@ def prost_library(
         deps: Dependencies for out final rust_library. This should include libraries providing anything you mapped
           in externs.
         file_descriptor_set: Whether or not to include the file descriptor set in the generated rust file.
+        prost: Target for the prost crate.
+        prost_types: Target for the prost_types crate.
     """
+
     if not externs:
         externs = {}
     externs = ["extern_path={}={}".format(e, externs[e]) for e in externs]
     if not deps:
         deps = []
 
-    # These will always be needed in the final rust_library.
-    # Protect against duplicates if user provided one of these.
+    # Protect against duplicates in case user provided prost in deps and not in prost attribute.
     deps_all = [
-        "//third_party/rust:prost",
-        "//third_party/rust:prost_types",
+        prost,
+        prost_types,
     ]
     for dep in deps:
         if dep not in deps_all:
@@ -150,7 +155,10 @@ def tonic_library(
         service_package,
         service_proto,
         externs = None,
-        deps = None):
+        deps = None,
+        prost = "//third_party/rust:prost",
+        prost_types = "//third_party/rust:prost_types",
+        tonic = "//third_party/rust:tonic"):
     """Wraps generating a rust_library using https://github.com/neoeinstein/protoc-gen-prost tonic plugin.
 
     For more info on how some of these fields are used:
@@ -165,16 +173,21 @@ def tonic_library(
           This includes other prost_library targets that our protos depend upon.
         deps: Dependencies for out final rust_library. This should include libraries providing anything you mapped
           in externs.
+        prost: Target for the prost crate.
+        prost_types: Target for the prost_types crate.
+        tonic: Target for the tonic crate.
     """
     if not externs:
         externs = {}
     externs = ["extern_path={}={}".format(e, externs[e]) for e in externs]
     if not deps:
         deps = []
+
+    # Protect against duplicates in case user provided prost in deps and not in prost attribute.
     deps_all = [
-        "//third_party/rust:prost",
-        "//third_party/rust:prost_types",
-        "//third_party/rust:tonic",
+        prost,
+        prost_types,
+        tonic,
     ]
     for dep in deps:
         if dep not in deps_all:
