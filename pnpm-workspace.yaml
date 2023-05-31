@@ -1,4 +1,3 @@
 packages:
     - ts/examples/**
-    - outside/**
     - rd/frontend

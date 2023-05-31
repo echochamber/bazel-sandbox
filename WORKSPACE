@@ -178,6 +178,7 @@ load("@aspect_rules_esbuild//esbuild:dependencies.bzl", "rules_esbuild_dependenc
 rules_esbuild_dependencies()
 
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
+
 nodejs_register_toolchains(
     name = "nodejs",
     node_version = DEFAULT_NODE_VERSION,
@@ -203,7 +204,6 @@ npm_translate_lock(
         "//:pnpm-workspace.yaml",
         "//:package.json",
         "//rd/frontend:package.json",
-        "//outside/atslib/ts:package.json",
         "//ts/examples/linked:package.json",
         "//ts/examples/linked_consumer:package.json",
         "//ts/examples/linked_tsconfig:package.json",
@@ -212,23 +212,23 @@ npm_translate_lock(
     verify_node_modules_ignored = "//:.bazelignore",
 )
 
-# load("@aspect_rules_esbuild//esbuild:repositories.bzl", "esbuild_register_toolchains", LATEST_ESBUILD_VERSION = "LATEST_VERSION")
+load("@aspect_rules_esbuild//esbuild:repositories.bzl", "esbuild_register_toolchains", LATEST_ESBUILD_VERSION = "LATEST_VERSION")
 
-# esbuild_register_toolchains(
-#     name = "esbuild",
-#     esbuild_version = LATEST_ESBUILD_VERSION,
-# )
+esbuild_register_toolchains(
+    name = "esbuild",
+    esbuild_version = LATEST_ESBUILD_VERSION,
+)
 
 # Typescript
 
-# http_archive(
-#     name = "aspect_rules_ts",
-#     sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
-#     strip_prefix = "rules_ts-1.4.0",
-#     url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
-# )
+http_archive(
+    name = "aspect_rules_ts",
+    sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
+    strip_prefix = "rules_ts-1.4.0",
+    url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
+)
 
-# load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
+load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
 # rules_ts_dependencies(ts_version_from = "//:package.json")
 
@@ -325,28 +325,29 @@ oci_register_toolchains(
 
 # Pull the specific images we want to support
 load("@rules_oci//oci:pull.bzl", "oci_pull")
+load("//:oci_images.bzl", "pull_oci_images")
+pull_oci_images()
+# oci_pull(
+#     name = "debian_buster_slim",
+#     digest = "sha256:fdb38c743a538d301ddcedd3047c43bf4fcc70211c8534c5b613916910fe1b9d",
+#     image = "docker.io/library/debian",
+#     platforms = [
+#         "linux/amd64",
+#         "linux/arm64",
+#     ],
+# )
 
-oci_pull(
-    name = "debian_buster_slim",
-    digest = "sha256:fdb38c743a538d301ddcedd3047c43bf4fcc70211c8534c5b613916910fe1b9d",
-    image = "docker.io/library/debian",
-    platforms = [
-        "linux/amd64",
-        "linux/arm64",
-    ],
-)
+# oci_pull(
+#     name = "debian_buster",
+#     digest = "sha256:b5efff3e971bdb0c5aff76d74167ada1841d34596af7378ca79006d51c8c8adb",
+#     image = "docker.io/library/debian",
+# )
 
-oci_pull(
-    name = "debian_buster",
-    digest = "sha256:b5efff3e971bdb0c5aff76d74167ada1841d34596af7378ca79006d51c8c8adb",
-    image = "docker.io/library/debian",
-)
-
-oci_pull(
-    name = "ubuntu",
-    digest = "sha256:ca5534a51dd04bbcebe9b23ba05f389466cf0c190f1f8f182d7eea92a9671d00",
-    image = "docker.io/library/ubuntu",
-)
+# oci_pull(
+#     name = "ubuntu",
+#     digest = "sha256:ca5534a51dd04bbcebe9b23ba05f389466cf0c190f1f8f182d7eea92a9671d00",
+#     image = "docker.io/library/ubuntu",
+# )
 
 # --OCI Docker--
 

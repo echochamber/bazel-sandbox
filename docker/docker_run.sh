@@ -102,7 +102,7 @@ msg "- ${GREEN}docker args${NOFORMAT}: ${args[*]}"
 set -x
 docker load --input "$tarball_file"
 if [ "$load_only" = "0" ]; then
-  docker run -rm ${args[*]} $tag
+  docker run --rm ${args[*]} $tag
   # docker run -it --rm ${args[*]} $tag
 fi
 

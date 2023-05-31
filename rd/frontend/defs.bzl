@@ -118,6 +118,7 @@ def ng_app(name, project_name = None, deps = [], test_deps = [], **kwargs):
 
     project_name = project_name if project_name else name
 
+    # See angular.json under "architect" for what these do.
     architect_cli.architect(
         name = name,
         chdir = native.package_name(),

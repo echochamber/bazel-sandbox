@@ -108,19 +108,6 @@ importers:
         specifier: ~2.0.0
         version: 2.0.0(jasmine-core@4.6.0)(karma-jasmine@5.1.0)(karma@6.4.0)
 
-  outside/atslib/ts:
-    dependencies:
-      '@aspect-test/e':
-        specifier: 1.0.0
-        version: 1.0.0
-    devDependencies:
-      '@aspect-test/f':
-        specifier: 1.0.0
-        version: 1.0.0
-      '@types/node':
-        specifier: 18.13.0
-        version: 18.13.0
-
   rd/frontend:
     dependencies:
       '@angular/animations':
@@ -7399,7 +7386,3 @@ packages:
     resolution: {integrity: sha512-7m3hNNyswsdoDobCkYNAy5WiUulkMd3+fWaGT9ij6iq3Zr/IwJo4RMCYPSDjT+r7tnPErmY9sZpKhWQ8S5k6XQ==}
     dependencies:
       tslib: 2.5.2
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

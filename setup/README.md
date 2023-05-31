@@ -23,6 +23,8 @@ go install github.com/bazelbuild/buildtools/buildifier@latest
       processing yaml/json via bash pipes.
    2. 
 
+Install NVM
+Install pnpm
 
 ## Nice to haves
 
