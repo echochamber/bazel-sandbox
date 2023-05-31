@@ -7,9 +7,8 @@ load("//rust/proto/toolchains:plugin.bzl", "prost_library", "tonic_library")
 
 package(default_visibility = ["//rd:internal"])
 
-# TODO: Figure out why gazelle doesn't know the origin of the gateway dep and keeps replacing it with
-# //protoc-gen-openapiv2/options:annotations_proto
-# gazelle:resolve proto protoc-gen-openapiv2/options/annotations.proto @com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto
+# Gazelle doesn't work and I'm not going to waste more time debugging its configs.
+# gazelle:proto disable
 
 proto_library(
     name = "v1_proto",
@@ -51,7 +50,7 @@ go_proto_library(
     importpath = "github.com/echochamber/bazel-sandbox/rd/proto/echochamber/helloworld/v1",
     proto = ":v1_proto",
     deps = [
-        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto",
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_go_proto",
         "@go_googleapis//google/api:annotations_go_proto",
     ],
 )
@@ -69,7 +68,7 @@ gateway_openapiv2_compile(
 
 gateway_grpc_library(
     name = "v1_gateway",
-    importpath = "github.com/echochamber/bazel-sandbox/rd/proto/echochamber/helloworld/v1/v1_gateway",
+    importpath = "github.com/echochamber/bazel-sandbox/rd/proto/echochamber/helloworld/v1/gateway",
     options = {
         "@rules_proto_grpc//grpc-gateway:grpc_gateway_plugin": [
             "paths=source_relative",

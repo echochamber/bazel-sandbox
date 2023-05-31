@@ -9,7 +9,7 @@ target/
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
-.env
+
 
 # Ignore all bazel-* symlinks. There is no full list since this can change
 # based on the name of the directory bazel is cloned into.
@@ -30,10 +30,6 @@ target/
 /.ijwb/
 /.project
 /.settings
-/.vscode/
-!/.vscode/tasks.json
-!/.vscode/workspace-template.json
-!/.vscode/launch.json
 /bazel.iml
 # Ignore outputs generated during Bazel bootstrapping.
 /output/
@@ -45,5 +41,11 @@ user.bazelrc
 /third_party/rust/remote
 # Python
 /.venv
+
+# Node
 node_modules
+
+
+# Misc
 .aspect/rules/external_repository_action_cache/
+.env

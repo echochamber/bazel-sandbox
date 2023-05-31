@@ -8,7 +8,6 @@ def go_dependencies():
         sum = "h1:xK2lYat7ZLaVVcIuj82J8kIro4V6kDe0AUDFboUCwcg=",
         version = "v1.0.0",
     )
-
     go_repository(
         name = "com_github_census_instrumentation_opencensus_proto",
         importpath = "github.com/census-instrumentation/opencensus-proto",
@@ -21,7 +20,6 @@ def go_dependencies():
         sum = "h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=",
         version = "v2.2.0",
     )
-
     go_repository(
         name = "com_github_cncf_udpa_go",
         importpath = "github.com/cncf/udpa/go",
@@ -34,14 +32,12 @@ def go_dependencies():
         sum = "h1:58f1tJ1ra+zFINPlwLWvQsR9CzAKt2e+EWV2yX9oXQ4=",
         version = "v0.0.0-20230310173818-32f1caf87195",
     )
-
     go_repository(
         name = "com_github_creack_pty",
         importpath = "github.com/creack/pty",
         sum = "h1:uDmaGzcdjhF4i/plgjmEsriH11Y0o7RKapEf/LDaM3w=",
         version = "v1.1.9",
     )
-
     go_repository(
         name = "com_github_envoyproxy_go_control_plane",
         importpath = "github.com/envoyproxy/go-control-plane",
@@ -73,7 +69,6 @@ def go_dependencies():
         sum = "h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=",
         version = "v0.5.9",
     )
-
     go_repository(
         name = "com_github_google_uuid",
         importpath = "github.com/google/uuid",
@@ -100,7 +95,6 @@ def go_dependencies():
         sum = "h1:VkoXIwSboBpnk99O/KFauAEILuNHv5DVFKZMBN/gUgw=",
         version = "v1.1.1",
     )
-
     go_repository(
         name = "com_github_kr_text",
         importpath = "github.com/kr/text",
@@ -113,13 +107,13 @@ def go_dependencies():
         sum = "h1:aoZm08cpOy4WuID//EZDgcC4zIxODThtZNPirFr42+A=",
         version = "v0.0.0-20210226163009-20ebb0f2a09e",
     )
-
     go_repository(
         name = "com_github_rogpeppe_fastuuid",
         importpath = "github.com/rogpeppe/fastuuid",
         sum = "h1:Ppwyp6VYCF1nvBTXL3trRso7mXMlRrw9ooo375wvi2s=",
         version = "v1.2.0",
     )
+
     go_repository(
         name = "com_github_rogpeppe_go_internal",
         importpath = "github.com/rogpeppe/go-internal",
@@ -132,7 +126,6 @@ def go_dependencies():
         sum = "h1:l9HGsTsHJcvW14Nk7J9KFz8bzeAWXn3CG6bgt7LsrAE=",
         version = "v1.9.0",
     )
-
     go_repository(
         name = "com_google_cloud_go",
         importpath = "cloud.google.com/go",
@@ -301,7 +294,6 @@ def go_dependencies():
         sum = "h1:mg4jlk7mCAj6xXp9UJ4fjI9VUI5rubuGBW5aJ7UnBMY=",
         version = "v0.2.3",
     )
-
     go_repository(
         name = "com_google_cloud_go_contactcenterinsights",
         importpath = "cloud.google.com/go/contactcenterinsights",
@@ -866,6 +858,7 @@ def go_dependencies():
         sum = "h1:FfGp9w0cYnaKZJhUOMqCOJCYT/WlvYBfTQhFWV3sRKI=",
         version = "v1.10.0",
     )
+
     go_repository(
         name = "in_gopkg_check_v1",
         importpath = "gopkg.in/check.v1",
@@ -879,7 +872,6 @@ def go_dependencies():
         sum = "h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=",
         version = "v3.0.1",
     )
-
     go_repository(
         name = "org_golang_google_appengine",
         importpath = "google.golang.org/appengine",
@@ -912,13 +904,13 @@ def go_dependencies():
         sum = "h1:kPPoIgf3TsEvrm0PFe15JQ+570QVxYzEvvHqChK+cng=",
         version = "v1.30.0",
     )
-
     go_repository(
         name = "org_golang_x_mod",
         importpath = "golang.org/x/mod",
         sum = "h1:LUYupSeNrTNCGzR/hVBk2NHZO4hXcVaW1k4Qx7rjPx8=",
         version = "v0.8.0",
     )
+
     go_repository(
         name = "org_golang_x_net",
         importpath = "golang.org/x/net",
@@ -931,7 +923,6 @@ def go_dependencies():
         sum = "h1:Lh8GPgSKBfWSwFvtuWOfeI3aAAnbXTSutYxJiOJFgIw=",
         version = "v0.6.0",
     )
-
     go_repository(
         name = "org_golang_x_sys",
         importpath = "golang.org/x/sys",
@@ -951,7 +942,6 @@ def go_dependencies():
         sum = "h1:2sjJmO8cDvYveuX97RDLsxlyUxLl+GHoLxBiRdHllBE=",
         version = "v0.9.0",
     )
-
     go_repository(
         name = "org_golang_x_tools",
         importpath = "golang.org/x/tools",

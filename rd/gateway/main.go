@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	gw "github.com/echochamber/bazel-sandbox/rd/proto/echochamber/helloworld/v1/v1_gateway" // Update
+	gw "github.com/echochamber/bazel-sandbox/rd/proto/echochamber/helloworld/v1/gateway"
 )
 
 // More intricate example here:
