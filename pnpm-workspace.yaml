@@ -1,4 +1,4 @@
 packages:
-    - rd/**/ts
     - ts/examples/**
     - outside/**
+    - rd/frontend

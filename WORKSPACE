@@ -22,32 +22,8 @@ bazel_skylib_workspace()
 
 # --Aspect - General Bazel Utils (jq/yq) --
 
-http_archive(
-    name = "aspect_bazel_lib",
-    sha256 = "e3151d87910f69cf1fc88755392d7c878034a69d6499b287bcfc00b1cf9bb415",
-    strip_prefix = "bazel-lib-1.32.1",
-    url = "https://github.com/aspect-build/bazel-lib/releases/download/v1.32.1/bazel-lib-v1.32.1.tar.gz",
-)
 
-load(
-    "@aspect_bazel_lib//lib:repositories.bzl",
-    "aspect_bazel_lib_dependencies",
-    "register_copy_directory_toolchains",
-    "register_copy_to_directory_toolchains",
-    "register_jq_toolchains",
-    "register_yq_toolchains",
-)
 
-aspect_bazel_lib_dependencies()
-
-register_jq_toolchains()
-
-register_yq_toolchains()
-
-# Can probably remove 2 lines below later.
-register_copy_directory_toolchains()
-
-register_copy_to_directory_toolchains()
 
 # --Aspect - General Bazel Utils (jq/yq) --
 
@@ -177,6 +153,18 @@ http_archive(
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 
 rules_js_dependencies()
+load(
+    "@aspect_bazel_lib//lib:repositories.bzl",
+    "aspect_bazel_lib_dependencies",
+    "register_jq_toolchains",
+    "register_yq_toolchains",
+)
+
+aspect_bazel_lib_dependencies()
+
+register_jq_toolchains()
+
+register_yq_toolchains()
 
 http_archive(
     name = "aspect_rules_esbuild",
@@ -190,7 +178,6 @@ load("@aspect_rules_esbuild//esbuild:dependencies.bzl", "rules_esbuild_dependenc
 rules_esbuild_dependencies()
 
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
-
 nodejs_register_toolchains(
     name = "nodejs",
     node_version = DEFAULT_NODE_VERSION,
@@ -198,35 +185,52 @@ nodejs_register_toolchains(
 
 load("@aspect_rules_js//npm:repositories.bzl", "npm_import", "npm_translate_lock")
 
+# ASPECT_RULES_JS_FROZEN_PNPM_LOCK=1
 npm_translate_lock(
     name = "npm",
-    data = [
-        "//:pnpm-workspace.yaml",
-    ],
+    bins = {
+        "@angular/compiler-cli": {
+            "ngcc": "./bundles/ngcc/main-ngcc.js",
+        },
+    },
+    custom_postinstalls = {
+        "ng2-dragula": "ngcc --source .",
+    },
     npmrc = "//:.npmrc",
     pnpm_lock = "//:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    data = [
+        "//:pnpm-workspace.yaml",
+        "//:package.json",
+        "//rd/frontend:package.json",
+        "//outside/atslib/ts:package.json",
+        "//ts/examples/linked:package.json",
+        "//ts/examples/linked_consumer:package.json",
+        "//ts/examples/linked_tsconfig:package.json",
+        "//ts/examples/linked_tsconfig_consumer:package.json",
+    ],
     verify_node_modules_ignored = "//:.bazelignore",
 )
 
-load("@aspect_rules_esbuild//esbuild:repositories.bzl", "esbuild_register_toolchains", LATEST_ESBUILD_VERSION = "LATEST_VERSION")
+# load("@aspect_rules_esbuild//esbuild:repositories.bzl", "esbuild_register_toolchains", LATEST_ESBUILD_VERSION = "LATEST_VERSION")
 
-esbuild_register_toolchains(
-    name = "esbuild",
-    esbuild_version = LATEST_ESBUILD_VERSION,
-)
+# esbuild_register_toolchains(
+#     name = "esbuild",
+#     esbuild_version = LATEST_ESBUILD_VERSION,
+# )
 
 # Typescript
 
-http_archive(
-    name = "aspect_rules_ts",
-    sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
-    strip_prefix = "rules_ts-1.4.0",
-    url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
-)
+# http_archive(
+#     name = "aspect_rules_ts",
+#     sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
+#     strip_prefix = "rules_ts-1.4.0",
+#     url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
+# )
 
-load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
+# load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
-rules_ts_dependencies(ts_version_from = "//:package.json")
+# rules_ts_dependencies(ts_version_from = "//:package.json")
 
 load("@npm//:repositories.bzl", "npm_repositories")
 

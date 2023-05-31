@@ -44,3 +44,4 @@ user.bazelrc
 /third_party/rust/remote
 # Python
 /.venv
+node_modules
