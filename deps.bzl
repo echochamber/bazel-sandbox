@@ -1,3 +1,4 @@
+"""Go deps managed by gazelle."""
 load("@bazel_gazelle//:deps.bzl", "go_repository")
 
 def go_dependencies():

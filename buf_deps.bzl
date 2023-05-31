@@ -1,3 +1,4 @@
+"""Deps for importing external protobuf definitions."""
 load("@rules_buf//buf:defs.bzl", "buf_dependencies")
 
 def buf_deps():

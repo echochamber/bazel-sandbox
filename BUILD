@@ -13,7 +13,7 @@ gazelle(
 gazelle(
     name = "gazelle-repos",
     args = [
-        "-from_file=go.mod",
+        "-from_file=go.work",
         "-to_macro=deps.bzl%go_dependencies",
         "-prune",
     ],

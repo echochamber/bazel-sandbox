@@ -1,4 +1,4 @@
-module github.com/echochamber/bazel-sandbox
+module github.com/echochamber/bazel-sandbox/go/tools
 
 go 1.19
 

@@ -1,9 +1,15 @@
 {
+  "protoc": {
+    "compile_on_save": false,
+    "options": [
+      "--proto_path=${workspaceRoot}/.bazel/${workspaceFolder}",
+    ],
+  },
   "bazel.enableCodeLens": true,
   "bazel.buildifierFixOnFormat": true,
   "go.goroot": "${workspaceFolder}/.bazel/${workspaceFolderBasename}/external/go_sdk",
   "go.toolsEnvVars": {
-    "GOPACKAGESDRIVER": "${workspaceFolder}/tools/go/gopackagesdriver.sh"
+    "GOPACKAGESDRIVER": "${workspaceFolder}/go/vscode/gopackagesdriver.sh"
   },
   "go.enableCodeLens": {
     "runtest": false

@@ -1,3 +1,4 @@
+"""Packages to link for npm."""
 load("@aspect_rules_js//npm:defs.bzl", "npm_link_package")
 
 def npm_links():

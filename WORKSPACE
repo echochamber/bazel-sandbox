@@ -228,7 +228,7 @@ http_archive(
 
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
-# rules_ts_dependencies(ts_version_from = "//:package.json")
+rules_ts_dependencies(ts_version_from = "//:package.json")
 
 load("@npm//:repositories.bzl", "npm_repositories")
 
