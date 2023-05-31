@@ -1,0 +1,1 @@
+Example of a static content webserver image.

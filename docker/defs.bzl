@@ -1,4 +1,5 @@
 """Defs for common docker build rules."""
+
 load("@aspect_rules_js//js:defs.bzl", "js_image_layer")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
@@ -13,9 +14,9 @@ def docker_image(
         env = {},
         port_map = "",
         image_name = None,
-        workdir="/",
-        tars=[],
-        base_image="@ubuntu"):
+        workdir = "/",
+        tars = [],
+        base_image = "@ubuntu"):
     """Creates targets for running an oci_image using docker or deploying it to a remote repo.
 
     Args:
@@ -59,7 +60,6 @@ def docker_image(
     if not image_name:
         image_name = name
 
-
     tagged_name = "{}:{}".format(image_name, tag)
     image_layer_name = name + "_image_layer"
     pkg_tar(
@@ -87,7 +87,7 @@ def docker_image(
     native.sh_binary(
         name = name + "_run",
         srcs = [
-            "//docker:docker_run.sh",
+            "//docker:docker.sh",
         ],
         args = [
             "-f $(location :" + tarball_name + ")",
@@ -101,7 +101,7 @@ def docker_image(
     native.sh_binary(
         name = name + "_load",
         srcs = [
-            "//docker:docker_run.sh",
+            "//docker:docker.sh",
         ],
         args = [
             "-l",

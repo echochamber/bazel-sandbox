@@ -2,7 +2,7 @@ usage() {
   cat <<EOF
 Usage: $(basename "${BASH_SOURCE[0]}") 
 
-Script description here.
+Script to load images into docker from tar, and then (optionally) run them.
 
 Available options:
 

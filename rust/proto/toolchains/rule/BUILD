@@ -9,7 +9,6 @@ foo_binary(
 
 foo_binary(name = "bin2")
 
-
 foo_dir(
     name = "dir1",
     username = "James",

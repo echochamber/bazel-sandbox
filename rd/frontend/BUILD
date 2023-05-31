@@ -1,6 +1,4 @@
-load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_image_layer")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
-load(":defs.bzl", "ALL_DEPS", "ng_app", "ng_config")
+load(":defs.bzl", "ng_app", "ng_config")
 load("//docker:defs.bzl", "docker_image")
 load("//rd:defs.bzl", "REMOTE_ARTIFACT_REPO")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
@@ -21,70 +19,27 @@ ng_config(
 )
 
 pkg_tar(
-    name = "app_configs_tar",
-    srcs = ALL_DEPS,
-    package_dir = "/app/rd/frontend",
+    name = "rdfrontend_tar",
+    srcs = [":app"],
+    package_dir = "/usr/share/nginx/html",
 )
 
-# docker_image(
-#     name = "server",
-#     srcs = [
-#         ":serve",
-#     ],
-#     # cmd = ["rd/frontend/serve.sh"],
-#     entrypoint = ["bash"],
-#     env = {
-#         "PORT": "50051",
-#     },
-#     image_name = "rdfrontendsh",
-#     port_map = "4200:4200",
-#     remote_repository = REMOTE_ARTIFACT_REPO,
-#     tag = "latest",
-# )
-
-# Image
-js_image_layer(
-    name = "layers",
-    binary = ":app__js_binary",
-    root = "/app",
-    visibility = ["//visibility:__pkg__"],
+pkg_tar(
+    name = "nginx_conf_tar",
+    srcs = [":nginx.conf"],
+    package_dir = "/etc/nginx",
 )
 
-oci_image(
+# Go to http://localhost:8080
+docker_image(
     name = "image",
-    # Since js_binary depends on bash we have to bring in a base image that has bash
-    base = "@ubuntu",
-    # This is going to be /{root of js_image_layer}/{package_name()}/{name of js_binary}
-    # cmd = ["/app/rd/frontend/app__js_binary"],
-    entrypoint = ["bash"],
+    base_image = "@nginx_debian_slim",
+    image_name = "rdfrontend",
+    port_map = "8080:80",
+    remote_repository = REMOTE_ARTIFACT_REPO,
+    tag = "latest",
     tars = [
-        ":app_configs_tar",
-        ":layers",
+        ":nginx_conf_tar",
+        ":rdfrontend_tar",
     ],
-    visibility = ["//visibility:public"],
-    workdir = "/app/rd/frontend",
 )
-
-oci_tarball(
-    name = "image_tarball",
-    image = ":image",
-    repo_tags = ["rdfrontendsh:latest"],
-)
-
-# docker_image(
-#     name = "container",
-#     srcs = [
-#         ":app__js_binary",
-#     ],
-#     tars = [":app_configs_tar"],
-#     # cmd = [
-#     #     "./app__js_binary",
-#     #     "rdfrontend:serve"],
-#     entrypoint = ["bash"],
-#     image_name = "rdfrontend",
-#     port_map = "4200:4200",
-#     remote_repository = REMOTE_ARTIFACT_REPO,
-#     tag = "latest",
-#     is_javascript = True,
-#     workdir="/rd/frontend"
-# )

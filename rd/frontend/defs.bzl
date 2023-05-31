@@ -1,8 +1,8 @@
 load("@npm//:@angular-devkit/architect-cli/package_json.bzl", architect_cli = "bin")
-
 load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@aspect_bazel_lib//lib:jq.bzl", "jq")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
+
 APP_ROOT = "//rd/frontend"
 
 # NOTE:
@@ -15,6 +15,7 @@ COMMON_CONFIG = [
     "//:node_modules/@angular-devkit/build-angular",
     "//:node_modules/@angular-devkit/architect-cli",
 ]
+
 # Common dependencies of Angular CLI applications
 APPLICATION_CONFIG = [
     APP_ROOT + ":tsconfig.app.json",

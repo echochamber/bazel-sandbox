@@ -22,12 +22,11 @@ def _foo_dir_impl(ctx):
     ctx.actions.run_shell(
         command = " ; ".join([
             "echo '{}' > {}/first".format(content1, out.path),
-            "echo '{}' > {}/second".format(content2, out.path)
+            "echo '{}' > {}/second".format(content2, out.path),
         ]),
-        outputs = [out]
+        outputs = [out],
     )
     return [DefaultInfo(files = depset([out]))]
-
 
 foo_dir = rule(
     implementation = _foo_dir_impl,

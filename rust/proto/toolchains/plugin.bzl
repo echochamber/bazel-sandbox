@@ -1,4 +1,5 @@
 """Macros wrap prost/tonic rules for generating rust_library targets from proto_library targets for prost/tonic."""
+
 load(
     "@rules_proto_grpc//:defs.bzl",
     "ProtoPluginInfo",

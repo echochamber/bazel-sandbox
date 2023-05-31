@@ -22,9 +22,6 @@ bazel_skylib_workspace()
 
 # --Aspect - General Bazel Utils (jq/yq) --
 
-
-
-
 # --Aspect - General Bazel Utils (jq/yq) --
 
 ########################################
@@ -153,6 +150,7 @@ http_archive(
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 
 rules_js_dependencies()
+
 load(
     "@aspect_bazel_lib//lib:repositories.bzl",
     "aspect_bazel_lib_dependencies",
@@ -197,18 +195,18 @@ npm_translate_lock(
     custom_postinstalls = {
         "ng2-dragula": "ngcc --source .",
     },
-    npmrc = "//:.npmrc",
-    pnpm_lock = "//:pnpm-lock.yaml",
-    update_pnpm_lock = True,
     data = [
-        "//:pnpm-workspace.yaml",
         "//:package.json",
+        "//:pnpm-workspace.yaml",
         "//rd/frontend:package.json",
         "//ts/examples/linked:package.json",
         "//ts/examples/linked_consumer:package.json",
         "//ts/examples/linked_tsconfig:package.json",
         "//ts/examples/linked_tsconfig_consumer:package.json",
     ],
+    npmrc = "//:.npmrc",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    update_pnpm_lock = True,
     verify_node_modules_ignored = "//:.bazelignore",
 )
 
@@ -326,6 +324,7 @@ oci_register_toolchains(
 # Pull the specific images we want to support
 load("@rules_oci//oci:pull.bzl", "oci_pull")
 load("//:oci_images.bzl", "pull_oci_images")
+
 pull_oci_images()
 # oci_pull(
 #     name = "debian_buster_slim",
