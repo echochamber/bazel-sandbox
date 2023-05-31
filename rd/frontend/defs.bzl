@@ -66,6 +66,8 @@ TEST_DEPS = LIBRARY_DEPS + [
     "//:node_modules/zone.js",
 ]
 
+ALL_DEPS = APPLICATION_DEPS + APPLICATION_CONFIG + COMMON_CONFIG
+
 # JQ expressions to update Angular project output paths from dist/* to projects/*/dist
 JQ_DIST_REPLACE_TSCONFIG = ".compilerOptions.paths |= map_values(map(gsub(\"^dist/(?<p>.+)$\"; \"projects/\"+.p+\"/dist\")))"
 JQ_DIST_REPLACE_NG_PACKAGE = ".dest = \"dist\""
