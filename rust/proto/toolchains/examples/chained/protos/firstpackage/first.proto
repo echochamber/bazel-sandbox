@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package chained.protos.firstpackage;
+
+message FirstProto {
+  string name = 1;
+}

@@ -2,10 +2,11 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 load("//rust/proto/toolchains:plugin.bzl", "prost_library", "tonic_library")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
+package(default_visibility = ["//visibility:public"])
+
 proto_library(
     name = "some_proto",
     srcs = ["some.proto"],
-    visibility = ["//visibility:public"],
     deps = ["@go_googleapis//google/api:annotations_proto"],
 )
 

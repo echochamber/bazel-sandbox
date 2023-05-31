@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "chained/protos/secondpackage/second.proto";
+import "google/api/annotations.proto";
+
+package chained.protos.thirdpackage;
+
+service ThirdService {
+  // Sends a greeting
+  rpc SayHello(ThirdRequest) returns (ThirdResponse) {
+    option (google.api.http) = {
+      post : "/third"
+      body : "*"
+    };
+  }
+}
+
+message ThirdRequest {
+  string name = 1;
+  chained.protos.secondpackage.SecondProto my_second = 2;
+}
+
+message ThirdResponse {
+  string lastname = 1;
+  chained.protos.secondpackage.SecondProto my_second = 2;
+}
+

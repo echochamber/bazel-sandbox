@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+import "chained/protos/firstpackage/first.proto";
+
+package chained.protos.secondpackage;
+
+message SecondProto {
+  string name = 1;
+  chained.protos.firstpackage.FirstProto inner = 2;
+}

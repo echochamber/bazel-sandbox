@@ -1,34 +1,22 @@
 load("@rules_proto//proto:defs.bzl", "ProtoInfo")
 
-def _prost_provider_init(*, proto_packages, crate_name, outs):
-    if not proto_packages:
-        fail("Proto packages cannot be empty")
-    if not outs:
-        fail("Outs must be provided.")
-    if not crate_name:
-        fail("Crate name must be provided")
-    return {
-        "proto_packages": proto_packages,
-        "crate_name": crate_name,
-        "outs": outs,
-    }
-
 ProstProvider = provider(
-    fields = ["proto_crate_map", "outs"],
+    fields = ["extern_map", "crate_name"],
     init = _prost_provider_init,
 )
 
 def _prost_library_impl(ctx):
-    crate_map = {ctx.attr.crate_root: ctx.attr.packages}
-    all_crate_maps = depset(
-        crate_map,
-        transitive = [dep[ProstProvider].proto_crate_map for dep in deps])
-    all_out_dirs = depset(
-        ctx.attr.out_dir,
-        transitive = [dep[ProstProvider].out_dir for dep in deps])
+
+    extern_map = {}
+    for package in ctx.attrs.packages:
+        proto_path = "." + package
+        rs_path = "::{}::".format(name) + package.replace('.', '::')
+        extern_map[proto_path] = rs_path
+    ctx.action.prost_proto
+    outfile = actions.declare_file(package + ".rs")
     return ProstProvider(
-        proto_crate_map = all_crate_maps,
-        out_dir = all_out_dirs
+        extern_map = extern_map,
+        crate_name = ctx.attr.name
     )
 
 prost_library = rule(
@@ -49,6 +37,10 @@ prost_library = rule(
         "prost_opts": attr.string_dict(
             doc = "Prost options, keys are option names and values are their value.",
         ),
-        "deps": 
+        "deps": attr.label_list(
+            mandatory = False,
+            allow_empty = True,
+            doc = "A list of proto_library targets that prost should generate .rs files from.",
+        ),
     },
 )
