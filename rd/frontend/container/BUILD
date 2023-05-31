@@ -1,4 +1,5 @@
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+load("//docker:defs.bzl", "docker_image")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 package(default_visibility = ["//visibility:public"])
@@ -10,27 +11,38 @@ pkg_tar(
 )
 
 pkg_tar(
+    name = "rdfrontend_tar",
+    srcs = ["//rd/frontend:app"],
+    package_dir = "/usr/share/nginx/html",
+)
+
+pkg_tar(
     name = "nginx_conf_tar",
     srcs = [":nginx.conf"],
-    package_dir = "/etc/nginx"
+    package_dir = "/etc/nginx",
 )
 
-oci_image(
-    name = "nginx",
-    base = "@nginx_debian_slim",
-    # cmd = [],
-    # entrypoint = ["bash"],
+# Go to http://localhost:8080
+docker_image(
+    name = "frontend",
+    base_image = "@nginx_debian_slim",
+    image_name = "rdfrontend",
+    port_map = "8080:80",
+    tag = "latest",
     tars = [
-      ":static_tar",
-      # ":nginx_conf_tar"
+        ":nginx_conf_tar",
+        ":rdfrontend_tar",
     ],
-    workdir="/",
-    visibility = ["//visibility:public"],
 )
 
-oci_tarball(
-    name = "nginx_tarball",
-    image = ":nginx",
-    repo_tags = ["nginxstatic:latest"],
+# Go to http://localhost:8080/example.txt
+docker_image(
+    name = "example",
+    base_image = "@nginx_debian_slim",
+    image_name = "nginxexample",
+    port_map = "8080:80",
+    tag = "latest",
+    tars = [
+        ":static_tar",
+    ],
 )
-

@@ -1,7 +1,6 @@
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_image_layer")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
-
-load(":defs.bzl", "ng_app", "ng_config", "ALL_DEPS")
+load(":defs.bzl", "ALL_DEPS", "ng_app", "ng_config")
 load("//docker:defs.bzl", "docker_image")
 load("//rd:defs.bzl", "REMOTE_ARTIFACT_REPO")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
@@ -24,10 +23,8 @@ ng_config(
 pkg_tar(
     name = "app_configs_tar",
     srcs = ALL_DEPS,
-    package_dir = "/app/rd/frontend"
+    package_dir = "/app/rd/frontend",
 )
-
-
 
 # docker_image(
 #     name = "server",
@@ -49,8 +46,8 @@ pkg_tar(
 js_image_layer(
     name = "layers",
     binary = ":app__js_binary",
-    visibility = ["//visibility:__pkg__"],
     root = "/app",
+    visibility = ["//visibility:__pkg__"],
 )
 
 oci_image(
@@ -64,8 +61,8 @@ oci_image(
         ":app_configs_tar",
         ":layers",
     ],
-    workdir="/app/rd/frontend",
     visibility = ["//visibility:public"],
+    workdir = "/app/rd/frontend",
 )
 
 oci_tarball(
@@ -73,7 +70,6 @@ oci_tarball(
     image = ":image",
     repo_tags = ["rdfrontendsh:latest"],
 )
-
 
 # docker_image(
 #     name = "container",

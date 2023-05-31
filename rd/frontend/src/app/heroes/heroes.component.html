@@ -1,0 +1,12 @@
+<p>
+  Greeting works!
+</p>
+<span *ngIf="greeting">
+  <p>Greeting is "{{greeting.name}}"</p>
+  <div *ngIf="headers">
+    Response headers:
+    <ul>
+      <li *ngFor="let header of headers">{{header}}</li>
+    </ul>
+  </div>
+</span>

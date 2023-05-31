@@ -25,6 +25,7 @@ go_library(
         "//rd/proto/echochamber/helloworld/v1:v1_gateway",
         "@com_github_golang_glog//:glog",
         "@com_github_grpc_ecosystem_grpc_gateway_v2//runtime",
+        "@com_github_rs_cors//:go_default_library",
         "@org_golang_google_grpc//:go_default_library",
         "@org_golang_google_grpc//credentials/insecure",
     ],

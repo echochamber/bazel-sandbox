@@ -8,6 +8,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -38,14 +39,21 @@ func run() error {
 		return err
 	}
 	log.Println("Hello world!")
-	// log.Println(*proxyPort)
-	// log.Println(*grpcServerEndpoint)
-	// This only works during bazel run.
 	// TODO: figure out how to find a generated file at runtime.
 	// log.Println(os.Getenv("OPENAPI_JSON_PATH"))
-
-	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":"+*proxyPort, mux)
+	withCors := cors.New(cors.Options{
+		AllowOriginFunc:  func(origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"ACCEPT", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}).Handler(mux)
+	s := &http.Server{
+		Addr:    ":" + *proxyPort,
+		Handler: withCors,
+	}
+	return s.ListenAndServe()
 }
 
 func main() {

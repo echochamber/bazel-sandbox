@@ -5,17 +5,17 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 
 def docker_image(
         name,
-        srcs,
-        entrypoint,
         tag,
+        srcs = [],
+        entrypoint = [],
         remote_repository = "",
-        cmd = None,
-        env = None,
+        cmd = [],
+        env = {},
         port_map = "",
-        image_name = "",
+        image_name = None,
         workdir="/",
-        is_javascript=False,
-        tars=None):
+        tars=[],
+        base_image="@ubuntu"):
     """Creates targets for running an oci_image using docker or deploying it to a remote repo.
 
     Args:
@@ -28,9 +28,9 @@ def docker_image(
         env: Env variables to set in this image
         port_map: Port map to expose.
         image_name: Optional, Image name to use. Otherwise defaults to name arg.
-        is_javascript: Flag to build the container for a javascript binary instead.
         workdir: The working directory for the image.
         tars: Additional tars to include in the image.
+        base_image: See //:oci_images.bzl for available images.
 
     Example:
         GCP_REPO_NAME = 'my-repo'
@@ -56,39 +56,21 @@ def docker_image(
             remote_repository = "us-central1-docker.pkg.dev/" + $GCP_PROJECT_NAME + "/" $GCP_REPO_NAME
     """
 
-    if not tars:
-        tars = []
-
     if not image_name:
         image_name = name
 
-    if not env:
-        env = {}
-    if not cmd:
-        cmd = []
 
     tagged_name = "{}:{}".format(image_name, tag)
-
-    # Step 2: Build the image layer
     image_layer_name = name + "_image_layer"
-    if is_javascript:
-        if len(srcs) != 1:
-            fail("Javascript containers can only have 1 item in srcs.")
-        js_image_layer(
-            name = image_layer_name,
-            binary = srcs[0],
-            visibility = ["//visibility:__pkg__"],
-        )
-    else:
-        pkg_tar(
-            name = image_layer_name,
-            srcs = srcs,
-        )
+    pkg_tar(
+        name = image_layer_name,
+        srcs = srcs,
+    )
 
     oci_image_name = name + "_image"
     oci_image(
         name = oci_image_name,
-        base = "@ubuntu",
+        base = base_image,
         tars = [":" + image_layer_name] + tars,
         entrypoint = entrypoint,
         cmd = cmd,

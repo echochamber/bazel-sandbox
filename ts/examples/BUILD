@@ -1,5 +1,3 @@
-
-
 # Building this target results in bazel-bin/examples/node_modules/@myorg/js_lib, so that
 # TypeScript and other node programs beneath bazel-bin/examples are able to resolve its location.
 # npm_link_package(

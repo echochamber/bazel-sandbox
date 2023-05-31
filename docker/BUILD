@@ -9,5 +9,4 @@ package_group(
 
 exports_files([
     "docker_run.sh",
-    "docker_compose.sh",
 ])

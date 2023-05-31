@@ -1,7 +1,6 @@
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
 
-
 ts_project(
     name = "out_dir-tsconfig",
     srcs = ["main.ts"],
@@ -9,34 +8,34 @@ ts_project(
         "compilerOptions": {
             "outDir": "tsconfig",
             "declaration": True,
-            "declarationMap": True
-        }
-    }
+            "declarationMap": True,
+        },
+    },
 )
 
 ts_project(
     name = "out_dir-params",
     srcs = ["main.ts"],
-    out_dir = "param",
     declaration = True,
     declaration_map = True,
-    tsconfig = {}
+    out_dir = "param",
+    tsconfig = {},
 )
 
 ts_project(
     name = "out_dir-declaration_dir",
     srcs = ["main.ts"],
-    out_dir = "declaration_dir",
-    declaration_dir = "decl_map",
     declaration = True,
+    declaration_dir = "decl_map",
     declaration_map = True,
-    tsconfig = {}
+    out_dir = "declaration_dir",
+    tsconfig = {},
 )
 
 js_binary(
     name = "bin",
     data = [
-      ":out_dir-tsconfig"
+        ":out_dir-tsconfig",
     ],
     entry_point = ":out_dir-tsconfig",
 )

@@ -68,5 +68,6 @@ npm_link_all_packages(
 
 # buildifier: disable=load-on-top
 load("//:npm_links.bzl", "npm_links")
+
 npm_links()
 # buildifier: enable=load-on-top

@@ -3,9 +3,9 @@ module github.com/echochamber/bazel-sandbox/rd/gateway
 go 1.20
 
 require (
-	github.com/bazelbuild/rules_go v0.39.1
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
+	github.com/rs/cors v1.9.0
 	google.golang.org/grpc v1.53.0
 )
 
