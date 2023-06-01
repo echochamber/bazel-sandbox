@@ -25,14 +25,9 @@ prost_library(
 
 tonic_library(
     name = "some_tonic_rs",
-    externs = {
-        ".": "::some_prost_rs",
-    },
-    service_package = "path.to.my.proto.v1",
-    service_proto = ":some_proto",
-    deps = [
-        ":some_prost_rs",
-    ],
+    prost_proto = ":some_prost_rs",
+    proto_package = "path.to.my.proto.v1",
+    proto = ":some_proto",
 )
 
 rust_binary(

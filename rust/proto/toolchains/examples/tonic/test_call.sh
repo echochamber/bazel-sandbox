@@ -1,0 +1,1 @@
+grpcurl  -plaintext -d '{"name": "some name"}' localhost:50051 path.to.my.proto.v1.GreeterService/SayHello

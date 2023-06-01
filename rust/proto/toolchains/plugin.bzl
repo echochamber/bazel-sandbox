@@ -153,13 +153,12 @@ def prost_library(
 
 def tonic_library(
         name,
-        service_package,
-        service_proto,
-        externs = None,
-        deps = None,
-        prost = "//third_party/rust:prost",
-        prost_types = "//third_party/rust:prost_types",
-        tonic = "//third_party/rust:tonic"):
+        proto,
+        proto_package,
+        prost_proto,
+        prost_crate = "//third_party/rust:prost",
+        prost_types_crate = "//third_party/rust:prost_types",
+        tonic_crate = "//third_party/rust:tonic"):
     """Wraps generating a rust_library using https://github.com/neoeinstein/protoc-gen-prost tonic plugin.
 
     For more info on how some of these fields are used:
@@ -168,40 +167,39 @@ def tonic_library(
 
     Args:
         name: The name of the rust_library that will contain the provided protos.
-        service_proto: Proto file to generate a grpc service for using tonic.
-        service_package: Proto package in the service_proto file.
-        externs: Dictionary mapping .proto.path. to ::rust::module::path in a external rust library provided via deps.
-          This includes other prost_library targets that our protos depend upon.
-        deps: Dependencies for out final rust_library. This should include libraries providing anything you mapped
-          in externs.
-        prost: Target for the prost crate.
-        prost_types: Target for the prost_types crate.
-        tonic: Target for the tonic crate.
+        proto: Proto file to generate a grpc service for using tonic.
+        proto_package: the.proto.package the service is in.
+        prost_proto: prost_library target that contains the message request/response types used by this service.
+        prost_crate: Target for the prost crate.
+        prost_types_crate: Target for the prost_types crate.
+        tonic_crate: Target for the tonic crate.
     """
-    if not externs:
-        externs = {}
+
+    
+
+    service_crate_name = prost_proto.split(":")[-1]
+
+    externs = {
+        ".": "::" + service_crate_name
+    }
     externs = ["extern_path={}={}".format(e, externs[e]) for e in externs]
-    if not deps:
-        deps = []
 
     # Protect against duplicates in case user provided prost in deps and not in prost attribute.
-    deps_all = [
-        prost,
-        prost_types,
-        tonic,
+    deps = [
+        prost_crate,
+        prost_types_crate,
+        tonic_crate,
+        prost_proto,
     ]
-    for dep in deps:
-        if dep not in deps_all:
-            deps_all.append(dep)
     tonic_name = "_" + name + "_tonic_rs"
     prost_tonic(
         name = tonic_name,
         options = {
             "*": externs,
         },
-        protos = [service_proto],
+        protos = [proto],
     )
-    tonic_includes = """include!(concat!(env!("TONIC_PATH"), "/{}.tonic.rs"));\n""".format(service_package)
+    tonic_includes = """include!(concat!(env!("TONIC_PATH"), "/{}.tonic.rs"));\n""".format(proto_package)
     tonic_lib_rs = "_" + name + "_lib_rs"
     tonic_lib_rs_file = "_" + name + "_lib.rs"
     write_file(
@@ -220,5 +218,5 @@ def tonic_library(
         rustc_env = {
             "TONIC_PATH": "$(location :" + tonic_name + ")",
         },
-        deps = deps_all,
+        deps = deps,
     )

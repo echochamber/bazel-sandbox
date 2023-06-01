@@ -34,14 +34,9 @@ prost_library(
 
 tonic_library(
     name = "v1_tonic_rs",
-    externs = {
-        ".": "::v1_proto_rs",
-    },
-    service_package = "echochamber.helloworld.v1",
-    service_proto = ":v1_proto",
-    deps = [
-        ":v1_proto_rs",
-    ],
+    prost_proto = ":v1_proto_rs",
+    proto = ":v1_proto",
+    proto_package = "echochamber.helloworld.v1",
 )
 
 go_proto_library(

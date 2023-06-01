@@ -1,3 +1,4 @@
+# 
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("//rust/proto/toolchains:plugin.bzl", "prost_library", "tonic_library")
 
@@ -15,10 +16,12 @@ proto_library(
 
 prost_library(
     name = "third_prost_rs",
-    externs = {
-        ".google.api": "::googleapi_rs::google::api",
-        ".chained.protos.secondpackage": "::second_prost_rs::chained::protos::secondpackage",
-    },
+    proto_packages = ["chained.protos.thirdpackage"],
+    # externs map can instead be automatically built by looking at attr.proto_packages of deps.
+    # externs = {
+    #     ".google.api": "::googleapi_rs::google::api",
+    #     ".chained.protos.secondpackage": "::second_prost_rs::chained::protos::secondpackage",
+    # },
     protos = [
         ":third_proto",
     ],
@@ -30,7 +33,8 @@ prost_library(
 
 tonic_library(
     name = "third_tonic_rs",
-    proto_package = "chained.protos.thirdpackage",
+    # proto_package be ommitted, provided via ProstInfo provider.
+    # proto_package = "chained.protos.thirdpackage", 
     proto = ":third_proto",
     prost_proto = ":third_prost_rs",
 )
