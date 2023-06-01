@@ -1,0 +1,22 @@
+// Template for you to use to setup you vscode project.
+{
+	"folders": [
+		{
+			"path": "../../../../Code/rust/rustdocker"
+		}
+	],
+	"settings": {
+		"rust-analyzer.linkedProjects": [
+			"grpc/Cargo.toml",
+			"rdproto/Cargo.toml"
+		],
+		"rust-analyzer.check.overrideCommand": null,
+		"protoc": {
+			"options": [
+				// "--proto_path=${workspaceFolder}/any",
+				"--proto_path=./rdproto/gen/vscodeprotos"
+			]
+		},
+		"go.goroot": "${workspaceFolder}/.bazel/${workspaceFolderBasename}/external/go_sdk"
+	}
+}

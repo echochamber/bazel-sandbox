@@ -203,12 +203,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__chrono__0_4_25",
-        url = "https://crates.io/api/v1/crates/chrono/0.4.25/download",
+        name = "raze__chrono__0_4_26",
+        url = "https://crates.io/api/v1/crates/chrono/0.4.26/download",
         type = "tar.gz",
-        sha256 = "fdbc37d37da9e5bce8173f3a41b71d9bf3c674deebbaceacd0ebdabde76efb03",
-        strip_prefix = "chrono-0.4.25",
-        build_file = Label("//third_party/rust/remote:BUILD.chrono-0.4.25.bazel"),
+        sha256 = "ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5",
+        strip_prefix = "chrono-0.4.26",
+        build_file = Label("//third_party/rust/remote:BUILD.chrono-0.4.26.bazel"),
     )
 
     maybe(
@@ -713,12 +713,12 @@ def raze_fetch_remote_crates():
 
     maybe(
         http_archive,
-        name = "raze__mio__0_8_7",
-        url = "https://crates.io/api/v1/crates/mio/0.8.7/download",
+        name = "raze__mio__0_8_8",
+        url = "https://crates.io/api/v1/crates/mio/0.8.8/download",
         type = "tar.gz",
-        sha256 = "eebffdb73fe72e917997fad08bdbf31ac50b0fa91cec93e69a0662e4264d454c",
-        strip_prefix = "mio-0.8.7",
-        build_file = Label("//third_party/rust/remote:BUILD.mio-0.8.7.bazel"),
+        sha256 = "927a765cd3fc26206e66b296465fa9d3e5ab003e651c1b3c060e7956d96b19d2",
+        strip_prefix = "mio-0.8.8",
+        build_file = Label("//third_party/rust/remote:BUILD.mio-0.8.8.bazel"),
     )
 
     maybe(
