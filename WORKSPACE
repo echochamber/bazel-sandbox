@@ -199,6 +199,7 @@ npm_translate_lock(
         "//:package.json",
         "//:pnpm-workspace.yaml",
         "//rd/frontend:package.json",
+        "//rd/sveltefrontend:package.json",
         "//ts/examples/linked:package.json",
         "//ts/examples/linked_consumer:package.json",
         "//ts/examples/linked_tsconfig:package.json",

@@ -19,7 +19,7 @@ impl GreeterService for MyGreeter {
         &self,
         request: Request<SayHelloRequest>,
     ) -> Result<Response<SayHelloResponse>, Status> {
-        info!("Got a request: {:?}", request);
+        info!("Got aa request: {:?}", request);
 
         let reply = SayHelloResponse {
             message: format!("Hello {}!", request.into_inner().name).into(),

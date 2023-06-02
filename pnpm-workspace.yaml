@@ -1,3 +1,4 @@
 packages:
     - ts/examples/**
     - rd/frontend
+    - rd/sveltefrontend

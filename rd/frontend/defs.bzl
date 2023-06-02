@@ -132,7 +132,7 @@ def ng_app(name, project_name = None, deps = [], test_deps = [], **kwargs):
     architect_cli.architect_binary(
         name = "serve",
         chdir = native.package_name(),
-        args = ["%s:serve" % project_name],
+        args = ["{}:serve".format(project_name), "--", "--progress=false"],
         data = srcs + deps + APPLICATION_DEPS + APPLICATION_CONFIG + COMMON_CONFIG,
         **kwargs
     )
