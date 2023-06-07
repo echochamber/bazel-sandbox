@@ -1,0 +1,55 @@
+{
+  "name": "//rd/proto/echochamber/helloworld/v1:v1_proto",
+  "rule_class": "proto_library",
+  "attributes": {
+    "deps": {
+      "type": "LABEL_LIST",
+      "value": [
+        "@com_github_grpc_ecosystem_grpc_gateway_v2//protoc-gen-openapiv2/options:options_proto",
+        "@go_googleapis//google/api:annotations_proto"
+      ]
+    },
+    "generator_function": {
+      "type": "STRING",
+      "value": "proto_library"
+    },
+    "generator_location": {
+      "type": "STRING",
+      "value": "rd/proto/echochamber/helloworld/v1/BUILD:13:14"
+    },
+    "generator_name": {
+      "type": "STRING",
+      "value": "v1_proto"
+    },
+    "name": {
+      "type": "STRING",
+      "value": "v1_proto"
+    },
+    "srcs": {
+      "type": "LABEL_LIST",
+      "value": [
+        "//rd/proto/echochamber/helloworld/v1:greeter.proto"
+      ]
+    },
+    "strip_import_prefix": {
+      "type": "STRING",
+      "value": "/"
+    },
+    "tags": {
+      "type": "STRING_LIST",
+      "value": [
+        "__PROTO_RULES_MIGRATION_DO_NOT_USE_WILL_BREAK__"
+      ]
+    },
+    "visibility": {
+      "type": "STRING_LIST",
+      "value": [
+        "//rd:internal"
+      ]
+    },
+    "$rule_implementation_hash": {
+      "type": "STRING",
+      "value": "e3c81e7218b74cf137ca9af9dda8504653ca422234d711c0f3554d73607421d3"
+    }
+  }
+}

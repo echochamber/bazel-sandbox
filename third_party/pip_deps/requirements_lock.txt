@@ -25,6 +25,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 platformdirs==3.5.1
 prompt-toolkit==3.0.38
+protobuf==4.23.2
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pycodestyle==2.10.0
