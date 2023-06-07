@@ -23,7 +23,7 @@ alias(
 
 alias(
     name = "clap",
-    actual = "@raze__clap__4_3_0//:clap",
+    actual = "@raze__clap__4_3_2//:clap",
     tags = [
         "cargo-raze",
         "manual",
@@ -32,7 +32,7 @@ alias(
 
 alias(
     name = "clap_derive",
-    actual = "@raze__clap_derive__4_3_0//:clap_derive",
+    actual = "@raze__clap_derive__4_3_2//:clap_derive",
     tags = [
         "cargo-raze",
         "manual",
